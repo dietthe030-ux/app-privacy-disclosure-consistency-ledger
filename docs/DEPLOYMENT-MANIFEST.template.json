@@ -1,0 +1,22 @@
+{
+  "status": "TEMPLATE_NOT_DEPLOYED",
+  "network": "Studionet",
+  "chain_id": null,
+  "rpc_url": null,
+  "contract_address": null,
+  "explorer_url": null,
+  "deployment_transaction_hash": null,
+  "source_file": "contracts/app_privacy_disclosure_consistency_ledger.py",
+  "source_sha256": "A11100F7846517E9F3C19C6AD637B4E7F3065B82D6EC3B2E16B88FA94C9A6830",
+  "git_commit": null,
+  "constructor_args": [],
+  "classification": null,
+  "deployer_or_upgrader_address": null,
+  "linked_contracts": {},
+  "configuration_transactions": [],
+  "recovery_notes": {
+    "studio_or_local_reset": "Recover by reusing the recorded source and constructor manifest against the accessible recorded account; verify the resulting address and source before rewiring the frontend.",
+    "network_reset": "The old address is not assumed recoverable. Redeploy from the recorded source and manifest, rerun live tests, then update the frontend address."
+  },
+  "secrets_included": false
+}
