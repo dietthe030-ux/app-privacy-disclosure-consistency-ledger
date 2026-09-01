@@ -1,6 +1,6 @@
 # Verification — Privacy Disclosure Consistency Ledger
 
-This document is the single evidence ledger for the current build revision. It is intentionally secret-free. Blank live fields are permitted only because deployment and live testing have not started.
+This document is the single evidence ledger for the current build revision. It is intentionally secret-free. Deployment and live testing are complete; anonymous `POST_DEPLOY_TEST` acceptance remains the current gate.
 
 ## Identity
 

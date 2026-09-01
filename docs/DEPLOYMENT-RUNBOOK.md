@@ -1,6 +1,6 @@
 # Deployment and recovery runbook
 
-This runbook is prepared for the exact current source revision. It is not permission to deploy. No signature, deployment transaction, or contract write may be sent until the `PRE_DEPLOY` conditions below are satisfied.
+This runbook records the exact source and the completed Studionet deployment. Its pre-deployment conditions are retained as historical gate documentation; the remaining acceptance gate is anonymous `POST_DEPLOY_TEST` review.
 
 ## Current source
 
@@ -10,11 +10,11 @@ This runbook is prepared for the exact current source revision. It is not permis
 - Constructor arguments: `[]`
 - Contract methods: `create`, `freeze`, `assess`, `reassess`, `get`, `get_assessment`, `list_ids`
 
-## Required decisions before deployment
+## Recorded pre-deployment decisions
 
 1. Classification is `INTENTIONALLY FROZEN`: a post-deployment defect requires a replacement contract and frontend address update.
-2. The selected Studio deployer public address is `0xeF5D2119416A2f5afa35dCFA209766EFC1BE5902`; recheck access and spendable balance immediately before deployment.
-3. Obtain anonymous `PRE_DEPLOY` approval for the exact source/evidence package.
+2. The selected Studio deployer public address was `0xeF5D2119416A2f5afa35dCFA209766EFC1BE5902`; balance was rechecked immediately before deployment at `998 GEN`.
+3. Anonymous `PRE_DEPLOY` approval was received for the exact source package at HEAD `610495ab520aacf4d3a13ca34b6355896ab007e8`.
 
 The frontend write preflight requires at least `0.01 GEN` from the selected external wallet before enabling or submitting a zero-value contract write. This is a conservative local floor, not a claim about production gas pricing; final transaction success still requires finality, semantic execution success and readback.
 
@@ -26,7 +26,7 @@ The current official CLI guide documents this Studionet command:
 genlayer deploy --contract contracts/app_privacy_disclosure_consistency_ledger.py --rpc https://studio.genlayer.com/api
 ```
 
-Do not run it until the conditions above pass. The primary AI must retain the resulting transaction hash, contract address, exact source hash, sender, constructor arguments, and semantic execution result. The current machine does not have the `genlayer` CLI command available, so the approved deployment route is the Codex in-app GenLayer Studio browser when the gate is cleared.
+The CLI was unavailable on this machine, so the approved deployment route was the Codex in-app GenLayer Studio browser. Deployment transaction: `0x6c79de4694e9584293ba1eb31b20466c85bf417c3bdc899103c7db56ac39b2f7`; contract: `0x97a005a129e0212c792CC00B20B702288c1C13EB`; both are recorded as `FINALIZED` with semantic `SUCCESS`.
 
 ## Post-deployment matrix
 

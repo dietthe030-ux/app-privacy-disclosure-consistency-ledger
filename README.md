@@ -4,7 +4,7 @@ A GenLayer project that records an app-store privacy disclosure and a publisher 
 
 ## Current status
 
-The contract and functional frontend pass local verification. The project is not deployed yet. See [docs/VERIFICATION.md](docs/VERIFICATION.md) for the exact revision, commands, and release blockers.
+The contract and functional frontend pass local verification. The contract is deployed and live-verified on Studionet at `0x97a005a129e0212c792CC00B20B702288c1C13EB`; anonymous `POST_DEPLOY_TEST` review and frontend release wiring remain. See [docs/VERIFICATION.md](docs/VERIFICATION.md) for the exact revision, commands, evidence, and release blockers.
 
 ## Local checks
 
