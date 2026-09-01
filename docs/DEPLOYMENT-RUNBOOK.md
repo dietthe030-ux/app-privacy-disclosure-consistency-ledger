@@ -5,8 +5,8 @@ This runbook is prepared for the exact current source revision. It is not permis
 ## Current source
 
 - Contract: `contracts/app_privacy_disclosure_consistency_ledger.py`
-- SHA-256: `A11100F7846517E9F3C19C6AD637B4E7F3065B82D6EC3B2E16B88FA94C9A6830`
-- Git commit: `4c5286c71378b821d38b7d2e052fc8f1aab45279`
+- SHA-256: `ACF89615555C2CAF2634F690661B2A53873DB5B3807F463EB34284B8181946FB`
+- Contract source commit: `5cdd176013c2a06180119f0561078fd4f4fa734f`
 - Constructor arguments: `[]`
 - Contract methods: `create`, `freeze`, `assess`, `reassess`, `get`, `get_assessment`, `list_ids`
 

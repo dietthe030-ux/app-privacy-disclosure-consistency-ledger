@@ -24,6 +24,6 @@
 ## Current local checkpoint
 
 - Feasibility probe: `genvm-lint check` and `genlayer-test` Direct Mode passed on 2026-09-01 with `genvm-lint 0.11.0`, `genlayer-test 0.29.2`, Python 3.13, pickling enabled, agreement and deliberate disagreement coverage.
-- Contract baseline: `contracts/app_privacy_disclosure_consistency_ledger.py`; `genvm-lint check` and schema extraction pass; Direct Mode suite: `3 passed`.
-- Frontend: functional baseline added under `frontend/` after the user authorized the minimum dependency install. It uses `genlayer-js@1.1.8`, Vite `8.2.2`, TypeScript `7.0.2`, and no framework or connector dependency. It includes the explicit wallet picker, public record list/create/update journeys, finality/execution/readback handling, and built-in Node regression tests.
-- Frontend local checkpoint: `npm test` passes 3 wallet/provider tests and `npm run build` passes. Live reads/writes still require a deployed `VITE_CONTRACT_ADDRESS`; no deployment, signing, Studio operation, or Vercel E2E has occurred.
+- Contract baseline: `contracts/app_privacy_disclosure_consistency_ledger.py`; `genvm-lint check` and schema extraction pass; Direct Mode suite: `8 passed` with pickling, disagreement, malformed/missing/empty/overlong-output, source-change, delimiter-boundary and runtime-response probe coverage.
+- Frontend: functional baseline added under `frontend/` after the user authorized the minimum dependency install. It uses `genlayer-js@1.1.8`, Vite `8.2.2`, TypeScript `7.0.2`, and no framework or connector dependency. It includes the explicit wallet picker, public record list/create/update journeys, finality/execution/readback handling, selected-provider balance preflight, and built-in Node regression tests.
+- Frontend local checkpoint: `npm test` passes 8 wallet/provider tests and `npm run build` passes. Live reads/writes still require a deployed `VITE_CONTRACT_ADDRESS`; no deployment, signing, Studio operation, or Vercel E2E has occurred.

@@ -7,9 +7,9 @@ This document is the single evidence ledger for the current build revision. It i
 - Category: `PROJECT`
 - Project folder: `E:\Genlayer-Projects\app-privacy-disclosure-consistency-ledger`
 - Current contract source: `contracts/app_privacy_disclosure_consistency_ledger.py`
-- Current contract SHA-256: `A11100F7846517E9F3C19C6AD637B4E7F3065B82D6EC3B2E16B88FA94C9A6830`
+- Current contract SHA-256: `ACF89615555C2CAF2634F690661B2A53873DB5B3807F463EB34284B8181946FB`
 - Current frontend lockfile SHA-256: `73ECF77F53911D17E656528D3B7D38BBE7C70C76E0024DA2381EB2BB117DC054`
-- Git commit: `4c5286c71378b821d38b7d2e052fc8f1aab45279`
+- Contract source commit: `5cdd176013c2a06180119f0561078fd4f4fa734f`
 - Network: Studionet (mandatory release network)
 - Contract address: not deployed
 - Deployment transaction: not sent
@@ -20,8 +20,8 @@ This document is the single evidence ledger for the current build revision. It i
 | ID | Requirement | Command | Result |
 |---|---|---|---|
 | L-01 | Contract lint and schema visibility | `genvm-lint check contracts/app_privacy_disclosure_consistency_ledger.py --json` | PASS; 7 methods, 3 views, 4 writes |
-| L-02 | Direct contract lifecycle and safe failure behavior | `py -3.13 -m pytest -q tests/direct/ -p no:cacheprovider` | PASS; 3 passed |
-| F-01 | Frontend wallet/provider regression | `cd frontend; npm test` | PASS; 5 passed |
+| L-02 | Direct contract lifecycle, negative consensus, runtime probe and safe failure behavior | `py -3.13 -m pytest -q tests/direct/ -p no:cacheprovider` | PASS; 8 passed |
+| F-01 | Frontend wallet/provider, legacy-scope, chain and balance regression | `cd frontend; npm test` | PASS; 8 passed |
 | F-02 | Frontend TypeScript/Vite production build | `cd frontend; npm run build` | PASS; Vite build succeeded |
 | F-03 | Local dev entrypoint | `cd frontend; npm run dev -- --host 127.0.0.1` | PASS; HTTP 200 verified on `/` and `/src/main.ts` |
 
@@ -40,6 +40,9 @@ The contract is documentary comparison only. It does not establish privacy-law c
 - Anonymous `PRE_DEPLOY` verdict: not requested.
 - Deployment runbook: `docs/DEPLOYMENT-RUNBOOK.md`.
 - Exact current-source package: local lint/schema/Direct Mode complete; frontend local checks complete.
+- Runtime compatibility evidence: `.probe/contract_probe.py` and `tests/direct/test_contract_probe.py` record that installed GenVM `0.3.0-rc7` exposes `Response.status`; `_response_status` prefers the official `status_code` field and safely falls back to that verified installed field.
+- Negative evidence: validator disagreement, malformed/missing/empty/overlong model output, source-change digesting, and delimiter-boundary injection tests pass with pickling checks enabled.
+- Prior reviewer verdict on the superseded `7764f9d…` package: `CHANGES REQUIRED`; this revision contains the corrective delta and requires a fresh exact-package review.
 - Current known warning: `genvm-lint` reports informational newer-runner notice `I200`; it is recorded and does not fail lint.
 
 ## Live proof matrix
