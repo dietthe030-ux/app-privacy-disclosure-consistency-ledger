@@ -85,7 +85,7 @@ function errorMessage(error: unknown): string {
   if (error instanceof Error && error.message) {
     const message = error.message.toLowerCase();
     if (message.includes("no wallet account")) return "No wallet account was returned. Choose an account and try again.";
-    if (message.includes("insufficient") || message.includes("balance")) return "This wallet does not have enough GEN to complete the action.";
+    if (message.includes("insufficient") || message.includes("balance") || message.includes("needs at least") || message.includes("gen available")) return "This wallet needs at least 0.01 GEN available for the action.";
     if (message.includes("usererror") || message.includes("record must") || message.includes("unknown record")) return "The record could not be updated. Check its current state and try again.";
     if (message.includes("chain") || message.includes("switch") || message.includes("network")) return "Switch to GenLayer Studio network before continuing.";
     if (message.includes("rpc") || message.includes("rate") || message.includes("fetch") || message.includes("timeout")) return "The network is temporarily unavailable. Please try again shortly.";
