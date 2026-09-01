@@ -71,7 +71,7 @@ The live rows below are bound to the deployed Studionet address and exact source
 
 ## Production Vercel E2E delta
 
-The final production alias is `https://app-privacy-disclosure-consistency.vercel.app/`. Deployment `dpl_12twYFznR9xTqUFaUH4SRM9DjC63` is `READY`, has `gitCommitSha=eb853b6688a73b5924daa7bdafdd865f02a7b8ea`, and uses build root `frontend`. The bundle is `/assets/index-RLLSdGDN.js` with 542158 bytes and SHA-256 `393AFC45AE416C2A0B40308BC53DBB311B8362091C1E4A7D3B16FF7E31191ED4`; it contains the replacement contract address, transaction evidence UI, progress spinner, and bounded readback path, while the superseded address is absent.
+The final production alias is `https://app-privacy-disclosure-consistency.vercel.app/`. Deployment `dpl_HWttkKE31LuvCWeiXxtwcTpmXtX6` is `READY`, has `gitCommitSha=dcbdde0e4b1324ef0caf6de76706ce0e65be3352`, and uses build root `frontend`. The bundle is `/assets/index-RLLSdGDN.js` with 542120 bytes and SHA-256 `393AFC45AE416C2A0B40308BC53DBB311B8362091C1E4A7D3B16FF7E31191ED4`; it contains the replacement contract address, transaction evidence UI, progress spinner, and bounded readback path, while the superseded address is absent.
 
 The affected browser rerun used the connected OKX Wallet account `0xBf90Af1bc61314775d57B641b89c1f702a93b40D`, which differs from the locked Studio deployer `0xeF5D2119416A2f5afa35dCFA209766EFC1BE5902`. Reassess transaction `0x8eae0c6c2bdd890553e5145521603ef99d8d5d94c2dee4717d92c5a9b773b86e` targeted the replacement contract, finalized successfully with Explorer GenVM result `SUCCESS`, and authoritative readback shows record `privacy-ledger-vercel-20260902` at `state=ASSESSED`, revision `4`, verdict `UNRESOLVED`. No duplicate write was sent after submission.
 
