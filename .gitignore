@@ -3,3 +3,8 @@ __pycache__/
 artifacts/
 .env.*
 !.env.example
+/AGENTS.md
+/CLAUDE.md
+/STAGE-*.md
+/RESEARCH-HANDOFF-*.md
+/frontend/DESIGN.md
