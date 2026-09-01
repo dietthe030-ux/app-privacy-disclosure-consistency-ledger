@@ -161,4 +161,7 @@ test("keeps the wallet picker accessibility and selected-provider write contract
   assert.match(source, /createWriteClient\(session\.account, session\.provider\)/);
   assert.match(source, /ensureWriteClient\(\)/);
   assert.match(source, /submitWrite\(client/);
+  assert.match(source, /transaction-evidence/);
+  assert.match(source, /Copy hash/);
+  assert.match(source, /status-spinner/);
 });

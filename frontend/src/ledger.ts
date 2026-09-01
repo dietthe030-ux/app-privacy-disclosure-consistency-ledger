@@ -44,9 +44,10 @@ export async function getAssessment(recordId: string, revision: number): Promise
   return decodeContractReturn(await readClient.readContract({ address: config.address, functionName: "get_assessment", args: [recordId, revision] }));
 }
 
-export async function submitWrite(client: GenLayerClient, functionName: string, args: string[]): Promise<{ hash: string; record: unknown }> {
+export async function submitWrite(client: GenLayerClient, functionName: string, args: string[], onSubmitted?: (hash: string) => void): Promise<{ hash: string; record: unknown }> {
   if (!config) throw new Error("Ledger is not configured.");
   const hash = await client.writeContract({ address: config.address, functionName, args, value: BigInt(0) }) as `0x${string}`;
+  onSubmitted?.(hash);
   const receipt = await readClient.waitForTransactionReceipt({ hash: hash as never, status: TransactionStatus.FINALIZED, interval: 3000, retries: 120 });
   if (receipt.txExecutionResultName !== ExecutionResult.FINISHED_WITH_RETURN) {
     throw new Error("The network finalized the request without a successful contract result.");

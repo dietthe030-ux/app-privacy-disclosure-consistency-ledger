@@ -23,36 +23,89 @@ let restoreFocus: HTMLElement | undefined;
 app.innerHTML = `
   <main class="shell">
     <header class="topbar">
-      <a class="brand" href="/" aria-label="Disclosure Ledger home">Disclosure Ledger</a>
+      <a class="brand" href="/" aria-label="Disclosure Ledger home"><span class="brand-mark" aria-hidden="true">↗</span><span>Disclosure Ledger</span></a>
+      <nav class="topnav" aria-label="Primary navigation"><a href="#ledger-title">Workspace</a><a href="#how-it-works">How it works</a></nav>
       <div class="topbar-actions">
-        <span class="network-status" id="network-status" role="status">Not connected</span>
+        <span class="network-pill"><span class="network-dot" aria-hidden="true"></span><span class="network-status" id="network-status" role="status">Not connected</span></span>
         <button class="button button-secondary" type="button" id="connect-wallet">Connect wallet</button>
       </div>
     </header>
     <section class="hero" aria-labelledby="page-title">
-      <p class="eyebrow">Public source comparison</p>
-      <h1 id="page-title">See whether an app’s privacy disclosures tell the same story.</h1>
-      <p class="hero-copy">Keep an auditable record of the app-store disclosure and the publisher policy, then compare the public claims over time.</p>
-    </section>
-    <section class="ledger-section" aria-labelledby="ledger-title">
-      <div class="section-heading">
-        <div><p class="eyebrow">Your ledger</p><h2 id="ledger-title">Disclosure records</h2></div>
-        <button class="button" type="button" id="create-record">Create a record</button>
+      <div class="hero-copy-block">
+        <p class="eyebrow hero-eyebrow">Privacy evidence / live ledger</p>
+        <h1 id="page-title">Make privacy claims easier to trust.</h1>
+        <p class="hero-copy">Compare an app-store disclosure with the publisher’s policy, preserve each source snapshot, and keep every result auditable over time.</p>
+        <div class="hero-actions"><a class="button" href="#ledger-title">Open workspace <span aria-hidden="true">↘</span></a><span class="hero-note"><span class="pulse-dot" aria-hidden="true"></span>Verifiable on GenLayer Studio</span></div>
       </div>
-      <p class="screen-status" id="screen-status" role="status" aria-live="polite"></p>
+      <div class="hero-visual" aria-label="Comparison flow preview">
+        <div class="visual-topline"><span>Comparison flow</span><span class="visual-live">LIVE</span></div>
+        <div class="source-stack"><div class="source-card"><span class="source-icon">A</span><span><strong>App Store disclosure</strong><small>Public source snapshot</small></span><span class="source-check">✓</span></div><div class="source-card"><span class="source-icon source-icon-alt">P</span><span><strong>Publisher policy</strong><small>Public source snapshot</small></span><span class="source-check">✓</span></div></div>
+        <div class="flow-line"><span></span><b>→</b><span></span></div>
+        <div class="result-card"><span class="result-ring">≈</span><span><small>Latest result</small><strong>Evidence compared</strong></span><span class="result-arrow">↗</span></div>
+      </div>
+    </section>
+    <section class="trust-strip" aria-label="Ledger properties"><div><strong>01</strong><span>Capture public sources</span></div><div><strong>02</strong><span>Freeze a revision</span></div><div><strong>03</strong><span>Compare with evidence</span></div></section>
+    <section class="ledger-section" aria-labelledby="ledger-title">
+      <div class="section-heading section-heading-ledger">
+        <div><p class="eyebrow">Workspace / records</p><h2 id="ledger-title">Your disclosure ledger</h2><p class="section-intro">A clear history of what was compared, when, and why.</p></div>
+        <button class="button" type="button" id="create-record"><span aria-hidden="true">+</span> New record</button>
+      </div>
+      <div class="screen-status" id="screen-status" role="status" aria-live="polite" aria-busy="false"></div>
+      <div class="transaction-evidence" id="transaction-evidence" role="status" aria-live="polite" hidden></div>
       <div class="records" id="records"></div>
     </section>
+    <section class="how-it-works" id="how-it-works" aria-labelledby="how-title"><div><p class="eyebrow">Built for review</p><h2 id="how-title">A calm, inspectable workflow.</h2></div><p>Each record moves from draft to frozen sources to a comparison result. The ledger keeps the revision trail visible, while the network confirms the write.</p><div class="how-badge"><span>GEN</span><span>Studio network</span></div></section>
+    <footer class="footer"><span>Disclosure Ledger</span><span>Public-source evidence, made inspectable.</span></footer>
   </main>
 `;
 
 const connectButton = document.querySelector<HTMLButtonElement>("#connect-wallet");
 const createButton = document.querySelector<HTMLButtonElement>("#create-record");
 const networkStatus = document.querySelector<HTMLSpanElement>("#network-status");
-const screenStatus = document.querySelector<HTMLParagraphElement>("#screen-status");
+const screenStatus = document.querySelector<HTMLDivElement>("#screen-status");
+const transactionEvidence = document.querySelector<HTMLDivElement>("#transaction-evidence");
 const records = document.querySelector<HTMLDivElement>("#records");
 
-function setScreenStatus(message: string): void { if (screenStatus) screenStatus.textContent = message; }
+function setScreenStatus(message: string, active = false): void {
+  if (!screenStatus) return;
+  screenStatus.replaceChildren();
+  if (active) {
+    const spinner = document.createElement("span");
+    spinner.className = "status-spinner";
+    spinner.setAttribute("aria-hidden", "true");
+    screenStatus.append(spinner);
+  }
+  screenStatus.append(document.createTextNode(message));
+  screenStatus.setAttribute("aria-busy", String(active));
+}
 function setNetworkStatus(message: string): void { if (networkStatus) networkStatus.textContent = message; }
+
+function showTransactionEvidence(hash: string, action: string): void {
+  if (!transactionEvidence || !config) return;
+  transactionEvidence.hidden = false;
+  transactionEvidence.replaceChildren();
+  const label = document.createElement("span");
+  label.className = "transaction-label";
+  label.textContent = `${action} submitted`;
+  const value = document.createElement("code");
+  value.textContent = hash;
+  const copy = document.createElement("button");
+  copy.className = "hash-copy";
+  copy.type = "button";
+  copy.textContent = "Copy hash";
+  copy.addEventListener("click", async () => {
+    await navigator.clipboard?.writeText(hash);
+    copy.textContent = "Copied";
+    window.setTimeout(() => { copy.textContent = "Copy hash"; }, 1600);
+  });
+  const explorer = document.createElement("a");
+  explorer.className = "hash-link";
+  explorer.href = `https://explorer-studio.genlayer.com/address/${config.address}`;
+  explorer.target = "_blank";
+  explorer.rel = "noreferrer";
+  explorer.textContent = "Open contract";
+  transactionEvidence.append(label, value, copy, explorer);
+}
 
 function field(record: unknown, key: string): unknown {
   if (typeof record !== "object" || record === null) return undefined;
@@ -63,6 +116,14 @@ function displayValue(value: unknown, fallback = "—"): string {
   if (typeof value === "string" && value.trim()) return value;
   if (typeof value === "number" || typeof value === "boolean") return String(value);
   return fallback;
+}
+
+function sourceUrl(value: unknown): string {
+  if (typeof value !== "string") return "Source unavailable";
+  try {
+    const url = new URL(value);
+    return url.protocol === "https:" ? url.toString() : "Source unavailable";
+  } catch { return "Source unavailable"; }
 }
 
 function stateLabel(value: unknown): string {
@@ -257,13 +318,16 @@ function showCreateForm(): void {
     event.preventDefault();
     const error = panel.querySelector<HTMLParagraphElement>("#form-error");
     if (!session) { panel.remove(); await openWalletPicker(); return; }
-    if (!session.writeClient) { if (error) { error.textContent = "Switch to GenLayer Studio network before creating a record."; error.hidden = false; } return; }
     const values = Object.fromEntries(new FormData(event.currentTarget as HTMLFormElement).entries());
     const button = panel.querySelector<HTMLButtonElement>("button[type=submit]");
     if (button) button.disabled = true;
     try {
       const client = await ensureWriteClient();
-      await submitWrite(client, "create", [String(values.record_id), String(values.app_id), String(values.store_url), String(values.policy_url), String(values.platform)]);
+      setScreenStatus("Submitting the record…", true);
+      await submitWrite(client, "create", [String(values.record_id), String(values.app_id), String(values.store_url), String(values.policy_url), String(values.platform)], (hash) => {
+        showTransactionEvidence(hash, "Create record");
+        setScreenStatus("Submitted. Waiting for finalized confirmation and ledger readback…", true);
+      });
       panel.remove();
       await loadRecords();
       setScreenStatus("Record created and read back from the ledger.");
@@ -292,13 +356,23 @@ async function loadRecords(): Promise<void> {
       const record = await getRecord(id);
       const card = document.createElement("article");
       card.className = "record-card panel";
-      card.innerHTML = `<div class="record-card-heading"><div><p class="eyebrow"></p><h3></h3></div><span class="state-badge"></span></div><dl><div><dt>Record</dt><dd class="record-id"></dd></div><div><dt>Latest comparison</dt><dd class="verdict"></dd></div><div><dt>Revision</dt><dd class="revision"></dd></div></dl><div class="card-actions"></div>`;
+      card.innerHTML = `<div class="record-card-heading"><div><p class="eyebrow"></p><h3></h3></div><span class="state-badge"></span></div><dl><div><dt>Record</dt><dd class="record-id"></dd></div><div><dt>Latest comparison</dt><dd class="verdict"></dd></div><div><dt>Revision</dt><dd class="revision"></dd></div></dl><div class="record-sources"><div class="source-row"><span class="source-type">App Store disclosure</span><a class="source-link store-source" target="_blank" rel="noreferrer"></a></div><div class="source-row"><span class="source-type">Publisher policy</span><a class="source-link policy-source" target="_blank" rel="noreferrer"></a></div></div><div class="record-timeline" aria-label="Record lifecycle"><span class="timeline-step draft-step">Draft</span><span class="timeline-connector"></span><span class="timeline-step frozen-step">Frozen</span><span class="timeline-connector"></span><span class="timeline-step assessed-step">Compared</span></div><div class="card-actions"></div>`;
       card.querySelector(".eyebrow")!.textContent = displayValue(field(record, "platform"));
       card.querySelector("h3")!.textContent = displayValue(field(record, "app_id"), id);
       card.querySelector(".record-id")!.textContent = id;
       card.querySelector(".state-badge")!.textContent = stateLabel(field(record, "state"));
       card.querySelector(".verdict")!.textContent = verdictLabel(field(record, "verdict"));
       card.querySelector(".revision")!.textContent = displayValue(field(record, "revision"), "0");
+      const store = sourceUrl(field(record, "store_url"));
+      const policy = sourceUrl(field(record, "policy_url"));
+      for (const [selector, url] of [[".store-source", store], [".policy-source", policy]] as const) {
+        const link = card.querySelector<HTMLAnchorElement>(selector)!;
+        link.textContent = url === "Source unavailable" ? url : new URL(url).hostname;
+        if (url !== "Source unavailable") link.href = url;
+      }
+      const lifecycle = ["DRAFT", "FROZEN", "ASSESSED"];
+      const stateIndex = lifecycle.indexOf(stateLabel(field(record, "state")).toUpperCase() === "COMPARED" ? "ASSESSED" : displayValue(field(record, "state")));
+      card.querySelectorAll<HTMLElement>(".timeline-step").forEach((step, index) => step.classList.toggle("is-complete", index <= stateIndex));
       const actions = card.querySelector<HTMLDivElement>(".card-actions")!;
       const state = displayValue(field(record, "state"));
       if (state === "DRAFT") actions.append(actionButton("Freeze sources", "freeze", id));
@@ -320,12 +394,14 @@ function actionButton(label: string, method: string, recordId: string): HTMLButt
   button.textContent = label;
   button.addEventListener("click", async () => {
     if (!session) { await openWalletPicker(); return; }
-    if (!session.writeClient) { setScreenStatus("Switch to GenLayer Studio network before updating this record."); return; }
     button.disabled = true;
-    setScreenStatus("Waiting for the network to confirm the update…");
     try {
       const client = await ensureWriteClient();
-      await submitWrite(client, method, [recordId]);
+      setScreenStatus(`Submitting ${label.toLowerCase()}…`, true);
+      await submitWrite(client, method, [recordId], (hash) => {
+        showTransactionEvidence(hash, label);
+        setScreenStatus("Submitted. Waiting for finalized confirmation and ledger readback…", true);
+      });
       await loadRecords();
       setScreenStatus("Record updated and read back from the ledger.");
     } catch (error) {
