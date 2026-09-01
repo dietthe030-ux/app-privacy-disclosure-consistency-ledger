@@ -89,6 +89,7 @@ def test_validator_disagreement_is_rejected(direct_vm, direct_deploy, direct_ali
     direct_vm.sender = direct_alice
     contract.create("app-1", "com.example.app", STORE_URL, POLICY_URL, "android")
     contract.freeze("app-1")
+    transaction_snapshot = direct_vm.snapshot()
     consistent = json.dumps({"store": _side(), "policy": _side()})
     conflicting = json.dumps({"store": _side(), "policy": _side(collection="RESTRICTED")})
     _mock_assessment(direct_vm, _side(), _side(), llm_response=consistent)
@@ -96,6 +97,11 @@ def test_validator_disagreement_is_rejected(direct_vm, direct_deploy, direct_ali
     direct_vm.clear_mocks()
     _mock_assessment(direct_vm, _side(), _side(), llm_response=conflicting)
     assert direct_vm.run_validator() is False
+    direct_vm.revert(transaction_snapshot)
+    assert json.loads(contract.get("app-1"))["state"] == "FROZEN"
+    assert list(contract.list_ids()) == ["app-1"]
+    with direct_vm.expect_revert("Unknown assessment"):
+        contract.get_assessment("app-1", 1)
 
 
 def test_invalid_model_outputs_fail_closed(direct_vm, direct_deploy, direct_alice):

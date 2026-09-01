@@ -27,6 +27,8 @@ export interface DiscoveredWallet {
   label: string;
 }
 
+export type ProviderListener = (...args: unknown[]) => void;
+
 const supportedLabels = ["MetaMask", "OKX Wallet", "Rabby"] as const;
 type SupportedLabel = (typeof supportedLabels)[number];
 
@@ -104,6 +106,11 @@ export async function requestAccount(provider: EthereumProvider): Promise<`0x${s
   return account as `0x${string}`;
 }
 
+export function accountFromChange(value: unknown): `0x${string}` | undefined {
+  const account = Array.isArray(value) ? value[0] : undefined;
+  return typeof account === "string" && /^0x[a-fA-F0-9]{40}$/.test(account) ? account as `0x${string}` : undefined;
+}
+
 export async function ensureStudionet(provider: EthereumProvider, chain: { id: number; name: string; rpcUrls: { default: { http: readonly string[] } }; nativeCurrency: { name: string; symbol: string; decimals: number }; blockExplorers?: { default: { url: string } } }): Promise<void> {
   const target = `0x${chain.id.toString(16)}`;
   const current = await provider.request({ method: "eth_chainId" });
@@ -128,9 +135,20 @@ export function providerChainId(provider: EthereumProvider): Promise<unknown> {
   return provider.request({ method: "eth_chainId" });
 }
 
+export function bindProviderSession(provider: EthereumProvider, accountListener: ProviderListener, chainListener: ProviderListener): () => void {
+  provider.on?.("accountsChanged", accountListener);
+  provider.on?.("chainChanged", chainListener);
+  return () => {
+    provider.removeListener?.("accountsChanged", accountListener);
+    provider.removeListener?.("chainChanged", chainListener);
+  };
+}
+
+export const MIN_SPENDABLE_BALANCE_WEI = 10_000_000_000_000_000n;
+
 export async function ensureSpendableBalance(provider: EthereumProvider, account: `0x${string}`): Promise<void> {
   const result = await provider.request({ method: "eth_getBalance", params: [account, "latest"] });
-  if (typeof result !== "string" || BigInt(result) <= 0n) {
-    throw new Error("Wallet has no spendable GEN balance.");
+  if (typeof result !== "string" || BigInt(result) < MIN_SPENDABLE_BALANCE_WEI) {
+    throw new Error("Wallet needs at least 0.01 GEN available for this action.");
   }
 }

@@ -1,5 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
+import { readFile } from "node:fs/promises";
 
 class FakeWindow extends EventTarget {
   setTimeout = globalThis.setTimeout.bind(globalThis);
@@ -85,6 +86,24 @@ test("does not add a chain after a non-unknown switch error", async () => {
   assert.deepEqual(calls, ["eth_chainId", "wallet_switchEthereumChain"]);
 });
 
+test("preserves rejected account requests as a wallet cancellation", async () => {
+  const selected = {
+    request: async () => {
+      const error = new Error("user rejected");
+      error.code = 4001;
+      throw error;
+    },
+  };
+  await assert.rejects(() => wallet.requestAccount(selected), (error) => error.code === 4001);
+});
+
+test("accepts an account change and clears an account removal", () => {
+  const account = "0x1111111111111111111111111111111111111111";
+  assert.equal(wallet.accountFromChange([account]), account);
+  assert.equal(wallet.accountFromChange([]), undefined);
+  assert.equal(wallet.accountFromChange(["not-an-address"]), undefined);
+});
+
 test("does not expose an unknown legacy provider", async () => {
   window.ethereum = provider();
   const freshWallet = await import(`../src/wallet.ts?legacy-unknown=${Date.now()}`);
@@ -96,18 +115,49 @@ test("rejects a wallet with no spendable GEN balance", async () => {
   const selected = { request: async ({ method }) => method === "eth_getBalance" ? "0x0" : null };
   await assert.rejects(
     () => wallet.ensureSpendableBalance(selected, "0x1111111111111111111111111111111111111111"),
-    /no spendable GEN balance/,
+    /at least 0\.01 GEN/,
   );
 });
 
-test("accepts a positive balance from the selected provider", async () => {
+test("accepts the justified minimum balance from the selected provider", async () => {
   const calls = [];
   const selected = {
     request: async ({ method, params }) => {
       calls.push({ method, params });
-      return method === "eth_getBalance" ? "0x1" : null;
+      return method === "eth_getBalance" ? "0x2386f26fc10000" : null;
     },
   };
   await wallet.ensureSpendableBalance(selected, "0x1111111111111111111111111111111111111111");
   assert.deepEqual(calls, [{ method: "eth_getBalance", params: ["0x1111111111111111111111111111111111111111", "latest"] }]);
+});
+
+test("binds and cleans up account and chain listeners on the selected provider", () => {
+  const listeners = new Map();
+  const selected = {
+    on: (event, listener) => listeners.set(event, listener),
+    removeListener: (event, listener) => { if (listeners.get(event) === listener) listeners.delete(event); },
+    request: async () => null,
+  };
+  let accountChanges = 0;
+  let chainChanges = 0;
+  const remove = wallet.bindProviderSession(selected, () => { accountChanges += 1; }, () => { chainChanges += 1; });
+  listeners.get("accountsChanged")(["0x1111111111111111111111111111111111111111"]);
+  listeners.get("chainChanged")("0xf22f");
+  assert.deepEqual([...listeners.keys()].sort(), ["accountsChanged", "chainChanged"]);
+  assert.equal(accountChanges, 1);
+  assert.equal(chainChanges, 1);
+  remove();
+  assert.deepEqual([...listeners.keys()], []);
+});
+
+test("keeps the wallet picker accessibility and selected-provider write contract intact", async () => {
+  const source = await readFile(new URL("../src/main.ts", import.meta.url), "utf8");
+  assert.match(source, /role="dialog"/);
+  assert.match(source, /aria-modal="true"/);
+  assert.match(source, /root\.inert = true/);
+  assert.match(source, /event\.key === \"Escape\"/);
+  assert.match(source, /event\.key !== \"Tab\"/);
+  assert.match(source, /restoreFocus\?\.focus\(\)/);
+  assert.match(source, /createWriteClient\(session\.account, session\.provider\)/);
+  assert.match(source, /submitWrite\(session\.writeClient/);
 });

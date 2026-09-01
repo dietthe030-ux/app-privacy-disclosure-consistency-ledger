@@ -1,6 +1,6 @@
 import "./style.css";
 import { config, createWriteClient, getRecord, listRecordIds, submitWrite } from "./ledger.ts";
-import { ensureSpendableBalance, ensureStudionet, getAvailableWallets, isUserRejected, providerChainId, requestAccount, type DiscoveredWallet, type EthereumProvider } from "./wallet.ts";
+import { accountFromChange, bindProviderSession, ensureSpendableBalance, ensureStudionet, getAvailableWallets, isUserRejected, providerChainId, requestAccount, type DiscoveredWallet, type EthereumProvider } from "./wallet.ts";
 import { studionet } from "genlayer-js/chains";
 
 type Session = {
@@ -10,6 +10,7 @@ type Session = {
   writeClient: ReturnType<typeof createWriteClient> | undefined;
   accountListener: (...args: unknown[]) => void;
   chainListener: (...args: unknown[]) => void;
+  removeListeners: () => void;
 };
 
 const app = document.querySelector<HTMLDivElement>("#app");
@@ -95,8 +96,7 @@ function errorMessage(error: unknown): string {
 
 function tearDownSession(): void {
   if (!session) return;
-  session.provider.removeListener?.("accountsChanged", session.accountListener);
-  session.provider.removeListener?.("chainChanged", session.chainListener);
+  session.removeListeners();
   session = undefined;
 }
 
@@ -117,8 +117,8 @@ async function syncNetwork(): Promise<void> {
 function setConnectedSession(account: `0x${string}`, provider: EthereumProvider, walletLabel: string): void {
   tearDownSession();
   const accountListener = (...args: unknown[]): void => {
-    const next = Array.isArray(args[0]) ? args[0][0] : undefined;
-    if (typeof next !== "string" || !/^0x[a-fA-F0-9]{40}$/.test(next)) {
+    const next = accountFromChange(args[0]);
+    if (!next) {
       tearDownSession();
       if (connectButton) connectButton.textContent = "Connect wallet";
       setNetworkStatus("Not connected");
@@ -126,14 +126,13 @@ function setConnectedSession(account: `0x${string}`, provider: EthereumProvider,
       return;
     }
     if (session) {
-      session.account = next as `0x${string}`;
+      session.account = next;
       void syncNetwork().catch(() => setNetworkStatus("Network connection needs attention"));
     }
   };
   const chainListener = (): void => { void syncNetwork().catch(() => setNetworkStatus("Network connection needs attention")); };
-  session = { account, provider, walletLabel, writeClient: undefined, accountListener, chainListener };
-  provider.on?.("accountsChanged", accountListener);
-  provider.on?.("chainChanged", chainListener);
+  const removeListeners = bindProviderSession(provider, accountListener, chainListener);
+  session = { account, provider, walletLabel, writeClient: undefined, accountListener, chainListener, removeListeners };
   if (connectButton) connectButton.textContent = "Switch wallet";
   setNetworkStatus("Checking wallet connection…");
   void syncNetwork().catch(() => setNetworkStatus("Wallet balance or network needs attention"));
