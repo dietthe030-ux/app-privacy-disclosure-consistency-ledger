@@ -10,8 +10,8 @@
   "source_sha256": "A11100F7846517E9F3C19C6AD637B4E7F3065B82D6EC3B2E16B88FA94C9A6830",
   "git_commit": "4c5286c71378b821d38b7d2e052fc8f1aab45279",
   "constructor_args": [],
-  "classification": null,
-  "deployer_or_upgrader_address": null,
+  "classification": "INTENTIONALLY FROZEN",
+  "deployer_or_upgrader_address": "0xeF5D2119416A2f5afa35dCFA209766EFC1BE5902",
   "linked_contracts": {},
   "configuration_transactions": [],
   "recovery_notes": {

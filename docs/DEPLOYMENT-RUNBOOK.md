@@ -12,11 +12,9 @@ This runbook is prepared for the exact current source revision. It is not permis
 
 ## Required decisions before deployment
 
-1. Classify the contract as `INTENTIONALLY FROZEN` or `UPGRADABLE`.
-2. If `INTENTIONALLY FROZEN`, record the explicit user decision and explain that a post-deployment defect requires a replacement contract and frontend address update.
-3. If `UPGRADABLE`, do not deploy this current source: first add and verify the required Root/upgrader lifecycle, storage-compatibility plan, and upgrade tests.
-4. Select and record the public address of an accessible Studio deployer account without sending a transaction.
-5. Obtain anonymous `PRE_DEPLOY` approval for the exact source/evidence package.
+1. Classification is `INTENTIONALLY FROZEN`: a post-deployment defect requires a replacement contract and frontend address update.
+2. The selected Studio deployer public address is `0xeF5D2119416A2f5afa35dCFA209766EFC1BE5902`; recheck access and spendable balance immediately before deployment.
+3. Obtain anonymous `PRE_DEPLOY` approval for the exact source/evidence package.
 
 ## Gated Studionet action
 

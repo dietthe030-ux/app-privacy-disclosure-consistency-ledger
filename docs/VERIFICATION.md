@@ -33,8 +33,10 @@ The contract is documentary comparison only. It does not establish privacy-law c
 
 ## PRE_DEPLOY status
 
-- Contract classification: pending explicit decision between `UPGRADABLE` and `INTENTIONALLY FROZEN`.
-- Studio deployer/upgrader public address: pending direct selection and recording by the primary AI.
+- Contract classification: `INTENTIONALLY FROZEN`.
+- Classification consequence: a post-deployment defect requires a replacement contract and frontend address update; no upgrade authority is advertised.
+- Studio deployer public address: `0xeF5D2119416A2f5afa35dCFA209766EFC1BE5902`.
+- Observed Studio balance at selection: `998 GEN` (sufficient for the planned small writes at selection time; recheck immediately before deployment).
 - Anonymous `PRE_DEPLOY` verdict: not requested.
 - Deployment runbook: `docs/DEPLOYMENT-RUNBOOK.md`.
 - Exact current-source package: local lint/schema/Direct Mode complete; frontend local checks complete.
@@ -53,8 +55,6 @@ Live rows are intentionally not populated before PRE_DEPLOY authorization and de
 
 ## Release blockers
 
-1. Resolve contract classification and record the consequence.
-2. Select and record an accessible Studio account public address without sending a transaction.
-3. Obtain anonymous `PRE_DEPLOY` approval for this exact source/evidence package.
-4. Deploy and complete the required live Studio matrix.
-5. Set `VITE_CONTRACT_ADDRESS` only after the deployed address passes live smoke/readback verification.
+1. Obtain anonymous `PRE_DEPLOY` approval for this exact source/evidence package.
+2. Deploy and complete the required live Studio matrix.
+3. Set `VITE_CONTRACT_ADDRESS` only after the deployed address passes live smoke/readback verification.
