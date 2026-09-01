@@ -4,7 +4,7 @@ A GenLayer project that records an app-store privacy disclosure and a publisher 
 
 ## Current status
 
-The contract and functional frontend pass local verification. The replacement contract is deployed and live-verified on Studionet at `0xfE2E4216502f12206A61a2b2103CbD1329FFb56b`; the production frontend is live on Vercel and its affected E2E rerun is verified. Final GitHub/Vercel and Explorer submission gates remain separate. See [docs/VERIFICATION.md](docs/VERIFICATION.md) for exact revision, commands, evidence, and release status.
+The contract and functional frontend pass local verification. The replacement contract is deployed and live-verified on Studionet at `0xfE2E4216502f12206A61a2b2103CbD1329FFb56b`; the exact final Vercel alias has a complete browser E2E lifecycle with bounded request evidence. Final anonymous approval and Explorer submission gates remain separate. See [docs/VERIFICATION.md](docs/VERIFICATION.md) for exact revision, commands, evidence, and release status.
 
 ## Verified links
 

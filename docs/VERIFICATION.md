@@ -1,6 +1,6 @@
 # Verification — Privacy Disclosure Consistency Ledger
 
-This document is the single evidence ledger for the current build revision. It is intentionally secret-free. Corrective replacement deployment, production Vercel deployment, and the bounded affected E2E rerun are complete; anonymous `POST_DEPLOY_TEST` is approved for frontend/readback HEAD `eb853b6688a73b5924daa7bdafdd865f02a7b8ea`, with the later evidence-only package bound by the documented exact frontend-equivalence proof.
+This document is the single evidence ledger for the current build revision. It is intentionally secret-free. Corrective replacement deployment and the exact-final Vercel E2E lifecycle are complete; a fresh `POST_GITHUB_VERCEL_FINAL` review is required for the updated evidence package.
 
 ## Identity
 
@@ -9,7 +9,7 @@ This document is the single evidence ledger for the current build revision. It i
 - Current contract source: `contracts/app_privacy_disclosure_consistency_ledger.py`
 - Current contract SHA-256: `ACF89615555C2CAF2634F690661B2A53873DB5B3807F463EB34284B8181946FB`
 - Current frontend lockfile SHA-256: `73ECF77F53911D17E656528D3B7D38BBE7C70C76E0024DA2381EB2BB117DC054`
-- Current frontend/evidence commit: `eb853b6688a73b5924daa7bdafdd865f02a7b8ea`
+- Current frontend source commit used by the exact-final Vercel deployment: `21439e6e8d2a1d88156593a943b356d1e64b48af`
 - Contract source commit: `5cdd176013c2a06180119f0561078fd4f4fa734f`
 - Network: Studionet (mandatory release network)
 - Contract address: `0xfE2E4216502f12206A61a2b2103CbD1329FFb56b`
@@ -69,13 +69,36 @@ The live rows below are bound to the deployed Studionet address and exact source
 | LIVE-03 | Any user assesses frozen sources | `assess` | `0x80fe6c5772896b06cf651a63c6145d16aad6fc23a4e4b6462e6d1922c524d021` | `FINALIZED`; `SUCCESS`; consensus reached | Finalized `get`: `state=ASSESSED`, `revision=1`; `get_assessment(1)`: matching digests, `UNRESOLVED` | PASS |
 | LIVE-04 | Any user appends a reassessment | `reassess` | `0x5302e0a159019d19ec46391637bf7365dbd01b8986a08d2c276e65a8853d0080` | `FINALIZED`; `SUCCESS`; consensus/finality reached | Finalized `get`: `state=ASSESSED`, `revision=2`; `get_assessment(2)` readable and preserves revision 1 | PASS |
 
-## Production Vercel E2E delta
+## Exact-final Vercel E2E lifecycle
 
-The final production alias is `https://app-privacy-disclosure-consistency.vercel.app/`. Deployment `dpl_DUgox47pVXY5ycAhGdmZwMxVaUDX` is `READY`, has `gitCommitSha=eb853b6688a73b5924daa7bdafdd865f02a7b8ea`, uses build root `frontend`, and records evidence head `5b4e92d33cbe4751d7f2709c7afe5f5dbfaa4e3e`. The bundle is `/assets/index-RLLSdGDN.js` with 542120 bytes and SHA-256 `393AFC45AE416C2A0B40308BC53DBB311B8362091C1E4A7D3B16FF7E31191ED4`; it contains the replacement contract address, transaction evidence UI, progress spinner, and bounded readback path, while the superseded address is absent.
+The exact final production alias is `https://app-privacy-disclosure-consistency.vercel.app/`. Deployment `dpl_FjcSZs34J9Tuiub9WDmQCVbvjxQF` is `READY`, has `gitCommitSha=21439e6e8d2a1d88156593a943b356d1e64b48af`, uses build root `frontend`, and serves `https://app-privacy-disclosure-consistency-ledger-255wf7epg.vercel.app`. The bundle is `/assets/index-CO7d9rP0.js`, 545492 bytes, SHA-256 `FF1F2EBF544224A567D405763C19120FF207E0C5A975E4AFEF42B68EE2E763F0`; it contains the replacement contract address, transaction evidence UI, progress spinner, and bounded readback path, while the superseded address is absent.
 
-The exact-source equivalence proof is `git diff --quiet eb853b6688a73b5924daa7bdafdd865f02a7b8ea 5b4e92d33cbe4751d7f2709c7afe5f5dbfaa4e3e -- frontend` with exit code `0`; the deterministic SHA-256 of the 11-entry frontend tree manifest is `CD1504384B92D3B6C744CDB2B6A0B080AF3E0EA5BEA5CBCEB66E93B81F6349CB` for both commits. Therefore the deployed artifact is cryptographically bound to the approved frontend/readback source, while the later evidence-only commit changes no frontend bytes.
+The deployment metadata source commit is the exact pushed frontend source commit. Any later evidence-only documentation commit does not alter `frontend/`, so the deployment/source relationship remains explicit and auditable.
 
-The affected browser rerun used the connected OKX Wallet account `0xBf90Af1bc61314775d57B641b89c1f702a93b40D`, which differs from the locked Studio deployer `0xeF5D2119416A2f5afa35dCFA209766EFC1BE5902`. Reassess transaction `0x8eae0c6c2bdd890553e5145521603ef99d8d5d94c2dee4717d92c5a9b773b86e` targeted the replacement contract, finalized successfully with Explorer GenVM result `SUCCESS`, and authoritative readback shows record `privacy-ledger-vercel-20260902` at `state=ASSESSED`, revision `4`, verdict `UNRESOLVED`. No duplicate write was sent after submission.
+The fresh browser run used OKX Wallet account `0xBf90Af1bc61314775d57B641b89c1f702a93b40D`, which differs from the locked Studio deployer `0xeF5D2119416A2f5afa35dCFA209766EFC1BE5902`. It used fresh record `privacy-ledger-final-e2e-20260902-r6`, exact final alias, chain `61999`, and the public Apple disclosure/policy URLs.
+
+| Final UI E2E | Transaction | Finality and semantic result | Browser UI result | Authoritative readback |
+|---|---|---|---|---|
+| Create draft | `0xbe3d2b49d5dcbad82023feecd6642b88d0ce17a41ecea13748de457f6e0d6905` | `FINALIZED`; Explorer `SUCCESS`; `MAJORITY_AGREE` | Hash shown; finalized confirmation; record read back | `state=DRAFT`, `revision=0` |
+| Freeze sources | `0x37e82a6b3ea1e6a842a94bdf9b84e02b6be00e7b58fa2902d9dbdb3e9ab8a3a2` | `FINALIZED`; Explorer `SUCCESS`; `MAJORITY_AGREE` | Hash shown; finalized confirmation; record read back | `state=FROZEN`, `revision=0` |
+| Assess | `0x95990ae4dcb28efcbe70f6de7f48e26b015dcdccafbe3b286f0ada220905485a` | `FINALIZED`; Explorer `SUCCESS`; `MAJORITY_AGREE` | Hash shown; finalized confirmation; record read back | `state=ASSESSED`, `revision=1` |
+| Reassess | `0xf5c32acca90359eba8a80da60aea5dfb5b999c2e96dc063dd8adc2b36da4eb94` | `FINALIZED`; Explorer `SUCCESS`; `MAJORITY_AGREE` | Hash shown; finalized confirmation; record read back | `state=ASSESSED`, `revision=2` |
+
+Authoritative GenLayerJS reads confirm the final record is `ASSESSED`, revision `2`, verdict `UNRESOLVED`; `get_assessment(1)` and `get_assessment(2)` are both readable, and both revisions retain equal store digest `2d3eebbcb618c9b79217b5c54e90ea8b966facafb0ea78e30e0c0eb8fa5a5e76` and policy digest `3d2c8c276b6ac1c8bf282790f30a5b0ef96594afc72ef91a1bc988f89e04736a`. No duplicate write was sent.
+
+### Request-count ledger
+
+Instrumentation ran inside the deployed frontend only when `?e2e=1` was present. It counted wallet-provider requests and page JSON-RPC fetches, classified by method, with no secrets or storage inspection. The hard ceiling was `541`; the hard stop was not reached.
+
+| Action | Total requests | Polling | Readback | Write submissions | Retries |
+|---|---:|---:|---:|---:|---:|
+| Create | 16 | 11 | 1 | 1 | 0 |
+| Freeze | 16 | 11 | 1 | 1 | 0 |
+| Assess | 21 | 16 | 1 | 1 | 0 |
+| Reassess | 18 | 13 | 1 | 1 | 0 |
+| Whole run | **111** | — | — | **4** | **0** |
+
+Whole-run breakdown: provider `10` (`eth_requestAccounts=1`, `eth_chainId=3`, `eth_getBalance=2`, `eth_sendTransaction=4`) plus page JSON-RPC fetch `101` (`gen_call=38`, `eth_getTransactionCount=4`, `eth_estimateGas=4`, `eth_gasPrice=4`, `eth_getTransactionByHash=51`). The four write hashes are unique; no write retry or duplicate submission occurred.
 
 ## Release blockers
 

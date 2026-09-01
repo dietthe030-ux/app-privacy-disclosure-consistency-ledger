@@ -1,6 +1,6 @@
 # Deployment and recovery runbook
 
-This runbook records the exact source, corrective replacement Studionet deployment, and the verified production frontend. `POST_DEPLOY_TEST` and the affected Vercel E2E rerun are approved; final GitHub/Vercel and Explorer submission remain separate gates.
+This runbook records the exact source, corrective replacement Studionet deployment, and the verified production frontend. `POST_DEPLOY_TEST` is approved; the exact-final Vercel E2E lifecycle and request ledger are recorded for fresh `POST_GITHUB_VERCEL_FINAL` review; Explorer submission remains separate.
 
 ## Current source
 
@@ -43,7 +43,7 @@ Each successful write requires `FINALIZED`, current interface semantic execution
 
 ## Frontend wiring and production E2E
 
-The production frontend is deployed at `https://app-privacy-disclosure-consistency.vercel.app/` from approved frontend/readback commit `eb853b6688a73b5924daa7bdafdd865f02a7b8ea` with build root `frontend`, deployment `dpl_DUgox47pVXY5ycAhGdmZwMxVaUDX`, and `VITE_CONTRACT_ADDRESS` bound to `0xfE2E4216502f12206A61a2b2103CbD1329FFb56b`. The later evidence-only HEAD `5b4e92d33cbe4751d7f2709c7afe5f5dbfaa4e3e` is proven frontend-byte-identical by the deterministic tree-manifest SHA-256 recorded in `docs/VERIFICATION.md`. The affected browser E2E reassess transaction is `0x8eae0c6c2bdd890553e5145521603ef99d8d5d94c2dee4717d92c5a9b773b86e`; it is `FINALIZED`/`SUCCESS`, and the authoritative readback is `ASSESSED`, revision `4` for `privacy-ledger-vercel-20260902`.
+The exact final production frontend is deployed at `https://app-privacy-disclosure-consistency.vercel.app/` from commit `21439e6e8d2a1d88156593a943b356d1e64b48af`, with build root `frontend`, deployment `dpl_FjcSZs34J9Tuiub9WDmQCVbvjxQF`, and `VITE_CONTRACT_ADDRESS` bound to `0xfE2E4216502f12206A61a2b2103CbD1329FFb56b`. A complete browser lifecycle on record `privacy-ledger-final-e2e-20260902-r6` is recorded in `docs/VERIFICATION.md`, including all four finalized transactions, UI success/readback, and the 111-request ledger under the 541-request ceiling.
 
 For a new local frontend session, set `frontend/.env.local`:
 
