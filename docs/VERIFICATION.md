@@ -9,7 +9,7 @@ This document is the single evidence ledger for the current build revision. It i
 - Current contract source: `contracts/app_privacy_disclosure_consistency_ledger.py`
 - Current contract SHA-256: `A11100F7846517E9F3C19C6AD637B4E7F3065B82D6EC3B2E16B88FA94C9A6830`
 - Current frontend lockfile SHA-256: `73ECF77F53911D17E656528D3B7D38BBE7C70C76E0024DA2381EB2BB117DC054`
-- Git commit: not available; this folder is not currently a Git repository.
+- Git commit: `4c5286c71378b821d38b7d2e052fc8f1aab45279`
 - Network: Studionet (mandatory release network)
 - Contract address: not deployed
 - Deployment transaction: not sent

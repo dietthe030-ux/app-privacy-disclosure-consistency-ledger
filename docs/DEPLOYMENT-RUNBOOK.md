@@ -6,6 +6,7 @@ This runbook is prepared for the exact current source revision. It is not permis
 
 - Contract: `contracts/app_privacy_disclosure_consistency_ledger.py`
 - SHA-256: `A11100F7846517E9F3C19C6AD637B4E7F3065B82D6EC3B2E16B88FA94C9A6830`
+- Git commit: `4c5286c71378b821d38b7d2e052fc8f1aab45279`
 - Constructor arguments: `[]`
 - Contract methods: `create`, `freeze`, `assess`, `reassess`, `get`, `get_assessment`, `list_ids`
 
