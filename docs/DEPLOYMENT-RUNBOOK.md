@@ -43,7 +43,7 @@ Each successful write requires `FINALIZED`, current interface semantic execution
 
 ## Frontend wiring and production E2E
 
-The production frontend is deployed at `https://app-privacy-disclosure-consistency.vercel.app/` from GitHub HEAD `dcbdde0e4b1324ef0caf6de76706ce0e65be3352` with build root `frontend`, deployment `dpl_HWttkKE31LuvCWeiXxtwcTpmXtX6`, and `VITE_CONTRACT_ADDRESS` bound to `0xfE2E4216502f12206A61a2b2103CbD1329FFb56b`. The affected browser E2E reassess transaction is `0x8eae0c6c2bdd890553e5145521603ef99d8d5d94c2dee4717d92c5a9b773b86e`; it is `FINALIZED`/`SUCCESS`, and the authoritative readback is `ASSESSED`, revision `4` for `privacy-ledger-vercel-20260902`.
+The production frontend is deployed at `https://app-privacy-disclosure-consistency.vercel.app/` from approved frontend/readback commit `eb853b6688a73b5924daa7bdafdd865f02a7b8ea` with build root `frontend`, deployment `dpl_DUgox47pVXY5ycAhGdmZwMxVaUDX`, and `VITE_CONTRACT_ADDRESS` bound to `0xfE2E4216502f12206A61a2b2103CbD1329FFb56b`. The later evidence-only HEAD `5b4e92d33cbe4751d7f2709c7afe5f5dbfaa4e3e` is proven frontend-byte-identical by the deterministic tree-manifest SHA-256 recorded in `docs/VERIFICATION.md`. The affected browser E2E reassess transaction is `0x8eae0c6c2bdd890553e5145521603ef99d8d5d94c2dee4717d92c5a9b773b86e`; it is `FINALIZED`/`SUCCESS`, and the authoritative readback is `ASSESSED`, revision `4` for `privacy-ledger-vercel-20260902`.
 
 For a new local frontend session, set `frontend/.env.local`:
 
