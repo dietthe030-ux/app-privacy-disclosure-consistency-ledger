@@ -1,6 +1,6 @@
 # Deployment and recovery runbook
 
-This runbook records the exact source and the completed Studionet deployment. Its pre-deployment conditions are retained as historical gate documentation; the remaining acceptance gate is anonymous `POST_DEPLOY_TEST` review.
+This runbook records the exact source and the corrective replacement Studionet deployment. Its pre-deployment conditions are retained as historical gate documentation; the remaining acceptance gate is anonymous `POST_DEPLOY_TEST` re-review.
 
 ## Current source
 
@@ -26,7 +26,9 @@ The current official CLI guide documents this Studionet command:
 genlayer deploy --contract contracts/app_privacy_disclosure_consistency_ledger.py --rpc https://studio.genlayer.com/api
 ```
 
-The CLI was unavailable on this machine, so the approved deployment route was the Codex in-app GenLayer Studio browser. Deployment transaction: `0x6c79de4694e9584293ba1eb31b20466c85bf417c3bdc899103c7db56ac39b2f7`; contract: `0x97a005a129e0212c792CC00B20B702288c1C13EB`; both are recorded as `FINALIZED` with semantic `SUCCESS`.
+The CLI was unavailable on this machine, so the approved deployment route was the Codex in-app GenLayer Studio browser. The first frozen deployment was superseded after POST_DEPLOY found an exact-byte source mismatch caused by one additional final newline in live code. The replacement was uploaded through the Studio file chooser from the committed source file, then deployed with transaction `0xc945e31b1121c6b8c80d5e87cecd0a7cf3e6eefe921e712ebceaf9cb1d26be8e` at contract `0xfE2E4216502f12206A61a2b2103CbD1329FFb56b`; both are recorded as `FINALIZED` with semantic `SUCCESS`.
+
+Canonical `gen_getContractCode` verification for the replacement returned exactly `16072` bytes and SHA-256 `ACF89615555C2CAF2634F690661B2A53873DB5B3807F463EB34284B8181946FB`, matching the committed source byte-for-byte.
 
 ## Post-deployment matrix
 

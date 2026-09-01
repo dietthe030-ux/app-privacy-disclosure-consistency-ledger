@@ -1,6 +1,6 @@
 # Verification — Privacy Disclosure Consistency Ledger
 
-This document is the single evidence ledger for the current build revision. It is intentionally secret-free. Deployment and live testing are complete; anonymous `POST_DEPLOY_TEST` acceptance remains the current gate.
+This document is the single evidence ledger for the current build revision. It is intentionally secret-free. Corrective replacement deployment and live testing are complete; anonymous `POST_DEPLOY_TEST` re-review remains the current gate.
 
 ## Identity
 
@@ -11,8 +11,8 @@ This document is the single evidence ledger for the current build revision. It i
 - Current frontend lockfile SHA-256: `73ECF77F53911D17E656528D3B7D38BBE7C70C76E0024DA2381EB2BB117DC054`
 - Contract source commit: `5cdd176013c2a06180119f0561078fd4f4fa734f`
 - Network: Studionet (mandatory release network)
-- Contract address: `0x97a005a129e0212c792CC00B20B702288c1C13EB`
-- Deployment transaction: `0x6c79de4694e9584293ba1eb31b20466c85bf417c3bdc899103c7db56ac39b2f7` (`FINALIZED`, `SUCCESS`)
+- Contract address: `0xfE2E4216502f12206A61a2b2103CbD1329FFb56b`
+- Deployment transaction: `0xc945e31b1121c6b8c80d5e87cecd0a7cf3e6eefe921e712ebceaf9cb1d26be8e` (`FINALIZED`, `SUCCESS`)
 - Live Studio application: deployed and live-verified; frontend address wiring remains a separate release step.
 
 ## Local verification
@@ -45,8 +45,15 @@ The contract is documentary comparison only. It does not establish privacy-law c
 - Disagreement rollback evidence: Direct Mode snapshots the pre-assessment state, forces validator disagreement, reverts the transaction simulation, and verifies the record remains `FROZEN`, IDs remain unchanged, and no assessment revision exists.
 - Balance preflight: `MIN_SPENDABLE_BALANCE_WEI` is `0.01 GEN`, a documented conservative floor for this zero-value write flow; the selected provider/account is checked before session enablement and again before each write, with low-balance and threshold tests.
 - Local rendered picker inspection at `http://127.0.0.1:5173/`: the first-judge flow opened a public `Choose a wallet` dialog, showed the zero-provider message, focused `Close wallet chooser`, set the application inert attribute, and on `Escape` closed the dialog and restored focus to `Connect wallet`. No account RPC or transaction was sent.
-- Prior reviewer verdict on the superseded `7764f9d…` package: `CHANGES REQUIRED`; this revision contains the corrective delta and requires a fresh exact-package review.
+- Prior `POST_DEPLOY_TEST` verdict: `CHANGES REQUIRED` because the superseded deployment returned live source SHA-256 `BC02B9C1032D1C3D7CAA7AC43BEE12C86868072A25F1B0323B793D98697FF2E2` and 16520 bytes instead of the committed `ACF89615555C2CAF2634F690661B2A53873DB5B3807F463EB34284B8181946FB` and 16072 bytes. The frozen contract was replaced; the current package records fresh parity and fresh LIVE-01 through LIVE-04 evidence.
 - Current known warning: `genvm-lint` reports informational newer-runner notice `I200`; it is recorded and does not fail lint.
+
+## Replacement source parity
+
+- Superseded address: `0x97a005a129e0212c792CC00B20B702288c1C13EB`.
+- Replacement address: `0xfE2E4216502f12206A61a2b2103CbD1329FFb56b`.
+- Canonical `gen_getContractCode` replacement result: 16072 bytes, SHA-256 `ACF89615555C2CAF2634F690661B2A53873DB5B3807F463EB34284B8181946FB`.
+- Exact byte comparison: `True`; local source and live source are identical.
 
 ## Live proof matrix
 
@@ -54,12 +61,12 @@ The live rows below are bound to the deployed Studionet address and exact source
 
 | ID | Actor / action | Contract method | Transaction | Finalized + semantic result | Authoritative readback | Status |
 |---|---|---|---|---|---|---|
-| LIVE-01 | Publisher creates a draft record `privacy-ledger-live-20260901` | `create` | `0x70d8db9a62b614ccfabbe855b12edd5b21cf609cf7df851e02b667254c164b1f` | `FINALIZED`; `SUCCESS`; consensus reached | Finalized `get`: `state=DRAFT`, `revision=0`, `verdict=UNRESOLVED` | PASS |
-| LIVE-02 | Owner freezes the two source URLs | `freeze` | `0x72d12e8d2cadf773a1eca378488a758d5c6a4f89ccbc8d03a7e9686c361ef436` | `FINALIZED`; `SUCCESS`; consensus reached | Finalized `get`: `state=FROZEN`, `revision=0` | PASS |
-| LIVE-03 | Any user assesses frozen sources | `assess` | `0xbc67077d80b49989887443b3d2e31a5b4a32c75d5d0e2fcbc512355edaf25de2` | `FINALIZED`; `SUCCESS`; consensus reached | Finalized `get`: `state=ASSESSED`, `revision=1`; `get_assessment(1)`: `SUFFICIENT`, `NORMALIZED`, `UNRESOLVED` | PASS |
-| LIVE-04 | Any user appends a reassessment | `reassess` | `0x8a9a55465661a65428fb5fe7db5c85d3776a2689dd653caa7a72995b617a3672` | `FINALIZED`; `SUCCESS`; consensus/finality reached after leader rotation | Finalized `get`: `state=ASSESSED`, `revision=2`; `get_assessment(2)` readable and preserves revision 1 | PASS |
+| LIVE-01 | Publisher creates a draft record `privacy-ledger-replacement-20260902` | `create` | `0x3650d9bc1c4a7f12f765506c8ef98e2e415519b1e8cb7002a7b737545ce46f0c` | `FINALIZED`; `SUCCESS`; consensus reached | Finalized `get`: `state=DRAFT`, `revision=0`, `verdict=UNRESOLVED` | PASS |
+| LIVE-02 | Owner freezes the two source URLs | `freeze` | `0xb3d75441e939fd863af0a25e8ba8a3a8f1b939d26e2446551ba50dac485eb157` | `FINALIZED`; `SUCCESS`; consensus reached | Finalized `get`: `state=FROZEN`, `revision=0` | PASS |
+| LIVE-03 | Any user assesses frozen sources | `assess` | `0x80fe6c5772896b06cf651a63c6145d16aad6fc23a4e4b6462e6d1922c524d021` | `FINALIZED`; `SUCCESS`; consensus reached | Finalized `get`: `state=ASSESSED`, `revision=1`; `get_assessment(1)`: matching digests, `UNRESOLVED` | PASS |
+| LIVE-04 | Any user appends a reassessment | `reassess` | `0x5302e0a159019d19ec46391637bf7365dbd01b8986a08d2c276e65a8853d0080` | `FINALIZED`; `SUCCESS`; consensus/finality reached | Finalized `get`: `state=ASSESSED`, `revision=2`; `get_assessment(2)` readable and preserves revision 1 | PASS |
 
 ## Release blockers
 
-1. Obtain anonymous `POST_DEPLOY_TEST` approval for this exact deployed-source/evidence package.
-2. Set `VITE_CONTRACT_ADDRESS` only after the deployed address passes live smoke/readback verification (now satisfied).
+1. Obtain anonymous `POST_DEPLOY_TEST` approval for this exact replacement source/evidence package.
+2. Keep frontend/Vercel wiring separate until that approval; then set `VITE_CONTRACT_ADDRESS` to the replacement address and run the separate frontend release gates.

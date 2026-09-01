@@ -3,9 +3,9 @@
   "network": "Studionet",
   "chain_id": 61999,
   "rpc_url": "https://studio.genlayer.com/api",
-  "contract_address": "0x97a005a129e0212c792CC00B20B702288c1C13EB",
-  "explorer_url": "https://explorer-studio.genlayer.com/address/0x97a005a129e0212c792CC00B20B702288c1C13EB",
-  "deployment_transaction_hash": "0x6c79de4694e9584293ba1eb31b20466c85bf417c3bdc899103c7db56ac39b2f7",
+  "contract_address": "0xfE2E4216502f12206A61a2b2103CbD1329FFb56b",
+  "explorer_url": "https://explorer-studio.genlayer.com/address/0xfE2E4216502f12206A61a2b2103CbD1329FFb56b",
+  "deployment_transaction_hash": "0xc945e31b1121c6b8c80d5e87cecd0a7cf3e6eefe921e712ebceaf9cb1d26be8e",
   "source_file": "contracts/app_privacy_disclosure_consistency_ledger.py",
   "source_sha256": "ACF89615555C2CAF2634F690661B2A53873DB5B3807F463EB34284B8181946FB",
   "git_commit": "5cdd176013c2a06180119f0561078fd4f4fa734f",
@@ -15,16 +15,21 @@
   "linked_contracts": {},
   "configuration_transactions": [],
   "live_case": {
-    "record_id": "privacy-ledger-live-20260901",
+    "record_id": "privacy-ledger-replacement-20260902",
     "store_url": "https://www.apple.com/legal/privacy/",
     "policy_url": "https://www.apple.com/legal/privacy/",
     "platform": "ios",
     "transactions": {
-      "create": "0x70d8db9a62b614ccfabbe855b12edd5b21cf609cf7df851e02b667254c164b1f",
-      "freeze": "0x72d12e8d2cadf773a1eca378488a758d5c6a4f89ccbc8d03a7e9686c361ef436",
-      "assess": "0xbc67077d80b49989887443b3d2e31a5b4a32c75d5d0e2fcbc512355edaf25de2",
-      "reassess": "0x8a9a55465661a65428fb5fe7db5c85d3776a2689dd653caa7a72995b617a3672"
+      "create": "0x3650d9bc1c4a7f12f765506c8ef98e2e415519b1e8cb7002a7b737545ce46f0c",
+      "freeze": "0xb3d75441e939fd863af0a25e8ba8a3a8f1b939d26e2446551ba50dac485eb157",
+      "assess": "0x80fe6c5772896b06cf651a63c6145d16aad6fc23a4e4b6462e6d1922c524d021",
+      "reassess": "0x5302e0a159019d19ec46391637bf7365dbd01b8986a08d2c276e65a8853d0080"
     }
+  },
+  "superseded_deployment": {
+    "contract_address": "0x97a005a129e0212c792CC00B20B702288c1C13EB",
+    "deployment_transaction_hash": "0x6c79de4694e9584293ba1eb31b20466c85bf417c3bdc899103c7db56ac39b2f7",
+    "reason": "POST_DEPLOY source parity failed: live code contained one additional final newline; frozen contract required replacement deployment."
   },
   "recovery_notes": {
     "studio_or_local_reset": "Recover by reusing the recorded source and constructor manifest against the accessible recorded account; verify the resulting address and source before rewiring the frontend.",
