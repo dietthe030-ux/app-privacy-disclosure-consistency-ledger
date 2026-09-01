@@ -10,6 +10,7 @@ type ActionLedger = {
   polling: number;
   readback: number;
   writeSubmissions: number;
+  hash?: string;
   retries: number;
   status: "SUCCESS" | "ERROR";
 };
@@ -22,6 +23,7 @@ type TraceState = {
   providerByMethod: Record<string, number>;
   fetchByMethod: Record<string, number>;
   writeSubmissions: Record<ActionName, number>;
+  writeHashes: Record<ActionName, string[]>;
   events: TraceEvent[];
   actions: ActionLedger[];
   currentAction?: ActionName;
@@ -38,12 +40,13 @@ const state: TraceState = {
   providerByMethod: {},
   fetchByMethod: {},
   writeSubmissions: { create: 0, freeze: 0, assess: 0, reassess: 0 },
+  writeHashes: { create: [], freeze: [], assess: [], reassess: [] },
   events: [],
   actions: [],
   currentRetries: 0,
 };
 
-const pollingMethods = new Set(["gen_getTransactionStatus", "gen_getTransactionReceipt", "eth_getTransactionReceipt"]);
+const pollingMethods = new Set(["gen_getTransactionStatus", "gen_getTransactionReceipt", "eth_getTransactionReceipt", "eth_getTransactionByHash"]);
 const readMethods = new Set(["eth_call", "gen_call", "gen_getContractState", "gen_getContractCode"]);
 
 function refreshElement(): void {
@@ -90,9 +93,10 @@ export function beginAction(action: ActionName): void {
   state.currentRetries = 0;
 }
 
-export function noteWriteSubmission(action: ActionName): void {
+export function noteWriteSubmission(action: ActionName, hash: string): void {
   if (!enabled) return;
   state.writeSubmissions[action] += 1;
+  state.writeHashes[action].push(hash);
   refreshElement();
 }
 
@@ -111,6 +115,7 @@ export function endAction(action: ActionName, status: "SUCCESS" | "ERROR"): void
     polling: countFor(action, (event) => pollingMethods.has(event.method)),
     readback: countFor(action, (event) => readMethods.has(event.method)),
     writeSubmissions: state.writeSubmissions[action],
+    hash: state.writeHashes[action].at(-1),
     retries: state.currentRetries,
     status,
   });
@@ -131,6 +136,7 @@ export function snapshot(): unknown {
     providerByMethod: state.providerByMethod,
     fetchByMethod: state.fetchByMethod,
     writeSubmissions: state.writeSubmissions,
+    writeHashes: state.writeHashes,
     actions: state.actions,
     hardStopReached: state.providerTotal + state.fetchRpc >= 541,
     eventCount: state.events.length,
