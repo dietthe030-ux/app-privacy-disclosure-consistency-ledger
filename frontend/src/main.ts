@@ -343,7 +343,7 @@ function showCreateForm(): void {
 async function loadRecords(): Promise<void> {
   if (!records) return;
   if (!config) { records.innerHTML = `<div class="panel empty-state"><div><h3>Ledger is getting ready</h3><p>Records will appear here when the public ledger is connected.</p></div></div>`; return; }
-  setScreenStatus("Loading records…");
+  setScreenStatus("Loading records…", true);
   try {
     const ids = await listRecordIds();
     records.innerHTML = "";
