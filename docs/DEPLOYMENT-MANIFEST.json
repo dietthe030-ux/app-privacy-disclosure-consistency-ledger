@@ -14,6 +14,18 @@
   "deployer_or_upgrader_address": "0xeF5D2119416A2f5afa35dCFA209766EFC1BE5902",
   "linked_contracts": {},
   "configuration_transactions": [],
+  "live_case": {
+    "record_id": "privacy-ledger-live-20260901",
+    "store_url": "https://www.apple.com/legal/privacy/",
+    "policy_url": "https://www.apple.com/legal/privacy/",
+    "platform": "ios",
+    "transactions": {
+      "create": "0x70d8db9a62b614ccfabbe855b12edd5b21cf609cf7df851e02b667254c164b1f",
+      "freeze": "0x72d12e8d2cadf773a1eca378488a758d5c6a4f89ccbc8d03a7e9686c361ef436",
+      "assess": "0xbc67077d80b49989887443b3d2e31a5b4a32c75d5d0e2fcbc512355edaf25de2",
+      "reassess": "0x8a9a55465661a65428fb5fe7db5c85d3776a2689dd653caa7a72995b617a3672"
+    }
+  },
   "recovery_notes": {
     "studio_or_local_reset": "Recover by reusing the recorded source and constructor manifest against the accessible recorded account; verify the resulting address and source before rewiring the frontend.",
     "network_reset": "The old address is not assumed recoverable. Redeploy from the recorded source and manifest, rerun live tests, then update the frontend address."

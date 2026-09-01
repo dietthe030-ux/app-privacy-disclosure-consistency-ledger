@@ -11,9 +11,9 @@ This document is the single evidence ledger for the current build revision. It i
 - Current frontend lockfile SHA-256: `73ECF77F53911D17E656528D3B7D38BBE7C70C76E0024DA2381EB2BB117DC054`
 - Contract source commit: `5cdd176013c2a06180119f0561078fd4f4fa734f`
 - Network: Studionet (mandatory release network)
-- Contract address: not deployed
-- Deployment transaction: not sent
-- Live application: not deployed
+- Contract address: `0x97a005a129e0212c792CC00B20B702288c1C13EB`
+- Deployment transaction: `0x6c79de4694e9584293ba1eb31b20466c85bf417c3bdc899103c7db56ac39b2f7` (`FINALIZED`, `SUCCESS`)
+- Live Studio application: deployed and live-verified; frontend address wiring remains a separate release step.
 
 ## Local verification
 
@@ -36,8 +36,8 @@ The contract is documentary comparison only. It does not establish privacy-law c
 - Contract classification: `INTENTIONALLY FROZEN`.
 - Classification consequence: a post-deployment defect requires a replacement contract and frontend address update; no upgrade authority is advertised.
 - Studio deployer public address: `0xeF5D2119416A2f5afa35dCFA209766EFC1BE5902`.
-- Observed Studio balance at selection: `998 GEN` (sufficient for the planned small writes at selection time; recheck immediately before deployment).
-- Anonymous `PRE_DEPLOY` verdict: not requested.
+- Studio balance immediately before deployment: `998 GEN` (sufficient for the planned zero-value writes).
+- Anonymous `PRE_DEPLOY` verdict: `APPROVED` for the exact pre-deploy source package at HEAD `610495ab520aacf4d3a13ca34b6355896ab007e8`.
 - Deployment runbook: `docs/DEPLOYMENT-RUNBOOK.md`.
 - Exact current-source package: local lint/schema/Direct Mode complete; frontend local checks complete.
 - Runtime compatibility evidence: `.probe/contract_probe.py` and `tests/direct/test_contract_probe.py` record that installed GenVM `0.3.0-rc7` exposes `Response.status`; `_response_status` prefers the official `status_code` field and safely falls back to that verified installed field.
@@ -50,17 +50,16 @@ The contract is documentary comparison only. It does not establish privacy-law c
 
 ## Live proof matrix
 
-Live rows are intentionally not populated before PRE_DEPLOY authorization and deployment.
+The live rows below are bound to the deployed Studionet address and exact source hash.
 
 | ID | Actor / action | Contract method | Transaction | Finalized + semantic result | Authoritative readback | Status |
 |---|---|---|---|---|---|---|
-| LIVE-01 | Publisher creates a draft record | `create` | not sent | not applicable | not available | NOT YET CREATED |
-| LIVE-02 | Owner freezes the two source URLs | `freeze` | not sent | not applicable | not available | NOT YET CREATED |
-| LIVE-03 | Any user assesses frozen sources | `assess` | not sent | not applicable | not available | NOT YET CREATED |
-| LIVE-04 | Any user appends a reassessment | `reassess` | not sent | not applicable | not available | NOT YET CREATED |
+| LIVE-01 | Publisher creates a draft record `privacy-ledger-live-20260901` | `create` | `0x70d8db9a62b614ccfabbe855b12edd5b21cf609cf7df851e02b667254c164b1f` | `FINALIZED`; `SUCCESS`; consensus reached | Finalized `get`: `state=DRAFT`, `revision=0`, `verdict=UNRESOLVED` | PASS |
+| LIVE-02 | Owner freezes the two source URLs | `freeze` | `0x72d12e8d2cadf773a1eca378488a758d5c6a4f89ccbc8d03a7e9686c361ef436` | `FINALIZED`; `SUCCESS`; consensus reached | Finalized `get`: `state=FROZEN`, `revision=0` | PASS |
+| LIVE-03 | Any user assesses frozen sources | `assess` | `0xbc67077d80b49989887443b3d2e31a5b4a32c75d5d0e2fcbc512355edaf25de2` | `FINALIZED`; `SUCCESS`; consensus reached | Finalized `get`: `state=ASSESSED`, `revision=1`; `get_assessment(1)`: `SUFFICIENT`, `NORMALIZED`, `UNRESOLVED` | PASS |
+| LIVE-04 | Any user appends a reassessment | `reassess` | `0x8a9a55465661a65428fb5fe7db5c85d3776a2689dd653caa7a72995b617a3672` | `FINALIZED`; `SUCCESS`; consensus/finality reached after leader rotation | Finalized `get`: `state=ASSESSED`, `revision=2`; `get_assessment(2)` readable and preserves revision 1 | PASS |
 
 ## Release blockers
 
-1. Obtain anonymous `PRE_DEPLOY` approval for this exact source/evidence package.
-2. Deploy and complete the required live Studio matrix.
-3. Set `VITE_CONTRACT_ADDRESS` only after the deployed address passes live smoke/readback verification.
+1. Obtain anonymous `POST_DEPLOY_TEST` approval for this exact deployed-source/evidence package.
+2. Set `VITE_CONTRACT_ADDRESS` only after the deployed address passes live smoke/readback verification (now satisfied).
