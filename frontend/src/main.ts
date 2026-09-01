@@ -100,18 +100,26 @@ function tearDownSession(): void {
   session = undefined;
 }
 
-async function syncNetwork(): Promise<void> {
-  if (!session) return;
+async function syncNetwork(): Promise<boolean> {
+  if (!session) return false;
   const current = await providerChainId(session.provider);
   const target = `0x${studionet.id.toString(16)}`;
   if (current !== target) {
     session.writeClient = undefined;
     setNetworkStatus("Switch to GenLayer Studio network");
-    return;
+    return false;
   }
   await ensureSpendableBalance(session.provider, session.account);
   session.writeClient = createWriteClient(session.account, session.provider);
   setNetworkStatus("Connected to GenLayer Studio");
+  return true;
+}
+
+async function ensureWriteClient(): Promise<NonNullable<Session["writeClient"]>> {
+  if (!session) throw new Error("Connect a wallet before continuing.");
+  if (!session.writeClient) await syncNetwork();
+  if (!session?.writeClient) throw new Error("Switch to GenLayer Studio network before continuing.");
+  return session.writeClient;
 }
 
 function setConnectedSession(account: `0x${string}`, provider: EthereumProvider, walletLabel: string): void {
@@ -254,8 +262,8 @@ function showCreateForm(): void {
     const button = panel.querySelector<HTMLButtonElement>("button[type=submit]");
     if (button) button.disabled = true;
     try {
-      await ensureSpendableBalance(session.provider, session.account);
-      await submitWrite(session.writeClient, "create", [String(values.record_id), String(values.app_id), String(values.store_url), String(values.policy_url), String(values.platform)]);
+      const client = await ensureWriteClient();
+      await submitWrite(client, "create", [String(values.record_id), String(values.app_id), String(values.store_url), String(values.policy_url), String(values.platform)]);
       panel.remove();
       await loadRecords();
       setScreenStatus("Record created and read back from the ledger.");
@@ -316,8 +324,8 @@ function actionButton(label: string, method: string, recordId: string): HTMLButt
     button.disabled = true;
     setScreenStatus("Waiting for the network to confirm the update…");
     try {
-      await ensureSpendableBalance(session.provider, session.account);
-      await submitWrite(session.writeClient, method, [recordId]);
+      const client = await ensureWriteClient();
+      await submitWrite(client, method, [recordId]);
       await loadRecords();
       setScreenStatus("Record updated and read back from the ledger.");
     } catch (error) {

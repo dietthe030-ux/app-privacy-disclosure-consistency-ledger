@@ -34,9 +34,9 @@ type SupportedLabel = (typeof supportedLabels)[number];
 
 function labelFor(info: Partial<Eip6963Info>, provider: EthereumProvider): SupportedLabel | undefined {
   const haystack = `${info.name ?? ""} ${info.rdns ?? ""}`.toLowerCase();
-  if (haystack.includes("metamask") || provider.isMetaMask) return "MetaMask";
   if (haystack.includes("okx") || provider.isOKXWallet) return "OKX Wallet";
   if (haystack.includes("rabby") || provider.isRabby) return "Rabby";
+  if (haystack.includes("metamask") || provider.isMetaMask) return "MetaMask";
   return undefined;
 }
 

@@ -28,7 +28,7 @@ function provider(flags = {}) {
 test("discovers and deduplicates the three supported wallets without requesting accounts", async () => {
   const providers = [
     ["MetaMask", "io.metamask", provider({ isMetaMask: true })],
-    ["OKX Wallet", "com.okex.wallet", provider({ isOKXWallet: true })],
+    ["OKX Wallet", "com.okex.wallet", provider({ isOKXWallet: true, isMetaMask: true })],
     ["Rabby", "io.rabby", provider({ isRabby: true })],
   ];
   for (const [name, rdns, injected] of providers) {
@@ -159,5 +159,6 @@ test("keeps the wallet picker accessibility and selected-provider write contract
   assert.match(source, /event\.key !== \"Tab\"/);
   assert.match(source, /restoreFocus\?\.focus\(\)/);
   assert.match(source, /createWriteClient\(session\.account, session\.provider\)/);
-  assert.match(source, /submitWrite\(session\.writeClient/);
+  assert.match(source, /ensureWriteClient\(\)/);
+  assert.match(source, /submitWrite\(client/);
 });
