@@ -2,6 +2,7 @@ import "./style.css";
 import { config, createWriteClient, getRecord, listRecordIds, submitWrite } from "./ledger.ts";
 import { accountFromChange, bindProviderSession, ensureSpendableBalance, ensureStudionet, getAvailableWallets, isUserRejected, providerChainId, requestAccount, type DiscoveredWallet, type EthereumProvider } from "./wallet.ts";
 import { studionet } from "genlayer-js/chains";
+import { mountE2ETrace } from "./e2eTrace.ts";
 
 type Session = {
   account: `0x${string}`;
@@ -58,6 +59,15 @@ app.innerHTML = `
     <footer class="footer"><span>Disclosure Ledger</span><span>Public-source evidence, made inspectable.</span></footer>
   </main>
 `;
+
+if (new URLSearchParams(window.location.search).get("e2e") === "1") {
+  const trace = document.createElement("pre");
+  trace.id = "e2e-trace";
+  trace.hidden = true;
+  trace.setAttribute("aria-hidden", "true");
+  document.body.append(trace);
+  mountE2ETrace();
+}
 
 const connectButton = document.querySelector<HTMLButtonElement>("#connect-wallet");
 const createButton = document.querySelector<HTMLButtonElement>("#create-record");

@@ -1,3 +1,5 @@
+import { instrumentProvider } from "./e2eTrace.ts";
+
 export interface EthereumProvider {
   request(args: { method: string; params?: unknown[] }): Promise<unknown>;
   on?: (event: string, listener: (...args: unknown[]) => void) => void;
@@ -49,7 +51,7 @@ function addWallet(info: Eip6963Info, provider: EthereumProvider): void {
   if (!label) return;
   const providerKey = providers.get(provider as object);
   const key = providerKey ?? `uuid:${info.uuid}`;
-  const wallet = { info, provider, label };
+  const wallet = { info, provider: instrumentProvider(provider), label };
   wallets.set(key, wallet);
   providers.set(provider as object, key);
 }
@@ -57,7 +59,7 @@ function addWallet(info: Eip6963Info, provider: EthereumProvider): void {
 function legacyWallet(): DiscoveredWallet | undefined {
   const candidate = window.ethereum;
   if (!candidate) return undefined;
-  const provider = candidate as EthereumProvider;
+  const provider = instrumentProvider(candidate as EthereumProvider);
   const label = labelFor({}, provider);
   if (!label) return undefined;
   return {
