@@ -75,7 +75,7 @@ export function instrumentProvider(provider: EthereumProvider): EthereumProvider
       if (property === "request") {
         return async (args: { method: string; params?: unknown[] }) => {
           record("provider", args.method);
-          return target.request(args);
+          return Reflect.apply(target.request, target, [args]);
         };
       }
       return Reflect.get(target, property, receiver);
