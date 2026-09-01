@@ -1,6 +1,6 @@
 # Verification — Privacy Disclosure Consistency Ledger
 
-This document is the single evidence ledger for the current build revision. It is intentionally secret-free. Corrective replacement deployment and live testing are complete; anonymous `POST_DEPLOY_TEST` re-review remains the current gate.
+This document is the single evidence ledger for the current build revision. It is intentionally secret-free. Corrective replacement deployment and live testing are complete; anonymous `POST_DEPLOY_TEST` is approved for exact HEAD `c60bf028ca67d6d6bc51ce93306b9ee4986825e1`.
 
 ## Identity
 
@@ -46,6 +46,7 @@ The contract is documentary comparison only. It does not establish privacy-law c
 - Balance preflight: `MIN_SPENDABLE_BALANCE_WEI` is `0.01 GEN`, a documented conservative floor for this zero-value write flow; the selected provider/account is checked before session enablement and again before each write, with low-balance and threshold tests.
 - Local rendered picker inspection at `http://127.0.0.1:5173/`: the first-judge flow opened a public `Choose a wallet` dialog, showed the zero-provider message, focused `Close wallet chooser`, set the application inert attribute, and on `Escape` closed the dialog and restored focus to `Connect wallet`. No account RPC or transaction was sent.
 - Prior `POST_DEPLOY_TEST` verdict: `CHANGES REQUIRED` because the superseded deployment returned live source SHA-256 `BC02B9C1032D1C3D7CAA7AC43BEE12C86868072A25F1B0323B793D98697FF2E2` and 16520 bytes instead of the committed `ACF89615555C2CAF2634F690661B2A53873DB5B3807F463EB34284B8181946FB` and 16072 bytes. The frozen contract was replaced; the current package records fresh parity and fresh LIVE-01 through LIVE-04 evidence.
+- Corrective anonymous `POST_DEPLOY_TEST` verdict: `APPROVED` for exact HEAD `c60bf028ca67d6d6bc51ce93306b9ee4986825e1`.
 - Current known warning: `genvm-lint` reports informational newer-runner notice `I200`; it is recorded and does not fail lint.
 
 ## Replacement source parity
@@ -68,5 +69,5 @@ The live rows below are bound to the deployed Studionet address and exact source
 
 ## Release blockers
 
-1. Obtain anonymous `POST_DEPLOY_TEST` approval for this exact replacement source/evidence package.
-2. Keep frontend/Vercel wiring separate until that approval; then set `VITE_CONTRACT_ADDRESS` to the replacement address and run the separate frontend release gates.
+1. Keep frontend/Vercel wiring separate from the approved contract deployment.
+2. For a frontend release, set `VITE_CONTRACT_ADDRESS` to the replacement address and complete the separate frontend/Vercel release gates and E2E review.

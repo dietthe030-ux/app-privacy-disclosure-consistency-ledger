@@ -1,6 +1,6 @@
 # Deployment and recovery runbook
 
-This runbook records the exact source and the corrective replacement Studionet deployment. Its pre-deployment conditions are retained as historical gate documentation; the remaining acceptance gate is anonymous `POST_DEPLOY_TEST` re-review.
+This runbook records the exact source and the corrective replacement Studionet deployment. `POST_DEPLOY_TEST` is approved for the exact current package; frontend/Vercel release remains a separate gate.
 
 ## Current source
 

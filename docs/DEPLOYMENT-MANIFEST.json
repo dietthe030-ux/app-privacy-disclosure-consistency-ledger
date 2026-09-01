@@ -1,5 +1,7 @@
 {
   "status": "DEPLOYED_FINALIZED",
+  "post_deploy_test_verdict": "APPROVED",
+  "post_deploy_test_reviewed_head": "c60bf028ca67d6d6bc51ce93306b9ee4986825e1",
   "network": "Studionet",
   "chain_id": 61999,
   "rpc_url": "https://studio.genlayer.com/api",
