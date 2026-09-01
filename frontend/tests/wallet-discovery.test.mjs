@@ -46,6 +46,10 @@ test("requests an account only after explicit provider selection", async () => {
   assert.deepEqual(selected.calls.map((call) => call.method), ["eth_requestAccounts"]);
 });
 
+test("rejects an empty account response", async () => {
+  await assert.rejects(() => wallet.requestAccount({ request: async () => [] }), /No wallet account was returned/);
+});
+
 test("adds and retries a chain only after an unknown-chain switch error", async () => {
   const calls = [];
   let switched = false;
@@ -64,4 +68,19 @@ test("adds and retries a chain only after an unknown-chain switch error", async 
   };
   await wallet.ensureStudionet(selected, { id: 61999, name: "Genlayer Studio Network", rpcUrls: { default: { http: ["https://studio.genlayer.com/api"] } }, nativeCurrency: { name: "GEN Token", symbol: "GEN", decimals: 18 } });
   assert.deepEqual(calls.map((call) => call.method), ["eth_chainId", "wallet_switchEthereumChain", "wallet_addEthereumChain", "wallet_switchEthereumChain"]);
+});
+
+test("does not add a chain after a non-unknown switch error", async () => {
+  const calls = [];
+  const selected = {
+    request: async ({ method }) => {
+      calls.push(method);
+      if (method === "eth_chainId") return "0x1";
+      const error = new Error("user rejected switch");
+      error.code = 4001;
+      throw error;
+    },
+  };
+  await assert.rejects(() => wallet.ensureStudionet(selected, { id: 61999, name: "Genlayer Studio Network", rpcUrls: { default: { http: ["https://studio.genlayer.com/api"] } }, nativeCurrency: { name: "GEN Token", symbol: "GEN", decimals: 18 } }), (error) => error.code === 4001);
+  assert.deepEqual(calls, ["eth_chainId", "wallet_switchEthereumChain"]);
 });

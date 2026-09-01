@@ -21,7 +21,7 @@ This document is the single evidence ledger for the current build revision. It i
 |---|---|---|---|
 | L-01 | Contract lint and schema visibility | `genvm-lint check contracts/app_privacy_disclosure_consistency_ledger.py --json` | PASS; 7 methods, 3 views, 4 writes |
 | L-02 | Direct contract lifecycle and safe failure behavior | `py -3.13 -m pytest -q tests/direct/ -p no:cacheprovider` | PASS; 3 passed |
-| F-01 | Frontend wallet/provider regression | `cd frontend; npm test` | PASS; 3 passed |
+| F-01 | Frontend wallet/provider regression | `cd frontend; npm test` | PASS; 5 passed |
 | F-02 | Frontend TypeScript/Vite production build | `cd frontend; npm run build` | PASS; Vite build succeeded |
 | F-03 | Local dev entrypoint | `cd frontend; npm run dev -- --host 127.0.0.1` | PASS; HTTP 200 verified on `/` and `/src/main.ts` |
 
