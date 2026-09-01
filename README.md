@@ -4,12 +4,12 @@ A GenLayer project that records an app-store privacy disclosure and a publisher 
 
 ## Current status
 
-The contract and functional frontend pass local verification. The replacement contract is deployed and live-verified on Studionet at `0xfE2E4216502f12206A61a2b2103CbD1329FFb56b`; `POST_DEPLOY_TEST` is approved. The public frontend release is a separate pending Vercel step. See [docs/VERIFICATION.md](docs/VERIFICATION.md) for exact revision, commands, evidence, and release status.
+The contract and functional frontend pass local verification. The replacement contract is deployed and live-verified on Studionet at `0xfE2E4216502f12206A61a2b2103CbD1329FFb56b`; the production frontend is live on Vercel and its affected E2E rerun is verified. Final GitHub/Vercel and Explorer submission gates remain separate. See [docs/VERIFICATION.md](docs/VERIFICATION.md) for exact revision, commands, evidence, and release status.
 
 ## Verified links
 
 - Studionet contract: [Explorer](https://explorer-studio.genlayer.com/address/0xfE2E4216502f12206A61a2b2103CbD1329FFb56b)
-- Live frontend: pending the separately confirmed Vercel target and final browser E2E.
+- Live frontend: [Vercel production](https://app-privacy-disclosure-consistency.vercel.app/), built from the verified `frontend/` root.
 
 ## Trust problem
 
@@ -52,7 +52,7 @@ npm test
 npm run build
 ```
 
-For a live frontend, copy `frontend/.env.example` to `frontend/.env.local` and set `VITE_CONTRACT_ADDRESS` only after the Studionet deployment has passed live smoke verification.
+For a live frontend, copy `frontend/.env.example` to `frontend/.env.local` and set `VITE_CONTRACT_ADDRESS` only after the Studionet deployment has passed live smoke verification. The production artifact is separately bound to the replacement address and chain in [docs/VERIFICATION.md](docs/VERIFICATION.md).
 
 ## Tests and verification
 

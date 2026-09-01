@@ -1,6 +1,6 @@
 # Deployment and recovery runbook
 
-This runbook records the exact source and the corrective replacement Studionet deployment. `POST_DEPLOY_TEST` is approved for the exact current package; frontend/Vercel release remains a separate gate.
+This runbook records the exact source, corrective replacement Studionet deployment, and the verified production frontend. `POST_DEPLOY_TEST` and the affected Vercel E2E rerun are approved; final GitHub/Vercel and Explorer submission remain separate gates.
 
 ## Current source
 
@@ -41,9 +41,11 @@ Use one live row for each unique transition and retain failed attempts as diagno
 
 Each successful write requires `FINALIZED`, current interface semantic execution success, and authoritative readback. A submitted or finalized transaction alone is not success evidence.
 
-## Frontend wiring
+## Frontend wiring and production E2E
 
-Only after live smoke verification succeeds, set `frontend/.env.local`:
+The production frontend is deployed at `https://app-privacy-disclosure-consistency.vercel.app/` from GitHub HEAD `eb853b6688a73b5924daa7bdafdd865f02a7b8ea` with build root `frontend`, deployment `dpl_12twYFznR9xTqUFaUH4SRM9DjC63`, and `VITE_CONTRACT_ADDRESS` bound to `0xfE2E4216502f12206A61a2b2103CbD1329FFb56b`. The affected browser E2E reassess transaction is `0x8eae0c6c2bdd890553e5145521603ef99d8d5d94c2dee4717d92c5a9b773b86e`; it is `FINALIZED`/`SUCCESS`, and the authoritative readback is `ASSESSED`, revision `4` for `privacy-ledger-vercel-20260902`.
+
+For a new local frontend session, set `frontend/.env.local`:
 
 ```text
 VITE_CONTRACT_ADDRESS=<verified Studionet contract address>
