@@ -1,6 +1,6 @@
 import { createClient } from "genlayer-js";
 import { studionet } from "genlayer-js/chains";
-import { ExecutionResult, TransactionStatus } from "genlayer-js/types";
+import { TransactionStatus } from "genlayer-js/types";
 import type { EthereumProvider } from "./wallet.ts";
 import { beginAction, endAction, noteRetry, noteWriteSubmission } from "./e2eTrace.ts";
 
@@ -66,8 +66,18 @@ export async function submitWrite(client: GenLayerClient, functionName: string, 
     const hash = await client.writeContract({ address: config.address, functionName, args, value: BigInt(0) }) as `0x${string}`;
     noteWriteSubmission(action);
     onSubmitted?.(hash);
-    const receipt = await readClient.waitForTransactionReceipt({ hash: hash as never, status: TransactionStatus.FINALIZED, interval: 3000, retries: 120 });
-    if (receipt.txExecutionResultName !== ExecutionResult.FINISHED_WITH_RETURN) {
+    const receipt = await readClient.waitForTransactionReceipt({ hash: hash as never, status: TransactionStatus.FINALIZED, interval: 3000, retries: 120, fullTransaction: true });
+    const receiptFields = receipt as unknown as Record<string, unknown>;
+    const statusName = receiptFields.statusName ?? receiptFields.status_name;
+    const resultName = receiptFields.resultName ?? receiptFields.result_name;
+    const consensus = receiptFields.consensusData ?? receiptFields.consensus_data;
+    const leaderReceipts = typeof consensus === "object" && consensus !== null
+      ? (consensus as Record<string, unknown>).leaderReceipt ?? (consensus as Record<string, unknown>).leader_receipt
+      : undefined;
+    const leaderExecution = Array.isArray(leaderReceipts) && leaderReceipts.length > 0 && typeof leaderReceipts[0] === "object" && leaderReceipts[0] !== null
+      ? (leaderReceipts[0] as Record<string, unknown>).executionResult ?? (leaderReceipts[0] as Record<string, unknown>).execution_result
+      : undefined;
+    if (statusName !== "FINALIZED" || resultName !== "MAJORITY_AGREE" || leaderExecution !== "SUCCESS") {
       throw new Error("The network finalized the request without a successful contract result.");
     }
     const recordId = typeof args[0] === "string" ? args[0] : "";

@@ -29,6 +29,15 @@ export interface DiscoveredWallet {
   label: string;
 }
 
+export function normalizeChainId(value: unknown): string | undefined {
+  if (typeof value === "number" && Number.isInteger(value) && value >= 0) return `0x${value.toString(16)}`;
+  if (typeof value !== "string") return undefined;
+  const trimmed = value.trim();
+  if (/^0x[0-9a-f]+$/i.test(trimmed)) return `0x${Number.parseInt(trimmed.slice(2), 16).toString(16)}`;
+  if (/^[0-9]+$/.test(trimmed)) return `0x${Number.parseInt(trimmed, 10).toString(16)}`;
+  return undefined;
+}
+
 export type ProviderListener = (...args: unknown[]) => void;
 
 const supportedLabels = ["MetaMask", "OKX Wallet", "Rabby"] as const;
@@ -115,7 +124,7 @@ export function accountFromChange(value: unknown): `0x${string}` | undefined {
 
 export async function ensureStudionet(provider: EthereumProvider, chain: { id: number; name: string; rpcUrls: { default: { http: readonly string[] } }; nativeCurrency: { name: string; symbol: string; decimals: number }; blockExplorers?: { default: { url: string } } }): Promise<void> {
   const target = `0x${chain.id.toString(16)}`;
-  const current = await provider.request({ method: "eth_chainId" });
+  const current = normalizeChainId(await provider.request({ method: "eth_chainId" }));
   if (current !== target) {
     try {
       await provider.request({ method: "wallet_switchEthereumChain", params: [{ chainId: target }] });
@@ -129,7 +138,7 @@ export async function ensureStudionet(provider: EthereumProvider, chain: { id: n
       await provider.request({ method: "wallet_switchEthereumChain", params: [{ chainId: target }] });
     }
   }
-  const verified = await provider.request({ method: "eth_chainId" });
+  const verified = normalizeChainId(await provider.request({ method: "eth_chainId" }));
   if (verified !== target) throw new Error("Network switch did not reach GenLayer Studio network.");
 }
 

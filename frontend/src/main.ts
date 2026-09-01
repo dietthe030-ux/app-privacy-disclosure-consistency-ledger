@@ -1,6 +1,6 @@
 import "./style.css";
 import { config, createWriteClient, getRecord, listRecordIds, submitWrite } from "./ledger.ts";
-import { accountFromChange, bindProviderSession, ensureSpendableBalance, ensureStudionet, getAvailableWallets, isUserRejected, providerChainId, requestAccount, type DiscoveredWallet, type EthereumProvider } from "./wallet.ts";
+import { accountFromChange, bindProviderSession, ensureSpendableBalance, ensureStudionet, getAvailableWallets, isUserRejected, normalizeChainId, providerChainId, requestAccount, type DiscoveredWallet, type EthereumProvider } from "./wallet.ts";
 import { studionet } from "genlayer-js/chains";
 import { mountE2ETrace } from "./e2eTrace.ts";
 
@@ -175,7 +175,7 @@ async function syncNetwork(): Promise<boolean> {
   if (!session) return false;
   const current = await providerChainId(session.provider);
   const target = `0x${studionet.id.toString(16)}`;
-  if (current !== target) {
+  if (normalizeChainId(current) !== target) {
     session.writeClient = undefined;
     setNetworkStatus("Switch to GenLayer Studio network");
     return false;
