@@ -66,7 +66,8 @@ export async function submitWrite(client: GenLayerClient, functionName: string, 
     const hash = await client.writeContract({ address: config.address, functionName, args, value: BigInt(0) }) as `0x${string}`;
     noteWriteSubmission(action);
     onSubmitted?.(hash);
-    const receipt = await readClient.waitForTransactionReceipt({ hash: hash as never, status: TransactionStatus.FINALIZED, interval: 3000, retries: 120, fullTransaction: true });
+    const waitForReceipt = readClient.waitForTransactionReceipt as unknown as (options: { hash: `0x${string}`; status: TransactionStatus; interval: number; retries: number; fullTransaction: boolean }) => Promise<unknown>;
+    const receipt = await waitForReceipt({ hash: hash as `0x${string}`, status: TransactionStatus.FINALIZED, interval: 3000, retries: 120, fullTransaction: true });
     const receiptFields = receipt as unknown as Record<string, unknown>;
     const statusName = receiptFields.statusName ?? receiptFields.status_name;
     const resultName = receiptFields.resultName ?? receiptFields.result_name;
