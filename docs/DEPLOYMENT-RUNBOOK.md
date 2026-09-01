@@ -16,6 +16,8 @@ This runbook is prepared for the exact current source revision. It is not permis
 2. The selected Studio deployer public address is `0xeF5D2119416A2f5afa35dCFA209766EFC1BE5902`; recheck access and spendable balance immediately before deployment.
 3. Obtain anonymous `PRE_DEPLOY` approval for the exact source/evidence package.
 
+The frontend write preflight requires at least `0.01 GEN` from the selected external wallet before enabling or submitting a zero-value contract write. This is a conservative local floor, not a claim about production gas pricing; final transaction success still requires finality, semantic execution success and readback.
+
 ## Gated Studionet action
 
 The current official CLI guide documents this Studionet command:
