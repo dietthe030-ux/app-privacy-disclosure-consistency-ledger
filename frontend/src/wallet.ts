@@ -57,11 +57,11 @@ function legacyWallet(): DiscoveredWallet | undefined {
   if (!candidate) return undefined;
   const provider = candidate as EthereumProvider;
   const label = labelFor({}, provider);
-  const fallbackLabel = label ?? "Detected wallet";
+  if (!label) return undefined;
   return {
-    info: { uuid: "legacy", name: fallbackLabel, icon: "", rdns: "legacy" },
+    info: { uuid: "legacy", name: label, icon: "", rdns: "legacy" },
     provider,
-    label: fallbackLabel,
+    label,
   };
 }
 
@@ -107,20 +107,30 @@ export async function requestAccount(provider: EthereumProvider): Promise<`0x${s
 export async function ensureStudionet(provider: EthereumProvider, chain: { id: number; name: string; rpcUrls: { default: { http: readonly string[] } }; nativeCurrency: { name: string; symbol: string; decimals: number }; blockExplorers?: { default: { url: string } } }): Promise<void> {
   const target = `0x${chain.id.toString(16)}`;
   const current = await provider.request({ method: "eth_chainId" });
-  if (current === target) return;
-  try {
-    await provider.request({ method: "wallet_switchEthereumChain", params: [{ chainId: target }] });
-  } catch (error) {
-    const code = typeof error === "object" && error !== null && "code" in error ? (error as { code?: number }).code : undefined;
-    if (code !== 4902) throw error;
-    await provider.request({
-      method: "wallet_addEthereumChain",
-      params: [{ chainId: target, chainName: chain.name, rpcUrls: chain.rpcUrls.default.http, nativeCurrency: chain.nativeCurrency, blockExplorerUrls: chain.blockExplorers ? [chain.blockExplorers.default.url] : [] }],
-    });
-    await provider.request({ method: "wallet_switchEthereumChain", params: [{ chainId: target }] });
+  if (current !== target) {
+    try {
+      await provider.request({ method: "wallet_switchEthereumChain", params: [{ chainId: target }] });
+    } catch (error) {
+      const code = typeof error === "object" && error !== null && "code" in error ? (error as { code?: number }).code : undefined;
+      if (code !== 4902) throw error;
+      await provider.request({
+        method: "wallet_addEthereumChain",
+        params: [{ chainId: target, chainName: chain.name, rpcUrls: chain.rpcUrls.default.http, nativeCurrency: chain.nativeCurrency, blockExplorerUrls: chain.blockExplorers ? [chain.blockExplorers.default.url] : [] }],
+      });
+      await provider.request({ method: "wallet_switchEthereumChain", params: [{ chainId: target }] });
+    }
   }
+  const verified = await provider.request({ method: "eth_chainId" });
+  if (verified !== target) throw new Error("Network switch did not reach GenLayer Studio network.");
 }
 
 export function providerChainId(provider: EthereumProvider): Promise<unknown> {
   return provider.request({ method: "eth_chainId" });
+}
+
+export async function ensureSpendableBalance(provider: EthereumProvider, account: `0x${string}`): Promise<void> {
+  const result = await provider.request({ method: "eth_getBalance", params: [account, "latest"] });
+  if (typeof result !== "string" || BigInt(result) <= 0n) {
+    throw new Error("Wallet has no spendable GEN balance.");
+  }
 }

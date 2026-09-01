@@ -56,7 +56,7 @@ test("adds and retries a chain only after an unknown-chain switch error", async 
   const selected = {
     request: async ({ method, params }) => {
       calls.push({ method, params });
-      if (method === "eth_chainId") return switched ? "0xf1cf" : "0x1";
+      if (method === "eth_chainId") return switched ? "0xf22f" : "0x1";
       if (method === "wallet_switchEthereumChain" && !switched) {
         const error = new Error("unknown chain");
         error.code = 4902;
@@ -67,7 +67,7 @@ test("adds and retries a chain only after an unknown-chain switch error", async 
     },
   };
   await wallet.ensureStudionet(selected, { id: 61999, name: "Genlayer Studio Network", rpcUrls: { default: { http: ["https://studio.genlayer.com/api"] } }, nativeCurrency: { name: "GEN Token", symbol: "GEN", decimals: 18 } });
-  assert.deepEqual(calls.map((call) => call.method), ["eth_chainId", "wallet_switchEthereumChain", "wallet_addEthereumChain", "wallet_switchEthereumChain"]);
+  assert.deepEqual(calls.map((call) => call.method), ["eth_chainId", "wallet_switchEthereumChain", "wallet_addEthereumChain", "wallet_switchEthereumChain", "eth_chainId"]);
 });
 
 test("does not add a chain after a non-unknown switch error", async () => {
@@ -83,4 +83,31 @@ test("does not add a chain after a non-unknown switch error", async () => {
   };
   await assert.rejects(() => wallet.ensureStudionet(selected, { id: 61999, name: "Genlayer Studio Network", rpcUrls: { default: { http: ["https://studio.genlayer.com/api"] } }, nativeCurrency: { name: "GEN Token", symbol: "GEN", decimals: 18 } }), (error) => error.code === 4001);
   assert.deepEqual(calls, ["eth_chainId", "wallet_switchEthereumChain"]);
+});
+
+test("does not expose an unknown legacy provider", async () => {
+  window.ethereum = provider();
+  const freshWallet = await import(`../src/wallet.ts?legacy-unknown=${Date.now()}`);
+  assert.deepEqual(await freshWallet.getAvailableWallets(), []);
+  window.ethereum = undefined;
+});
+
+test("rejects a wallet with no spendable GEN balance", async () => {
+  const selected = { request: async ({ method }) => method === "eth_getBalance" ? "0x0" : null };
+  await assert.rejects(
+    () => wallet.ensureSpendableBalance(selected, "0x1111111111111111111111111111111111111111"),
+    /no spendable GEN balance/,
+  );
+});
+
+test("accepts a positive balance from the selected provider", async () => {
+  const calls = [];
+  const selected = {
+    request: async ({ method, params }) => {
+      calls.push({ method, params });
+      return method === "eth_getBalance" ? "0x1" : null;
+    },
+  };
+  await wallet.ensureSpendableBalance(selected, "0x1111111111111111111111111111111111111111");
+  assert.deepEqual(calls, [{ method: "eth_getBalance", params: ["0x1111111111111111111111111111111111111111", "latest"] }]);
 });

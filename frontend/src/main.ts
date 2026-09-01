@@ -1,6 +1,6 @@
 import "./style.css";
 import { config, createWriteClient, getRecord, listRecordIds, submitWrite } from "./ledger.ts";
-import { ensureStudionet, getAvailableWallets, isUserRejected, providerChainId, requestAccount, type DiscoveredWallet, type EthereumProvider } from "./wallet.ts";
+import { ensureSpendableBalance, ensureStudionet, getAvailableWallets, isUserRejected, providerChainId, requestAccount, type DiscoveredWallet, type EthereumProvider } from "./wallet.ts";
 import { studionet } from "genlayer-js/chains";
 
 type Session = {
@@ -109,6 +109,7 @@ async function syncNetwork(): Promise<void> {
     setNetworkStatus("Switch to GenLayer Studio network");
     return;
   }
+  await ensureSpendableBalance(session.provider, session.account);
   session.writeClient = createWriteClient(session.account, session.provider);
   setNetworkStatus("Connected to GenLayer Studio");
 }
@@ -130,11 +131,12 @@ function setConnectedSession(account: `0x${string}`, provider: EthereumProvider,
     }
   };
   const chainListener = (): void => { void syncNetwork().catch(() => setNetworkStatus("Network connection needs attention")); };
-  session = { account, provider, walletLabel, writeClient: createWriteClient(account, provider), accountListener, chainListener };
+  session = { account, provider, walletLabel, writeClient: undefined, accountListener, chainListener };
   provider.on?.("accountsChanged", accountListener);
   provider.on?.("chainChanged", chainListener);
   if (connectButton) connectButton.textContent = "Switch wallet";
-  setNetworkStatus("Connected to GenLayer Studio");
+  setNetworkStatus("Checking wallet connection…");
+  void syncNetwork().catch(() => setNetworkStatus("Wallet balance or network needs attention"));
 }
 
 function closeModal(modal: HTMLDivElement): void {
@@ -166,13 +168,33 @@ function showWalletPicker(walletOptions: DiscoveredWallet[]): void {
       const button = document.createElement("button");
       button.className = "wallet-option";
       button.type = "button";
-      button.innerHTML = `<span class="wallet-mark" aria-hidden="true">${walletMark(wallet.label)}</span><span>${wallet.label}</span><span class="option-arrow" aria-hidden="true">→</span>`;
+      const icon = document.createElement("span");
+      icon.className = "wallet-mark";
+      icon.setAttribute("aria-hidden", "true");
+      if (/^(data:image\/|https:\/\/)/i.test(wallet.info.icon)) {
+        const image = document.createElement("img");
+        image.src = wallet.info.icon;
+        image.alt = "";
+        image.width = 28;
+        image.height = 28;
+        icon.replaceChildren(image);
+      } else {
+        icon.textContent = walletMark(wallet.label);
+      }
+      const label = document.createElement("span");
+      label.textContent = wallet.label;
+      const arrow = document.createElement("span");
+      arrow.className = "option-arrow";
+      arrow.setAttribute("aria-hidden", "true");
+      arrow.textContent = "→";
+      button.append(icon, label, arrow);
       button.addEventListener("click", async () => {
         button.disabled = true;
         if (error) error.hidden = true;
         try {
           const account = await requestAccount(wallet.provider);
           await ensureStudionet(wallet.provider, studionet);
+          await ensureSpendableBalance(wallet.provider, account);
           setConnectedSession(account, wallet.provider, wallet.label);
           closeModal(modal);
           setScreenStatus(`${wallet.label} is connected. You can now create or update a record.`);
@@ -233,6 +255,7 @@ function showCreateForm(): void {
     const button = panel.querySelector<HTMLButtonElement>("button[type=submit]");
     if (button) button.disabled = true;
     try {
+      await ensureSpendableBalance(session.provider, session.account);
       await submitWrite(session.writeClient, "create", [String(values.record_id), String(values.app_id), String(values.store_url), String(values.policy_url), String(values.platform)]);
       panel.remove();
       await loadRecords();
@@ -294,6 +317,7 @@ function actionButton(label: string, method: string, recordId: string): HTMLButt
     button.disabled = true;
     setScreenStatus("Waiting for the network to confirm the update…");
     try {
+      await ensureSpendableBalance(session.provider, session.account);
       await submitWrite(session.writeClient, method, [recordId]);
       await loadRecords();
       setScreenStatus("Record updated and read back from the ledger.");
