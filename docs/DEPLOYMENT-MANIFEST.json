@@ -47,6 +47,22 @@
     "deployment_id": "dpl_FjcSZs34J9Tuiub9WDmQCVbvjxQF",
     "deployment_url": "https://app-privacy-disclosure-consistency-ledger-255wf7epg.vercel.app",
     "production_alias": "https://app-privacy-disclosure-consistency.vercel.app/",
+    "secondary_alias": "https://app-privacy-consistency.vercel.app/",
+    "alias_routing_verification": {
+      "ready_deployment": "dpl_FjcSZs34J9Tuiub9WDmQCVbvjxQF",
+      "deployment_url_http_status": 200,
+      "production_alias_http_status": 200,
+      "secondary_alias_http_status": 200,
+      "production_alias_e2e_http_status": 200,
+      "secondary_alias_e2e_http_status": 200,
+      "verified_x_vercel_ids": [
+        "hkg1::mzfkh-1788353260536-6976aa28ba75",
+        "hkg1::8rchf-1788353260704-af9e3efbdeab",
+        "hkg1::wfrv2-1788353260830-64e6fbda1155",
+        "hkg1::qnfmq-1788353260950-4954c33f488f"
+      ],
+      "note": "The secondary alias was added to the same READY deployment after an independent probe used the shortened hostname and received DEPLOYMENT_NOT_FOUND. Both aliases now resolve to the exact deployment."
+    },
     "bundle_asset": "/assets/index-CO7d9rP0.js",
     "bundle_bytes": 545492,
     "bundle_sha256": "FF1F2EBF544224A567D405763C19120FF207E0C5A975E4AFEF42B68EE2E763F0",
@@ -57,31 +73,32 @@
     "browser_wallet": "OKX Wallet",
     "browser_sender": "0xBf90Af1bc61314775d57B641b89c1f702a93b40D",
     "sender_differs_from_studio_deployer": true,
-    "e2e_record_id": "privacy-ledger-final-e2e-20260902-r6",
+    "e2e_alias_used": "https://app-privacy-consistency.vercel.app/?e2e=1",
+    "e2e_record_id": "privacy-ledger-final-e2e-20260902-r7",
     "e2e_transactions": {
-      "create": "0xbe3d2b49d5dcbad82023feecd6642b88d0ce17a41ecea13748de457f6e0d6905",
-      "freeze": "0x37e82a6b3ea1e6a842a94bdf9b84e02b6be00e7b58fa2902d9dbdb3e9ab8a3a2",
-      "assess": "0x95990ae4dcb28efcbe70f6de7f48e26b015dcdccafbe3b286f0ada220905485a",
-      "reassess": "0xf5c32acca90359eba8a80da60aea5dfb5b999c2e96dc063dd8adc2b36da4eb94"
+      "create": "0xc3b00955f1bf9ccae9de3188eb3eefab1820f449539653c7d1480de5883d2cf6",
+      "freeze": "0x8e12320084eb09b269c6f4ae44e707b0b48ef777bb8de55673db4f2901646828",
+      "assess": "0xd47a69b832330909e0e6fb42d85a8d71e3372e260d48a57cc5d682f1c231576b",
+      "reassess": "0xf777903d1eea25038aeac8643e2bd975f819c8484182cc8b65e25de7fa1ddfb2"
     },
     "e2e_ui_results": {
-      "create": "SUCCESS; finalized UI confirmation and authoritative readback",
-      "freeze": "SUCCESS; finalized UI confirmation and authoritative readback",
-      "assess": "SUCCESS; finalized UI confirmation and authoritative readback",
-      "reassess": "SUCCESS; finalized UI confirmation and authoritative readback"
+      "create": "SUCCESS; FINALIZED UI confirmation and authoritative readback on the secondary alias",
+      "freeze": "SUCCESS; FINALIZED UI confirmation and authoritative readback on the secondary alias",
+      "assess": "SUCCESS; FINALIZED UI confirmation and authoritative readback on the secondary alias",
+      "reassess": "SUCCESS; FINALIZED UI confirmation and authoritative readback on the secondary alias"
     },
     "e2e_request_ledger": {
       "ceiling": 541,
-      "whole_run_requests": 111,
-      "provider_requests": 10,
-      "page_fetch_rpc_requests": 101,
-      "provider_by_method": {"eth_requestAccounts": 1, "eth_chainId": 3, "eth_getBalance": 2, "eth_sendTransaction": 4},
-      "fetch_by_method": {"gen_call": 38, "eth_getTransactionCount": 4, "eth_estimateGas": 4, "eth_gasPrice": 4, "eth_getTransactionByHash": 51},
+      "whole_run_requests": 123,
+      "provider_requests": 11,
+      "page_fetch_rpc_requests": 112,
+      "provider_by_method": {"eth_requestAccounts": 2, "eth_chainId": 3, "eth_getBalance": 2, "eth_sendTransaction": 4},
+      "fetch_by_method": {"gen_call": 43, "eth_getTransactionCount": 4, "eth_estimateGas": 4, "eth_gasPrice": 4, "eth_getTransactionByHash": 57},
       "per_write": {
         "create": {"requests": 16, "polling": 11, "readback": 1, "write_submissions": 1, "retries": 0},
         "freeze": {"requests": 16, "polling": 11, "readback": 1, "write_submissions": 1, "retries": 0},
         "assess": {"requests": 21, "polling": 16, "readback": 1, "write_submissions": 1, "retries": 0},
-        "reassess": {"requests": 18, "polling": 13, "readback": 1, "write_submissions": 1, "retries": 0}
+        "reassess": {"requests": 24, "polling": 19, "readback": 1, "write_submissions": 1, "retries": 0}
       },
       "duplicate_writes": false,
       "hard_stop_reached": false
@@ -91,7 +108,11 @@
     "e2e_authoritative_assessment_1_readable": true,
     "e2e_authoritative_assessment_2_readable": true,
     "e2e_authoritative_digest_equality": true,
-    "e2e_authoritative_verdict": "UNRESOLVED"
+    "e2e_authoritative_verdict": "UNRESOLVED",
+    "e2e_authoritative_assessment_1_digest_store": "2d3eebbcb618c9b79217b5c54e90ea8b966facafb0ea78e30e0c0eb8fa5a5e76",
+    "e2e_authoritative_assessment_1_digest_policy": "3d2c8c276b6ac1c8bf282790f30a5b0ef96594afc72ef91a1bc988f89e04736a",
+    "e2e_authoritative_assessment_2_digest_store": "2d3eebbcb618c9b79217b5c54e90ea8b966facafb0ea78e30e0c0eb8fa5a5e76",
+    "e2e_authoritative_assessment_2_digest_policy": "3d2c8c276b6ac1c8bf282790f30a5b0ef96594afc72ef91a1bc988f89e04736a"
   },
   "secrets_included": false
 }

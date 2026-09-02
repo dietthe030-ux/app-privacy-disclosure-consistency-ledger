@@ -9,7 +9,7 @@ The contract and functional frontend pass local verification. The replacement co
 ## Verified links
 
 - Studionet contract: [Explorer](https://explorer-studio.genlayer.com/address/0xfE2E4216502f12206A61a2b2103CbD1329FFb56b)
-- Live frontend: [Vercel production](https://app-privacy-disclosure-consistency.vercel.app/), built from the verified `frontend/` root.
+- Live frontend: [Vercel production](https://app-privacy-disclosure-consistency.vercel.app/), with the verified `frontend/` root. Compatibility alias: [app-privacy-consistency.vercel.app](https://app-privacy-consistency.vercel.app/); both resolve to the same READY deployment.
 
 ## Trust problem
 

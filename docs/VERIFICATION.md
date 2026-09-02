@@ -14,7 +14,7 @@ This document is the single evidence ledger for the current build revision. It i
 - Network: Studionet (mandatory release network)
 - Contract address: `0xfE2E4216502f12206A61a2b2103CbD1329FFb56b`
 - Deployment transaction: `0xc945e31b1121c6b8c80d5e87cecd0a7cf3e6eefe921e712ebceaf9cb1d26be8e` (`FINALIZED`, `SUCCESS`)
-- Live Studio application: deployed and live-verified. Production frontend is deployed at `https://app-privacy-disclosure-consistency.vercel.app/`; final Explorer submission remains separate.
+- Live Studio application: deployed and live-verified. Production frontend is deployed at `https://app-privacy-disclosure-consistency.vercel.app/`; the shortened compatibility alias `https://app-privacy-consistency.vercel.app/` is bound to the same READY deployment; final Explorer submission remains separate.
 
 ## Local verification
 
@@ -71,20 +71,20 @@ The live rows below are bound to the deployed Studionet address and exact source
 
 ## Exact-final Vercel E2E lifecycle
 
-The exact final production alias is `https://app-privacy-disclosure-consistency.vercel.app/`. Deployment `dpl_FjcSZs34J9Tuiub9WDmQCVbvjxQF` is `READY`, has `gitCommitSha=21439e6e8d2a1d88156593a943b356d1e64b48af`, uses build root `frontend`, and serves `https://app-privacy-disclosure-consistency-ledger-255wf7epg.vercel.app`. The bundle is `/assets/index-CO7d9rP0.js`, 545492 bytes, SHA-256 `FF1F2EBF544224A567D405763C19120FF207E0C5A975E4AFEF42B68EE2E763F0`; it contains the replacement contract address, transaction evidence UI, progress spinner, and bounded readback path, while the superseded address is absent.
+The exact final production alias is `https://app-privacy-disclosure-consistency.vercel.app/`. Deployment `dpl_FjcSZs34J9Tuiub9WDmQCVbvjxQF` is `READY`, has `gitCommitSha=21439e6e8d2a1d88156593a943b356d1e64b48af`, uses build root `frontend`, and serves `https://app-privacy-disclosure-consistency-ledger-255wf7epg.vercel.app`. The shortened compatibility alias `https://app-privacy-consistency.vercel.app/` was added to this same deployment after an independent probe of that hostname returned `DEPLOYMENT_NOT_FOUND`; fresh probes now return HTTP `200` for both aliases and both `?e2e=1` variants. The bundle is `/assets/index-CO7d9rP0.js`, 545492 bytes, SHA-256 `FF1F2EBF544224A567D405763C19120FF207E0C5A975E4AFEF42B68EE2E763F0`; it contains the replacement contract address, transaction evidence UI, progress spinner, and bounded readback path, while the superseded address is absent.
 
 The deployment metadata source commit is the exact pushed frontend source commit. Any later evidence-only documentation commit does not alter `frontend/`, so the deployment/source relationship remains explicit and auditable.
 
-The fresh browser run used OKX Wallet account `0xBf90Af1bc61314775d57B641b89c1f702a93b40D`, which differs from the locked Studio deployer `0xeF5D2119416A2f5afa35dCFA209766EFC1BE5902`. It used fresh record `privacy-ledger-final-e2e-20260902-r6`, exact final alias, chain `61999`, and the public Apple disclosure/policy URLs.
+The fresh browser run used OKX Wallet account `0xBf90Af1bc61314775d57B641b89c1f702a93b40D`, which differs from the locked Studio deployer `0xeF5D2119416A2f5afa35dCFA209766EFC1BE5902`. It used fresh record `privacy-ledger-final-e2e-20260902-r7` on the restored shortened alias `https://app-privacy-consistency.vercel.app/?e2e=1`, chain `61999`, and the public Apple disclosure/policy URLs.
 
 | Final UI E2E | Transaction | Finality and semantic result | Browser UI result | Authoritative readback |
 |---|---|---|---|---|
-| Create draft | `0xbe3d2b49d5dcbad82023feecd6642b88d0ce17a41ecea13748de457f6e0d6905` | `FINALIZED`; Explorer `SUCCESS`; `MAJORITY_AGREE` | Hash shown; finalized confirmation; record read back | `state=DRAFT`, `revision=0` |
-| Freeze sources | `0x37e82a6b3ea1e6a842a94bdf9b84e02b6be00e7b58fa2902d9dbdb3e9ab8a3a2` | `FINALIZED`; Explorer `SUCCESS`; `MAJORITY_AGREE` | Hash shown; finalized confirmation; record read back | `state=FROZEN`, `revision=0` |
-| Assess | `0x95990ae4dcb28efcbe70f6de7f48e26b015dcdccafbe3b286f0ada220905485a` | `FINALIZED`; Explorer `SUCCESS`; `MAJORITY_AGREE` | Hash shown; finalized confirmation; record read back | `state=ASSESSED`, `revision=1` |
-| Reassess | `0xf5c32acca90359eba8a80da60aea5dfb5b999c2e96dc063dd8adc2b36da4eb94` | `FINALIZED`; Explorer `SUCCESS`; `MAJORITY_AGREE` | Hash shown; finalized confirmation; record read back | `state=ASSESSED`, `revision=2` |
+| Create draft | `0xc3b00955f1bf9ccae9de3188eb3eefab1820f449539653c7d1480de5883d2cf6` | `FINALIZED`; `MAJORITY_AGREE`; leader execution `SUCCESS` | Hash shown; finalized confirmation; record read back | `state=DRAFT`, `revision=0` |
+| Freeze sources | `0x8e12320084eb09b269c6f4ae44e707b0b48ef777bb8de55673db4f2901646828` | `FINALIZED`; `MAJORITY_AGREE`; leader execution `SUCCESS` | Hash shown; finalized confirmation; record read back | `state=FROZEN`, `revision=0` |
+| Assess | `0xd47a69b832330909e0e6fb42d85a8d71e3372e260d48a57cc5d682f1c231576b` | `FINALIZED`; `MAJORITY_AGREE`; leader execution `SUCCESS` | Hash shown; finalized confirmation; record read back | `state=ASSESSED`, `revision=1` |
+| Reassess | `0xf777903d1eea25038aeac8643e2bd975f819c8484182cc8b65e25de7fa1ddfb2` | `FINALIZED`; `MAJORITY_AGREE`; leader execution `SUCCESS` | Hash shown; finalized confirmation; record read back | `state=ASSESSED`, `revision=2` |
 
-Authoritative GenLayerJS reads confirm the final record is `ASSESSED`, revision `2`, verdict `UNRESOLVED`; `get_assessment(1)` and `get_assessment(2)` are both readable, and both revisions retain equal store digest `2d3eebbcb618c9b79217b5c54e90ea8b966facafb0ea78e30e0c0eb8fa5a5e76` and policy digest `3d2c8c276b6ac1c8bf282790f30a5b0ef96594afc72ef91a1bc988f89e04736a`. No duplicate write was sent.
+Authoritative GenLayerJS reads confirm the final record is `ASSESSED`, revision `2`, verdict `UNRESOLVED`; `get_assessment(1)` and `get_assessment(2)` are both readable, and both revisions retain equal store digest `2d3eebbcb618c9b79217b5c54e90ea8b966facafb0ea78e30e0c0eb8fa5a5e76` and policy digest `3d2c8c276b6ac1c8bf282790f30a5b0ef96594afc72ef91a1bc988f89e04736a`. All four receipts independently report `FINALIZED`, `MAJORITY_AGREE`, matching sender/recipient, and leader execution `SUCCESS`. No duplicate write was sent.
 
 ### Request-count ledger
 
@@ -95,10 +95,10 @@ Instrumentation ran inside the deployed frontend only when `?e2e=1` was present.
 | Create | 16 | 11 | 1 | 1 | 0 |
 | Freeze | 16 | 11 | 1 | 1 | 0 |
 | Assess | 21 | 16 | 1 | 1 | 0 |
-| Reassess | 18 | 13 | 1 | 1 | 0 |
-| Whole run | **111** | — | — | **4** | **0** |
+| Reassess | 24 | 19 | 1 | 1 | 0 |
+| Whole run | **123** | — | — | **4** | **0** |
 
-Whole-run breakdown: provider `10` (`eth_requestAccounts=1`, `eth_chainId=3`, `eth_getBalance=2`, `eth_sendTransaction=4`) plus page JSON-RPC fetch `101` (`gen_call=38`, `eth_getTransactionCount=4`, `eth_estimateGas=4`, `eth_gasPrice=4`, `eth_getTransactionByHash=51`). The four write hashes are unique; no write retry or duplicate submission occurred.
+Whole-run breakdown: provider `11` (`eth_requestAccounts=2`, `eth_chainId=3`, `eth_getBalance=2`, `eth_sendTransaction=4`) plus page JSON-RPC fetch `112` (`gen_call=43`, `eth_getTransactionCount=4`, `eth_estimateGas=4`, `eth_gasPrice=4`, `eth_getTransactionByHash=57`). The four write hashes are unique; no write retry or duplicate submission occurred. The run remained below the hard ceiling of `541`.
 
 ## Release blockers
 

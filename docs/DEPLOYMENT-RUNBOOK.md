@@ -43,7 +43,7 @@ Each successful write requires `FINALIZED`, current interface semantic execution
 
 ## Frontend wiring and production E2E
 
-The exact final production frontend is deployed at `https://app-privacy-disclosure-consistency.vercel.app/` from commit `21439e6e8d2a1d88156593a943b356d1e64b48af`, with build root `frontend`, deployment `dpl_FjcSZs34J9Tuiub9WDmQCVbvjxQF`, and `VITE_CONTRACT_ADDRESS` bound to `0xfE2E4216502f12206A61a2b2103CbD1329FFb56b`. A complete browser lifecycle on record `privacy-ledger-final-e2e-20260902-r6` is recorded in `docs/VERIFICATION.md`, including all four finalized transactions, UI success/readback, and the 111-request ledger under the 541-request ceiling.
+The exact final production frontend is deployed at `https://app-privacy-disclosure-consistency.vercel.app/` from commit `21439e6e8d2a1d88156593a943b356d1e64b48af`, with build root `frontend`, deployment `dpl_FjcSZs34J9Tuiub9WDmQCVbvjxQF`, and `VITE_CONTRACT_ADDRESS` bound to `0xfE2E4216502f12206A61a2b2103CbD1329FFb56b`. The shortened compatibility alias `https://app-privacy-consistency.vercel.app/` is also bound to that same READY deployment; fresh probes return HTTP `200` for both aliases and their `?e2e=1` URLs. A complete browser lifecycle on record `privacy-ledger-final-e2e-20260902-r7` is recorded in `docs/VERIFICATION.md`, including all four finalized transactions, UI success/readback, and the 123-request ledger under the 541-request ceiling.
 
 For a new local frontend session, set `frontend/.env.local`:
 
