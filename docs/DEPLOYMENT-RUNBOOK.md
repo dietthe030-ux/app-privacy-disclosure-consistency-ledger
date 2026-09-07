@@ -5,8 +5,8 @@ This runbook separates the steward-requested corrected candidate from the histor
 ## Current source
 
 - Contract: `contracts/app_privacy_disclosure_consistency_ledger.py`
-- SHA-256: `954320F1C0C207A0B1D8DC6216F9C5699CBD81844B95551558D489FDEAD5A245`
-- Contract source commit: `7ee314b85c767f6df2715aee2e4ce20ad626b8a7`
+- SHA-256: `52D1AC728F8156FFB05FF58B194E653346BE063B134111B33F1EDA7B3514FD31`
+- Contract source commit: `9d41100528516c7d430e738ec0ecd69fc8d15418`
 - Constructor arguments: `[]`
 - Contract methods: `create`, `freeze`, `assess`, `reassess`, `get`, `get_assessment`, `list_ids`
 
@@ -30,7 +30,7 @@ genlayer deploy --contract contracts/app_privacy_disclosure_consistency_ledger.p
 
 The CLI was unavailable on this machine, so the intended deployment route remains the Codex-controlled GenLayer Studio browser. Do not overwrite or present the old address as current. After approval, upload the exact committed candidate source and deploy a new intentionally frozen contract.
 
-After deployment, canonical `gen_getContractCode` must return bytes exactly equal to the corrected committed source and SHA-256 `954320F1C0C207A0B1D8DC6216F9C5699CBD81844B95551558D489FDEAD5A245`. Any mismatch requires another replacement; documentation cannot waive byte parity.
+After deployment, canonical `gen_getContractCode` must return bytes exactly equal to the corrected committed source and SHA-256 `52D1AC728F8156FFB05FF58B194E653346BE063B134111B33F1EDA7B3514FD31`. Any mismatch requires another replacement; documentation cannot waive byte parity.
 
 ## Post-deployment matrix
 
