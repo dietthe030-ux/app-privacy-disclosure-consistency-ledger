@@ -1,7 +1,7 @@
 {
   "status": "CORRECTION_PENDING_PRE_DEPLOY",
   "current_candidate": {
-    "source_sha256": "52D1AC728F8156FFB05FF58B194E653346BE063B134111B33F1EDA7B3514FD31",
+    "source_sha256": "C475DF6EF49A4EE4984CFD98A1664E50D3577AEE1B5D98899253917CA6F897AA",
     "deployment_status": "NOT_DEPLOYED",
     "reason": "Steward-requested source binding, immutable evidence snapshots, complete get_assessment history and frontend history display require a replacement deployment."
   },
@@ -15,10 +15,10 @@
   "explorer_url": null,
   "deployment_transaction_hash": null,
   "source_file": "contracts/app_privacy_disclosure_consistency_ledger.py",
-  "source_sha256": "52D1AC728F8156FFB05FF58B194E653346BE063B134111B33F1EDA7B3514FD31",
-  "git_commit": "9d41100528516c7d430e738ec0ecd69fc8d15418",
+  "source_sha256": "C475DF6EF49A4EE4984CFD98A1664E50D3577AEE1B5D98899253917CA6F897AA",
+  "git_commit": "e63d5eaa816f8dfa79e069f6e30291885555565e",
   "constructor_args": [],
-  "classification": "INTENTIONALLY FROZEN",
+  "classification": "UPGRADABLE",
   "deployer_or_upgrader_address": "0xeF5D2119416A2f5afa35dCFA209766EFC1BE5902",
   "linked_contracts": {},
   "configuration_transactions": [],

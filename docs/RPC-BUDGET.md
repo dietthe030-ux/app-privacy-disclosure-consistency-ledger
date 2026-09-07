@@ -27,7 +27,7 @@ No Studio page, deployment, transaction or live E2E action for the corrected can
 | Row | Trigger | Observable action | Max actions | Poll interval / attempts | Terminal condition | Terminal receipt reads | Authoritative readbacks | Transactions | Retry / stop rule |
 |---|---|---|---:|---|---|---:|---:|---:|---|
 | S-01 | Before Studio opens | Verify chain, selected deployer and balance | 3 | none | chain 61999, locked account and sufficient balance | 0 | 0 | 0 | stop on identity/network mismatch |
-| S-02 | Candidate load | Upload exact committed source and inspect discovered schema | 2 | none | 7 methods: 3 views and 4 writes | 0 | 0 | 0 | no reload unless deterministic upload failure is corrected |
+| S-02 | Candidate load | Upload exact committed source and inspect discovered schema | 2 | none | 8 methods: 3 views and 5 writes | 0 | 0 | 0 | no reload unless deterministic upload failure is corrected |
 | S-03 | One approved deployment | Submit replacement deployment | 1 | 5 seconds / 36 | finalized or terminal failure | 1 | 1 source-code read | 1 | never deploy again without reconciling existing hash/address |
 | S-04 | Fresh lifecycle record | Submit `create` | 1 | 5 seconds / 36 | finalized or terminal failure | 1 | 1 `get` | 1 | never resubmit same record ID |
 | S-05 | Created record | Submit `freeze` | 1 | 5 seconds / 36 | finalized or terminal failure | 1 | 1 `get` | 1 | stop unless create readback is DRAFT |

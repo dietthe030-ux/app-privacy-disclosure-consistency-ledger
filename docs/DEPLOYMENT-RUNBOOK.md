@@ -5,14 +5,14 @@ This runbook separates the steward-requested corrected candidate from the histor
 ## Current source
 
 - Contract: `contracts/app_privacy_disclosure_consistency_ledger.py`
-- SHA-256: `52D1AC728F8156FFB05FF58B194E653346BE063B134111B33F1EDA7B3514FD31`
-- Contract source commit: `9d41100528516c7d430e738ec0ecd69fc8d15418`
+- SHA-256: `C475DF6EF49A4EE4984CFD98A1664E50D3577AEE1B5D98899253917CA6F897AA`
+- Contract source commit: `e63d5eaa816f8dfa79e069f6e30291885555565e`
 - Constructor arguments: `[]`
-- Contract methods: `create`, `freeze`, `assess`, `reassess`, `get`, `get_assessment`, `list_ids`
+- Contract methods: `create`, `freeze`, `assess`, `reassess`, `upgrade`, `get`, `get_assessment`, `list_ids`
 
 ## Recorded pre-deployment decisions
 
-1. Classification is `INTENTIONALLY FROZEN`: a post-deployment defect requires a replacement contract and frontend address update.
+1. Classification is `UPGRADABLE`: the deployer is stored as the authorized upgrader and registered in the native Root Slot upgrader list. Upgrade authority is lost if that Studio account becomes unavailable or Studio/Studionet resets; no stronger recovery claim is made.
 2. The selected Studio deployer public address was `0xeF5D2119416A2f5afa35dCFA209766EFC1BE5902`; balance was rechecked immediately before deployment at `998 GEN`.
 3. Historical approvals do not transfer. The corrected candidate requires a fresh anonymous `PRE_DEPLOY` verdict bound to its exact commit and source hash.
 4. Every conclusive verdict requires exact app-store URL/ID binding, a distinct non-store policy host, identity `MATCH` for both sources, valid bounded bodies, exact supporting quotes, and validator agreement.
@@ -28,9 +28,9 @@ The current official CLI guide documents this Studionet command:
 genlayer deploy --contract contracts/app_privacy_disclosure_consistency_ledger.py --rpc https://studio.genlayer.com/api
 ```
 
-The CLI was unavailable on this machine, so the intended deployment route remains the Codex-controlled GenLayer Studio browser. Do not overwrite or present the old address as current. After approval, upload the exact committed candidate source and deploy a new intentionally frozen contract.
+The CLI was unavailable on this machine, so the intended deployment route remains the Codex-controlled GenLayer Studio browser. Do not overwrite or present the old address as current. After approval, upload the exact committed candidate source and deploy one new upgradable contract from the locked Studio account.
 
-After deployment, canonical `gen_getContractCode` must return bytes exactly equal to the corrected committed source and SHA-256 `52D1AC728F8156FFB05FF58B194E653346BE063B134111B33F1EDA7B3514FD31`. Any mismatch requires another replacement; documentation cannot waive byte parity.
+After deployment, canonical `gen_getContractCode` must return bytes exactly equal to the corrected committed source and SHA-256 `C475DF6EF49A4EE4984CFD98A1664E50D3577AEE1B5D98899253917CA6F897AA`. Any mismatch requires another replacement; documentation cannot waive byte parity.
 
 ## Post-deployment matrix
 

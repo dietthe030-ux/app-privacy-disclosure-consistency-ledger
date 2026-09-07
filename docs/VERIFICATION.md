@@ -4,14 +4,15 @@ This document is the single evidence ledger for the project and is intentionally
 
 ## Steward-request correction status
 
-- Corrected contract source SHA-256: `52D1AC728F8156FFB05FF58B194E653346BE063B134111B33F1EDA7B3514FD31`.
+- Corrected contract source SHA-256: `C475DF6EF49A4EE4984CFD98A1664E50D3577AEE1B5D98899253917CA6F897AA`.
 - Source binding: Google Play requires exact package ID and path; Apple App Store requires the exact numeric ID path; publisher policy must use a distinct non-store HTTPS host.
 - Conclusive verdict boundary: both app listing identity and publisher-policy identity must be `MATCH`; mismatch or uncertainty produces `UNRESOLVED`.
 - Immutable assessment readback: every revision exposes retrieval time, requested URL, verified host, HTTP status, captured byte count, truncation flag, digest, bounded excerpt, exact supporting quotes for identity/category conclusions, normalized fields, reason and verdict through `get_assessment`.
 - Oversized evidence is explicitly bounded and fails closed with `SOURCE_TRUNCATED`; it cannot produce a conclusive verdict.
 - Frontend renders every retained revision and aligns Record ID validation with the contract.
 - Validator verification: validators independently refetch both sources, compare consequential normalized decisions, and verify that the leader's bounded supporting quotes occur in independently retrieved source bytes; equivalent decisions may use different valid quotes.
-- Local checks: lint/schema PASS with 7 methods; Direct Mode `16 passed`; frontend `13 passed`; production build PASS.
+- Upgrade lifecycle: constructor registers the deployer in native Root Slot upgraders; explicit authorization guards code replacement; authorized replacement and unauthorized rejection are covered locally.
+- Local checks: lint/schema PASS with 8 methods; Direct Mode `17 passed`; frontend `13 passed`; production build PASS.
 - Required next gate: fresh `PRE_DEPLOY` review for the corrected exact source. The prior address `0xfE2E4216502f12206A61a2b2103CbD1329FFb56b` is not the corrected contract.
 
 ## Identity
@@ -19,10 +20,10 @@ This document is the single evidence ledger for the project and is intentionally
 - Category: `PROJECT`
 - Project folder: `E:\Genlayer-Projects\app-privacy-disclosure-consistency-ledger`
 - Current contract source: `contracts/app_privacy_disclosure_consistency_ledger.py`
-- Current corrected candidate SHA-256: `52D1AC728F8156FFB05FF58B194E653346BE063B134111B33F1EDA7B3514FD31`
+- Current corrected candidate SHA-256: `C475DF6EF49A4EE4984CFD98A1664E50D3577AEE1B5D98899253917CA6F897AA`
 - Current frontend lockfile SHA-256: `73ECF77F53911D17E656528D3B7D38BBE7C70C76E0024DA2381EB2BB117DC054`
 - Current frontend source commit used by the exact-final Vercel deployment: `21439e6e8d2a1d88156593a943b356d1e64b48af`
-- Contract source commit: `9d41100528516c7d430e738ec0ecd69fc8d15418`
+- Contract source commit: `e63d5eaa816f8dfa79e069f6e30291885555565e`
 - Network: Studionet (mandatory release network)
 - Corrected contract address and deployment transaction: pending fresh approved deployment.
 - Historical frozen address: `0xfE2E4216502f12206A61a2b2103CbD1329FFb56b`; it does not implement the corrected evidence schema.
@@ -31,8 +32,8 @@ This document is the single evidence ledger for the project and is intentionally
 
 | ID | Requirement | Command | Result |
 |---|---|---|---|
-| L-01 | Contract lint and schema visibility | `genvm-lint check contracts/app_privacy_disclosure_consistency_ledger.py --json` | PASS; 7 methods, 3 views, 4 writes |
-| L-02 | Contract lifecycle, exact model schema, source binding, immutable evidence, independent quote verification, negative consensus and fail-closed behavior | `py -3.13 -m pytest -q tests/direct/ -p no:cacheprovider` | PASS; 16 passed |
+| L-01 | Contract lint and schema visibility | `genvm-lint check contracts/app_privacy_disclosure_consistency_ledger.py --json` | PASS; 8 methods, 3 views, 5 writes |
+| L-02 | Contract lifecycle, native upgrade authorization, exact model schema, source binding, immutable evidence, independent quote verification, negative consensus and fail-closed behavior | `py -3.13 -m pytest -q tests/direct/ -p no:cacheprovider` | PASS; 17 passed |
 | F-01 | Frontend wallet/provider and assessment-history regression | `cd frontend; npm test` | PASS; 13 passed |
 | F-02 | Frontend TypeScript/Vite production build | `cd frontend; npm run build` | PASS; Vite build succeeded |
 | F-03 | Local dev entrypoint | `cd frontend; npm run dev -- --host 127.0.0.1` | PASS; HTTP 200 verified on `/` and `/src/main.ts` |
@@ -45,7 +46,7 @@ The contract is documentary comparison only. It does not establish privacy-law c
 
 ## PRE_DEPLOY status
 
-- Contract classification: `INTENTIONALLY FROZEN`.
+- Contract classification: `UPGRADABLE`; deployer is registered in `gl.storage.Root.get().upgraders` and stored as the explicit authorized upgrader.
 - Classification consequence: a post-deployment defect requires a replacement contract and frontend address update; no upgrade authority is advertised.
 - Studio deployer public address: `0xeF5D2119416A2f5afa35dCFA209766EFC1BE5902`.
 - Studio balance immediately before deployment: `998 GEN` (sufficient for the planned zero-value writes).

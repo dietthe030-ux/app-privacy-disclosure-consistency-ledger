@@ -4,7 +4,7 @@ A GenLayer project that binds an exact app-store listing to a publisher privacy 
 
 ## Current status
 
-The steward-requested correction passes local lint/schema, Direct Mode, frontend tests and production build. The previously approved Studionet address remains historical evidence only: its intentionally frozen schema cannot expose the new per-revision evidence snapshot. A replacement deployment and fresh affected release gates are required before resubmission. See [docs/VERIFICATION.md](docs/VERIFICATION.md) for exact evidence and status.
+The steward-requested correction passes local lint/schema, Direct Mode, frontend tests and production build. The previously approved Studionet address remains historical evidence only: its frozen schema cannot expose the new per-revision evidence snapshot. A replacement upgradable deployment and fresh affected release gates are required before resubmission. See [docs/VERIFICATION.md](docs/VERIFICATION.md) for exact evidence and status.
 
 ## Verified links
 
@@ -64,11 +64,11 @@ npm test
 npm run build
 ```
 
-The corrected local package passes lint/schema, 16 Direct Mode tests, 13 frontend tests, and the production build. Replacement deployment and fresh live proof remain mandatory before resubmission.
+The corrected local package passes lint/schema, 17 Direct Mode tests, 13 frontend tests, and the production build. Replacement deployment and fresh live proof remain mandatory before resubmission.
 
 ## Deployment and recovery
 
-The existing Studionet deployment is explicitly superseded for the steward-requested correction. Because it is intentionally frozen, the corrected contract must be deployed at a new address and rebound to the frontend only after exact-source parity and fresh lifecycle evidence pass.
+The existing frozen Studionet deployment is explicitly superseded for the steward-requested correction. The corrected contract registers its deployer as a native Root Slot upgrader and must be deployed at a new address, then rebound to the frontend only after exact-source parity and fresh lifecycle evidence pass.
 
 ## Security and limitations
 

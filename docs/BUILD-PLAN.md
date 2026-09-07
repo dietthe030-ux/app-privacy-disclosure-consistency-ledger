@@ -24,7 +24,7 @@
 ## Current local checkpoint
 
 - Feasibility probe: `genvm-lint check` and `genlayer-test` Direct Mode passed on 2026-09-01 with `genvm-lint 0.11.0`, `genlayer-test 0.29.2`, Python 3.13, pickling enabled, agreement and deliberate disagreement coverage.
-- Corrected contract candidate: `contracts/app_privacy_disclosure_consistency_ledger.py`; lint/schema pass and Direct Mode suite reports `16 passed`, including source identity, deceptive URL, exact model schema, immutable evidence, exact supporting quote, malformed/truncated source and fail-closed coverage.
+- Corrected contract candidate: `contracts/app_privacy_disclosure_consistency_ledger.py`; lint/schema pass and Direct Mode suite reports `17 passed`, including source identity, deceptive URL, exact model schema, native upgrade authorization, immutable evidence, exact supporting quote, malformed/truncated source and fail-closed coverage.
 - Frontend: functional baseline added under `frontend/` after the user authorized the minimum dependency install. It uses `genlayer-js@1.1.8`, Vite `8.2.2`, TypeScript `7.0.2`, and no framework or connector dependency. It includes the explicit wallet picker, public record list/create/update journeys, finality/execution/readback handling, selected-provider balance preflight, and built-in Node regression tests.
 - Corrected frontend local checkpoint: `npm test` passes 13 tests and `npm run build` passes. It aligns Record ID rules and renders complete `get_assessment` history. The old Vercel artifact remains historical until a newly approved replacement contract is deployed and rebound.
 
@@ -36,7 +36,7 @@ The September 2026 resubmission correction keeps the product boundary and lifecy
 2. Snapshot retrieval metadata and bounded evidence for both sources in every assessment revision: requested URL, verified requested host, HTTP status, retrieval timestamp, captured byte count, SHA-256 digest, and a bounded readable excerpt. The current WebRequest response has no final-URL or redirect-chain field; the exact limitation and compensating controls are recorded below rather than fabricating provenance.
 3. Return that complete immutable snapshot from `get_assessment(record_id, revision)` and render all retained revisions in the frontend, including normalized comparison fields and source evidence.
 4. Add focused regressions for source binding, ID parity, historical evidence retention, changed sources, and frontend history rendering; then rerun lint/schema, Direct Mode, frontend tests, and production build.
-5. Because the deployed contract is intentionally frozen and its storage/return schema changes materially, treat the current address as superseded. A replacement deployment, fresh lifecycle E2E, exact source parity, frontend address update, Vercel E2E, and affected anonymous gates are required before resubmission.
+5. Because the historical deployment is frozen and its storage/return schema changes materially, treat it as superseded. Deploy the corrected candidate with its deployer registered as native Root Slot upgrader; then require fresh lifecycle E2E, exact source parity, frontend address update, Vercel E2E, and affected anonymous gates before resubmission.
 
 ## FRONTEND RPC BUDGET MATRIX
 
