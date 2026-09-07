@@ -41,6 +41,25 @@ def _side(collection="PERMITTED", sharing="NOT_MENTIONED", deletion="PERMITTED",
     }
 
 
+def test_deployer_is_registered_upgrader_and_unauthorized_upgrade_reverts(direct_vm, direct_deploy, direct_alice, direct_bob):
+    direct_vm.sender = direct_alice
+    contract = direct_deploy("contracts/app_privacy_disclosure_consistency_ledger.py")
+    root = contract.__class__.__module__
+    module = __import__(root, fromlist=["gl"])
+    root = module.gl.storage.Root.get()
+    assert any(item.as_bytes == bytes(direct_alice) for item in root.upgraders.get())
+    root.lock_default()
+    original_code = bytes(root.code.get())
+    replacement_code = original_code + b"\n# compatible-upgrade-probe\n"
+    with direct_vm.prank(direct_bob):
+        with direct_vm.expect_revert():
+            contract.upgrade(replacement_code)
+    assert bytes(root.code.get()) == original_code
+    direct_vm.sender = direct_alice
+    contract.upgrade(replacement_code)
+    assert bytes(root.code.get()) == replacement_code
+
+
 def test_state_machine_and_append_only_reassessment(direct_vm, direct_deploy, direct_alice, direct_bob):
     contract = direct_deploy("contracts/app_privacy_disclosure_consistency_ledger.py")
     direct_vm.sender = direct_alice

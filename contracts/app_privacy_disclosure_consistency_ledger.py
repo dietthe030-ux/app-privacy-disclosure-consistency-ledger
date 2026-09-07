@@ -365,9 +365,21 @@ class AppPrivacyDisclosureConsistencyLedger(gl.Contract):
     records: TreeMap[str, Record]
     record_ids: DynArray[str]
     assessments: TreeMap[str, Assessment]
+    upgrader: Address
 
     def __init__(self):
-        pass
+        self.upgrader = gl.message.sender_address
+        root = gl.storage.Root.get()
+        root.upgraders.get().append(self.upgrader)
+
+    @gl.public.write
+    def upgrade(self, new_code: bytes) -> None:
+        # VERIFY-AT-STUDIO: Root Slot authorization and code replacement use the current native GenVM API.
+        if gl.message.sender_address != self.upgrader:
+            raise gl.vm.UserError("Only the registered upgrader can replace code")
+        code = gl.storage.Root.get().code.get()
+        code.truncate()
+        code.extend(new_code)
 
     def _valid_id(self, value: str) -> bool:
         if not isinstance(value, str) or not value or len(value) > 64:
