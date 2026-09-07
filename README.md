@@ -4,12 +4,12 @@ A GenLayer project that binds an exact app-store listing to a publisher privacy 
 
 ## Current status
 
-The steward-requested correction passes local lint/schema, Direct Mode, frontend tests and production build. The previously approved Studionet address remains historical evidence only: its frozen schema cannot expose the new per-revision evidence snapshot. A replacement upgradable deployment and fresh affected release gates are required before resubmission. See [docs/VERIFICATION.md](docs/VERIFICATION.md) for exact evidence and status.
+The steward-requested correction passes local lint/schema, Direct Mode, frontend tests and production build. Its exact source is deployed on Studionet at `0x41F4A7F278Ae526e98A329F2C31cA1CE31fa8c51`; source-byte parity and a fresh create → freeze → assess → reassess lifecycle passed independent `POST_DEPLOY_TEST` review. GitHub publication and a new Vercel build wired to this contract remain separate release gates. See [docs/VERIFICATION.md](docs/VERIFICATION.md) for exact evidence and status.
 
 ## Verified links
 
-- Historical frozen contract (not the corrected candidate): [Explorer](https://explorer-studio.genlayer.com/address/0xfE2E4216502f12206A61a2b2103CbD1329FFb56b)
-- Historical frontend (not yet rebound to the corrected candidate): [Vercel production](https://app-privacy-disclosure-consistency.vercel.app/)
+- Corrected Studionet contract: [Explorer](https://explorer-studio.genlayer.com/address/0x41F4A7F278Ae526e98A329F2C31cA1CE31fa8c51)
+- Historical frontend (not yet rebound to the corrected contract): [Vercel production](https://app-privacy-disclosure-consistency.vercel.app/)
 
 ## Trust problem
 
@@ -52,7 +52,7 @@ npm test
 npm run build
 ```
 
-For a live frontend, copy `frontend/.env.example` to `frontend/.env.local` and set `VITE_CONTRACT_ADDRESS` only after the Studionet deployment has passed live smoke verification. The production artifact is separately bound to the replacement address and chain in [docs/VERIFICATION.md](docs/VERIFICATION.md).
+For a live frontend, copy `frontend/.env.example` to `frontend/.env.local` and set `VITE_CONTRACT_ADDRESS` to the corrected Studionet address. The existing public Vercel artifact remains historical until a new build is independently bound to that address, chain `61999`, and the exact approved frontend source.
 
 ## Tests and verification
 
@@ -64,11 +64,11 @@ npm test
 npm run build
 ```
 
-The corrected local package passes lint/schema, 17 Direct Mode tests, 13 frontend tests, and the production build. Replacement deployment and fresh live proof remain mandatory before resubmission.
+The corrected package passes lint/schema, 17 Direct Mode tests, 13 frontend tests, and the production build. Its 26,522-byte deployed source exactly matches SHA-256 `C475DF6EF49A4EE4984CFD98A1664E50D3577AEE1B5D98899253917CA6F897AA`; all four fresh lifecycle writes finalized successfully with authoritative revision readbacks and no retries or duplicate writes.
 
 ## Deployment and recovery
 
-The existing frozen Studionet deployment is explicitly superseded for the steward-requested correction. The corrected contract registers its deployer as a native Root Slot upgrader and must be deployed at a new address, then rebound to the frontend only after exact-source parity and fresh lifecycle evidence pass.
+The corrected upgradable contract is deployed at `0x41F4A7F278Ae526e98A329F2C31cA1CE31fa8c51` by transaction `0x72732555ed7fda8caf2646f0e548908e180d789169c9ae3a4a443927d04813c6`. Its deployer is registered as a native Root Slot upgrader. Earlier frozen contracts and the existing Vercel artifact are historical only; the next production deployment must bind the frontend to this corrected address and preserve exact source/build provenance.
 
 ## Security and limitations
 

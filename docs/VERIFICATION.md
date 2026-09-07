@@ -1,6 +1,6 @@
 # Verification — Privacy Disclosure Consistency Ledger
 
-This document is the single evidence ledger for the project and is intentionally secret-free. The steward-requested correction is deployed at `0x41F4A7F278Ae526e98A329F2C31cA1CE31fa8c51` and its fresh Studio lifecycle is complete, pending independent `POST_DEPLOY_TEST` review. Older live evidence below remains historical and is not proof of the corrected build.
+This document is the single evidence ledger for the project and is intentionally secret-free. The steward-requested correction is deployed at `0x41F4A7F278Ae526e98A329F2C31cA1CE31fa8c51`; exact source parity and its fresh Studio lifecycle passed independent `POST_DEPLOY_TEST` review at HEAD `67a06106085a3c93e94aa278f46e2ede685b6535`. Older live evidence below remains historical and is not proof of the corrected build.
 
 ## Steward-request correction status
 
@@ -13,7 +13,7 @@ This document is the single evidence ledger for the project and is intentionally
 - Validator verification: validators independently refetch both sources, compare consequential normalized decisions, and verify that the leader's bounded supporting quotes occur in independently retrieved source bytes; equivalent decisions may use different valid quotes.
 - Upgrade lifecycle: constructor registers the deployer in native Root Slot upgraders; explicit authorization guards code replacement; authorized replacement and unauthorized rejection are covered locally.
 - Local checks: lint/schema PASS with 8 methods; Direct Mode `17 passed`; frontend `13 passed`; production build PASS.
-- Required next gate: independent `POST_DEPLOY_TEST` review of the corrected deployment and fresh lifecycle. The prior address `0xfE2E4216502f12206A61a2b2103CbD1329FFb56b` is not the corrected contract.
+- Required next gates: publish the exact approved revision to the locked GitHub repository, build the frontend from `frontend/` with the corrected address and chain `61999`, and complete exact-production-alias E2E plus the routed final reviews. The prior address `0xfE2E4216502f12206A61a2b2103CbD1329FFb56b` is not the corrected contract.
 
 ## Identity
 
@@ -50,7 +50,7 @@ The contract is documentary comparison only. It does not establish privacy-law c
 - Classification consequence: the locked Studio deployer is also the sole explicit upgrader and is registered in the native Root Slot upgrader list. Losing that Studio account or a Studionet reset can still require replacement deployment; no stronger recovery claim is made.
 - Locked Studio deployer/upgrader public address: `0x34b92E6553eaCA11A00A9d86d75d8a7881779D78`.
 - Visible Studio balance at account lock: `10.001 GEN`; no signature or transaction was sent.
-- Anonymous `PRE_DEPLOY` status: the earlier approval is invalidated by the material upgradability/source change. Fresh same-reviewer approval is required for the exact current package before deployment.
+- Anonymous `PRE_DEPLOY` status: the corrected source package was approved before deployment; the subsequent exact deployment and lifecycle were independently approved at `POST_DEPLOY_TEST`.
 - Deployment runbook: `docs/DEPLOYMENT-RUNBOOK.md`.
 - Exact current-source package: local lint/schema/Direct Mode complete; frontend local checks complete.
 - Runtime compatibility evidence: `.probe/contract_probe.py` and `tests/direct/test_contract_probe.py` record that installed GenVM `0.3.0-rc7` exposes `Response.status`; `_response_status` prefers the official `status_code` field and safely falls back to that verified installed field.

@@ -26,7 +26,7 @@
 - Feasibility probe: `genvm-lint check` and `genlayer-test` Direct Mode passed on 2026-09-01 with `genvm-lint 0.11.0`, `genlayer-test 0.29.2`, Python 3.13, pickling enabled, agreement and deliberate disagreement coverage.
 - Corrected contract candidate: `contracts/app_privacy_disclosure_consistency_ledger.py`; lint/schema pass and Direct Mode suite reports `17 passed`, including source identity, deceptive URL, exact model schema, native upgrade authorization, immutable evidence, exact supporting quote, malformed/truncated source and fail-closed coverage.
 - Frontend: functional baseline added under `frontend/` after the user authorized the minimum dependency install. It uses `genlayer-js@1.1.8`, Vite `8.2.2`, TypeScript `7.0.2`, and no framework or connector dependency. It includes the explicit wallet picker, public record list/create/update journeys, finality/execution/readback handling, selected-provider balance preflight, and built-in Node regression tests.
-- Corrected frontend local checkpoint: `npm test` passes 13 tests and `npm run build` passes. It aligns Record ID rules and renders complete `get_assessment` history. The old Vercel artifact remains historical until a newly approved replacement contract is deployed and rebound.
+- Corrected frontend local checkpoint: `npm test` passes 13 tests and `npm run build` passes. It aligns Record ID rules and renders complete `get_assessment` history. The corrected contract is deployed and independently approved; the old Vercel artifact remains historical until a new production build is rebound and verified.
 
 ## Steward-request repair implementation plan
 
@@ -65,7 +65,7 @@ FRONTEND_MATRIX_STATUS: READY
 | Fail-closed identity consequence | Both app-store identity and publisher-policy identity must be `MATCH` | `_verdict` | `test_identity_uncertainty_cannot_produce_conclusive_verdict` | uncertain relationship returns `UNRESOLVED` | VERIFIED |
 | Immutable revision evidence | Timestamp, URL, host, status, byte count, truncation, digest, excerpt, normalized fields and verdict | `Assessment.decision_json`, `get_assessment` | audit-evidence test | revision 1 remains byte-equivalent after revision 2 | VERIFIED |
 | Authoritative frontend readback | Read every revision through `get_assessment` and render the complete snapshot | `frontend/src/ledger.ts::getAssessment`, `frontend/src/main.ts::renderAssessmentHistory` | frontend history regression | tests and production build pass | VERIFIED LOCALLY |
-| Finality and live reproducibility | Replacement deployment and fresh lifecycle with contract plus UI readback | pending affected gates | pending Studio/Vercel E2E | frozen old deployment cannot satisfy new schema | PLANNED |
+| Finality and live reproducibility | Corrected deployment and fresh lifecycle with authoritative readback | `docs/DEPLOYMENT-MANIFEST.json`; `docs/VERIFICATION.md` | Studionet deployment and create/freeze/assess/reassess approved; Vercel E2E pending | exact deployed-source parity and revision 1/2 retention verified | STUDIO VERIFIED; VERCEL PENDING |
 
 ## SOURCE-VERIFICATION PATTERN DEVIATION — redirect provenance
 
