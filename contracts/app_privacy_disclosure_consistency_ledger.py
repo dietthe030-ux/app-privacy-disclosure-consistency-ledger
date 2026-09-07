@@ -232,6 +232,63 @@ def _canonical_decision(
     return json.dumps(decision, sort_keys=True, separators=(",", ":"))
 
 
+def _valid_evidence_metadata(value: typing.Any, expected_url: str) -> bool:
+    keys = {"requested_url", "verified_host", "http_status", "body_valid", "captured_bytes", "truncated", "sha256", "excerpt"}
+    return (
+        isinstance(value, dict)
+        and set(value.keys()) == keys
+        and value.get("requested_url") == expected_url
+        and value.get("verified_host") == _url_host(expected_url)
+        and isinstance(value.get("http_status"), int)
+        and not isinstance(value.get("http_status"), bool)
+        and isinstance(value.get("body_valid"), bool)
+        and isinstance(value.get("captured_bytes"), int)
+        and 0 <= value["captured_bytes"] <= MAX_SOURCE_BYTES
+        and isinstance(value.get("truncated"), bool)
+        and isinstance(value.get("sha256"), str)
+        and len(value["sha256"]) == 64
+        and all(char in "0123456789abcdef" for char in value["sha256"])
+        and isinstance(value.get("excerpt"), str)
+        and len(value["excerpt"]) <= MAX_EVIDENCE_EXCERPT_CHARS
+    )
+
+
+def _validator_accepts(
+    leader_payload: str,
+    own_payload: str,
+    store_url: str,
+    policy_url: str,
+    store_body: bytes,
+    policy_body: bytes,
+) -> bool:
+    leader = json.loads(leader_payload)
+    own = json.loads(own_payload)
+    if not isinstance(leader, dict) or not isinstance(own, dict):
+        return False
+    decision_keys = {"evidence_status", "reason_code", "store", "policy", "identity"}
+    if any(leader.get(key) != own.get(key) for key in decision_keys):
+        return False
+    if not _valid_evidence_metadata(leader.get("store_evidence"), store_url) or not _valid_evidence_metadata(leader.get("policy_evidence"), policy_url):
+        return False
+    if (
+        leader.get("source_digest_store") != leader["store_evidence"]["sha256"]
+        or leader.get("source_digest_policy") != leader["policy_evidence"]["sha256"]
+    ):
+        return False
+    if leader.get("evidence_status") != "SUFFICIENT":
+        return True
+    identity = _parse_identity(leader.get("identity"))
+    store = _parse_side(leader.get("store"))
+    policy = _parse_side(leader.get("policy"))
+    quotes = leader.get("evidence_quotes")
+    if identity is None or store is None or policy is None or not isinstance(quotes, dict):
+        return False
+    return (
+        _parse_quotes(quotes.get("store"), store_body, store, identity["store_app"] == "MATCH") is not None
+        and _parse_quotes(quotes.get("policy"), policy_body, policy, identity["publisher_policy"] == "MATCH") is not None
+    )
+
+
 def _payload(result: typing.Any) -> str:
     if isinstance(result, gl.vm.Return):
         result = result.calldata
@@ -422,7 +479,14 @@ class AppPrivacyDisclosureConsistencyLedger(gl.Contract):
                     store_evidence,
                     policy_evidence,
                 )
-                return _payload(leader_result) == own
+                return _validator_accepts(
+                    _payload(leader_result),
+                    own,
+                    store_url,
+                    policy_url,
+                    store_body,
+                    policy_body,
+                )
             except Exception:
                 return False
 

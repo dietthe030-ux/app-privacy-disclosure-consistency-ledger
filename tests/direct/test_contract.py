@@ -122,6 +122,40 @@ def test_validator_disagreement_is_rejected(direct_vm, direct_deploy, direct_ali
         contract.get_assessment("app-1", 1)
 
 
+def test_validator_accepts_different_exact_quotes_for_same_decision(direct_vm, direct_deploy, direct_alice):
+    contract = direct_deploy("contracts/app_privacy_disclosure_consistency_ledger.py")
+    direct_vm.sender = direct_alice
+    contract.create("quote-1", "com.example.app", STORE_URL, POLICY_URL, "android")
+    contract.freeze("quote-1")
+    identity = {"store_app": "MATCH", "publisher_policy": "MATCH"}
+    store_body = "store alpha beta"
+    policy_body = "policy alpha beta"
+    leader_quotes = _quotes("alpha", "alpha")
+    validator_quotes = _quotes("beta", "beta")
+    leader = json.dumps({"store": _side(), "policy": _side(), "identity": identity, "evidence": leader_quotes})
+    validator = json.dumps({"store": _side(), "policy": _side(), "identity": identity, "evidence": validator_quotes})
+    _mock_assessment(direct_vm, _side(), _side(), store_body, policy_body, leader)
+    assert contract.assess("quote-1") == "CONSISTENT"
+    direct_vm.clear_mocks()
+    _mock_assessment(direct_vm, _side(), _side(), store_body, policy_body, validator)
+    assert direct_vm.run_validator() is True
+
+
+def test_validator_rejects_leader_quotes_absent_from_independent_sources(direct_vm, direct_deploy, direct_alice):
+    contract = direct_deploy("contracts/app_privacy_disclosure_consistency_ledger.py")
+    direct_vm.sender = direct_alice
+    contract.create("quote-2", "com.example.app", STORE_URL, POLICY_URL, "android")
+    contract.freeze("quote-2")
+    identity = {"store_app": "MATCH", "publisher_policy": "MATCH"}
+    leader = json.dumps({"store": _side(), "policy": _side(), "identity": identity, "evidence": _quotes("alpha", "alpha")})
+    validator = json.dumps({"store": _side(), "policy": _side(), "identity": identity, "evidence": _quotes("beta", "beta")})
+    _mock_assessment(direct_vm, _side(), _side(), "store alpha", "policy alpha", leader)
+    assert contract.assess("quote-2") == "CONSISTENT"
+    direct_vm.clear_mocks()
+    _mock_assessment(direct_vm, _side(), _side(), "store beta", "policy beta", validator)
+    assert direct_vm.run_validator() is False
+
+
 def test_invalid_model_outputs_fail_closed(direct_vm, direct_deploy, direct_alice):
     contract = direct_deploy("contracts/app_privacy_disclosure_consistency_ledger.py")
     direct_vm.sender = direct_alice
