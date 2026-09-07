@@ -6,7 +6,7 @@ This runbook separates the steward-requested corrected candidate from the histor
 
 - Contract: `contracts/app_privacy_disclosure_consistency_ledger.py`
 - SHA-256: `276D367E4D681A44A7C9C909CA8BB7B762DEB882CA90DEE7B6029AF45089AE21`
-- Contract source commit: pending corrected candidate commit
+- Contract source commit: `41993872e3ff32422acbf8d4aeee91aff0bded01`
 - Constructor arguments: `[]`
 - Contract methods: `create`, `freeze`, `assess`, `reassess`, `get`, `get_assessment`, `list_ids`
 

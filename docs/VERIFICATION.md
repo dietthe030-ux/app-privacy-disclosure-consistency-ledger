@@ -21,7 +21,7 @@ This document is the single evidence ledger for the project and is intentionally
 - Current corrected candidate SHA-256: `276D367E4D681A44A7C9C909CA8BB7B762DEB882CA90DEE7B6029AF45089AE21`
 - Current frontend lockfile SHA-256: `73ECF77F53911D17E656528D3B7D38BBE7C70C76E0024DA2381EB2BB117DC054`
 - Current frontend source commit used by the exact-final Vercel deployment: `21439e6e8d2a1d88156593a943b356d1e64b48af`
-- Contract source commit: pending corrected candidate commit
+- Contract source commit: `41993872e3ff32422acbf8d4aeee91aff0bded01`
 - Network: Studionet (mandatory release network)
 - Corrected contract address and deployment transaction: pending fresh approved deployment.
 - Historical frozen address: `0xfE2E4216502f12206A61a2b2103CbD1329FFb56b`; it does not implement the corrected evidence schema.
