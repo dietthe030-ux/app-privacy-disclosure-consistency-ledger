@@ -1,15 +1,15 @@
 # Privacy Disclosure Consistency Ledger
 
-A GenLayer project that records an app-store privacy disclosure and a publisher privacy policy, then compares their bounded public claims over time.
+A GenLayer project that binds an exact app-store listing to a publisher privacy policy, captures independently verifiable evidence, and compares their bounded public claims over time.
 
 ## Current status
 
-The contract and functional frontend pass local verification. The replacement contract is deployed and live-verified on Studionet at `0xfE2E4216502f12206A61a2b2103CbD1329FFb56b`; the exact final Vercel alias has a complete browser E2E lifecycle with bounded request evidence. Final anonymous approval and Explorer submission gates remain separate. See [docs/VERIFICATION.md](docs/VERIFICATION.md) for exact revision, commands, evidence, and release status.
+The steward-requested correction passes local lint/schema, Direct Mode, frontend tests and production build. The previously approved Studionet address remains historical evidence only: its intentionally frozen schema cannot expose the new per-revision evidence snapshot. A replacement deployment and fresh affected release gates are required before resubmission. See [docs/VERIFICATION.md](docs/VERIFICATION.md) for exact evidence and status.
 
 ## Verified links
 
-- Studionet contract: [Explorer](https://explorer-studio.genlayer.com/address/0xfE2E4216502f12206A61a2b2103CbD1329FFb56b)
-- Live frontend: [Vercel production](https://app-privacy-disclosure-consistency.vercel.app/), with the verified `frontend/` root. Compatibility alias: [app-privacy-consistency.vercel.app](https://app-privacy-consistency.vercel.app/); both resolve to the same READY deployment.
+- Historical frozen contract (not the corrected candidate): [Explorer](https://explorer-studio.genlayer.com/address/0xfE2E4216502f12206A61a2b2103CbD1329FFb56b)
+- Historical frontend (not yet rebound to the corrected candidate): [Vercel production](https://app-privacy-disclosure-consistency.vercel.app/)
 
 ## Trust problem
 
@@ -21,17 +21,17 @@ The important decision is nondeterministic: validators independently fetch the t
 
 ## How it works
 
-1. Anyone creates a record with an app identifier, platform, and two public HTTPS URLs.
+1. Anyone creates a record with a platform-specific app-store ID, its matching allowlisted listing URL, and a policy URL on a distinct publisher host.
 2. The owner freezes the sources.
-3. Anyone assesses the frozen sources; the contract stores the result and evidence digests.
-4. Anyone reassesses later; the new revision is appended and earlier revisions remain readable.
+3. Anyone assesses the frozen sources; validators independently retrieve both sources and confirm the app/publisher identity relationship before a conclusive verdict.
+4. Anyone reassesses later; each immutable revision keeps retrieval time, source URL/host/status, captured byte count, truncation flag, digest, bounded excerpt, exact supporting quotes, normalized comparison and verdict.
 
 ## Architecture
 
 - Contract: owns records, lifecycle authorization, append-only assessments, normalized evidence, and the verdict.
 - Validators: independently retrieve and extract bounded fields, then reach consensus on the complete canonical decision.
 - Frontend: discovers a selected wallet, submits contract methods, tracks finality, and reads authoritative state. It never calculates or overrides the verdict.
-- Source of truth: lifecycle and assessment history are on-chain; the public URLs are external evidence captured by digest.
+- Source of truth: lifecycle and complete assessment history are on-chain; `get_assessment(record_id, revision)` exposes the evidence snapshot used for every historical verdict.
 
 ## Intelligent Contract
 
@@ -64,11 +64,11 @@ npm test
 npm run build
 ```
 
-The current exact package passes lint/schema, 8 Direct Mode tests, 12 frontend tests, and the production build. Full deployment and live proof are recorded in [docs/VERIFICATION.md](docs/VERIFICATION.md).
+The corrected local package passes lint/schema, 13 Direct Mode tests, 13 frontend tests, and the production build. Replacement deployment and fresh live proof remain mandatory before resubmission.
 
 ## Deployment and recovery
 
-The current Studionet deployment is bound to source SHA-256 `ACF89615555C2CAF2634F690661B2A53873DB5B3807F463EB34284B8181946FB`. The deployment manifest records the finalized transaction, live proof matrix, exact-source parity, and frozen-contract replacement procedure.
+The existing Studionet deployment is explicitly superseded for the steward-requested correction. Because it is intentionally frozen, the corrected contract must be deployed at a new address and rebound to the frontend only after exact-source parity and fresh lifecycle evidence pass.
 
 ## Security and limitations
 

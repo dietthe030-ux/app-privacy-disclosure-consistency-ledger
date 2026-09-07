@@ -1,5 +1,5 @@
 import "./style.css";
-import { config, createWriteClient, getRecord, listRecordIds, submitWrite } from "./ledger.ts";
+import { config, createWriteClient, getAssessment, getRecord, listRecordIds, submitWrite } from "./ledger.ts";
 import { accountFromChange, bindProviderSession, ensureSpendableBalance, ensureStudionet, getAvailableWallets, isUserRejected, normalizeChainId, providerChainId, requestAccount, type DiscoveredWallet, type EthereumProvider } from "./wallet.ts";
 import { studionet } from "genlayer-js/chains";
 import { mountE2ETrace } from "./e2eTrace.ts";
@@ -126,6 +126,95 @@ function displayValue(value: unknown, fallback = "—"): string {
   if (typeof value === "string" && value.trim()) return value;
   if (typeof value === "number" || typeof value === "boolean") return String(value);
   return fallback;
+}
+
+function objectValue(value: unknown): Record<string, unknown> {
+  return typeof value === "object" && value !== null ? value as Record<string, unknown> : {};
+}
+
+function evidenceRow(label: string, value: unknown): HTMLDivElement {
+  const row = document.createElement("div");
+  const term = document.createElement("dt");
+  const detail = document.createElement("dd");
+  term.textContent = label;
+  detail.textContent = displayValue(value);
+  row.append(term, detail);
+  return row;
+}
+
+async function renderAssessmentHistory(card: HTMLElement, recordId: string, revision: number): Promise<void> {
+  if (revision < 1) return;
+  const history = document.createElement("section");
+  history.className = "assessment-history";
+  const title = document.createElement("h4");
+  title.textContent = `Assessment history (${revision})`;
+  history.append(title);
+  for (let current = revision; current >= 1; current -= 1) {
+    const assessment = objectValue(await getAssessment(recordId, current));
+    const store = objectValue(assessment.store);
+    const policy = objectValue(assessment.policy);
+    const identity = objectValue(assessment.identity);
+    const storeEvidence = objectValue(assessment.store_evidence);
+    const policyEvidence = objectValue(assessment.policy_evidence);
+    const evidenceQuotes = objectValue(assessment.evidence_quotes);
+    const item = document.createElement("details");
+    item.className = "assessment-revision";
+    if (current === revision) item.open = true;
+    const summary = document.createElement("summary");
+    summary.textContent = `Revision ${current} · ${verdictLabel(assessment.verdict)} · ${displayValue(assessment.retrieved_at)}`;
+    item.append(summary);
+    const identityLine = document.createElement("p");
+    identityLine.className = "identity-result";
+    identityLine.textContent = `Source identity — app: ${displayValue(identity.store_app)}; publisher policy: ${displayValue(identity.publisher_policy)}`;
+    const comparison = document.createElement("dl");
+    comparison.className = "assessment-comparison";
+    comparison.append(
+      evidenceRow("Collection", `${displayValue(store.collection)} / ${displayValue(policy.collection)}`),
+      evidenceRow("Sharing", `${displayValue(store.sharing)} / ${displayValue(policy.sharing)}`),
+      evidenceRow("Deletion", `${displayValue(store.deletion)} / ${displayValue(policy.deletion)}`),
+      evidenceRow("Retention", `${displayValue(store.retention_kind)} ${displayValue(store.retention_days, "0")} / ${displayValue(policy.retention_kind)} ${displayValue(policy.retention_days, "0")}`),
+      evidenceRow("Evidence status", `${displayValue(assessment.evidence_status)} · ${displayValue(assessment.reason_code)}`),
+    );
+    item.append(identityLine, comparison);
+    const quoteGrid = document.createElement("div");
+    quoteGrid.className = "evidence-quotes";
+    for (const [label, quotesValue] of [["App-store supporting quotes", evidenceQuotes.store], ["Publisher-policy supporting quotes", evidenceQuotes.policy]] as const) {
+      const quotes = objectValue(quotesValue);
+      const group = document.createElement("div");
+      const heading = document.createElement("h5");
+      heading.textContent = label;
+      group.append(heading);
+      for (const key of ["identity", "collection", "sharing", "deletion", "retention"]) {
+        if (!quotes[key]) continue;
+        const quote = document.createElement("p");
+        quote.textContent = `${key}: “${displayValue(quotes[key])}”`;
+        group.append(quote);
+      }
+      quoteGrid.append(group);
+    }
+    item.append(quoteGrid);
+    for (const [label, evidence] of [["App-store evidence", storeEvidence], ["Publisher-policy evidence", policyEvidence]] as const) {
+      const source = document.createElement("div");
+      source.className = "evidence-snapshot";
+      const sourceTitle = document.createElement("h5");
+      sourceTitle.textContent = label;
+      const metadata = document.createElement("p");
+      metadata.textContent = `HTTP ${displayValue(evidence.http_status)} · ${displayValue(evidence.captured_bytes, "0")} captured bytes${evidence.truncated === true ? " · bounded snapshot" : ""}`;
+      const link = document.createElement("a");
+      link.href = sourceUrl(evidence.requested_url);
+      link.target = "_blank";
+      link.rel = "noreferrer";
+      link.textContent = displayValue(evidence.requested_url);
+      const digest = document.createElement("code");
+      digest.textContent = displayValue(evidence.sha256);
+      const excerpt = document.createElement("blockquote");
+      excerpt.textContent = displayValue(evidence.excerpt, "No readable evidence captured.");
+      source.append(sourceTitle, metadata, link, digest, excerpt);
+      item.append(source);
+    }
+    history.append(item);
+  }
+  card.append(history);
 }
 
 function sourceUrl(value: unknown): string {
@@ -314,11 +403,11 @@ function showCreateForm(): void {
     <div class="section-heading"><div><p class="eyebrow">New record</p><h2>Create a disclosure record</h2></div><button class="icon-button" type="button" data-close aria-label="Close create form">×</button></div>
     <p class="form-copy">Add two public HTTPS sources. The record starts as a draft and can be frozen before comparison.</p>
     <form id="record-form" class="record-form">
-      <label>Record ID<input name="record_id" required maxlength="128" pattern="[A-Za-z0-9._-]+" placeholder="my-app-2026" /></label>
-      <label>App name or ID<input name="app_id" required maxlength="256" placeholder="My App" /></label>
+      <label>Record ID<input name="record_id" required maxlength="64" pattern="[A-Za-z0-9_-]+" placeholder="my-app-2026" /><small>1–64 letters, numbers, hyphens, or underscores.</small></label>
+      <label>App-store ID<input name="app_id" required maxlength="256" placeholder="Android package or numeric Apple ID" /><small>Use the package ID for Google Play or the numeric ID from an Apple App Store URL.</small></label>
       <label>Platform<select name="platform"><option value="android">Android</option><option value="ios">iOS</option><option value="other">Other</option></select></label>
-      <label>App-store disclosure URL<input name="store_url" type="url" required placeholder="https://example.com/store-privacy" /></label>
-      <label>Publisher policy URL<input name="policy_url" type="url" required placeholder="https://example.com/privacy" /></label>
+      <label>App-store listing URL<input name="store_url" type="url" required placeholder="https://play.google.com/store/apps/details?id=…" /></label>
+      <label>Publisher policy URL<input name="policy_url" type="url" required placeholder="https://publisher.example/privacy" /><small>Must be a distinct publisher-controlled host, not an app-store URL.</small></label>
       <button class="button" type="submit">Create record</button>
       <p class="inline-error" id="form-error" role="alert" hidden></p>
     </form>
@@ -389,6 +478,7 @@ async function loadRecords(): Promise<void> {
       if (state === "FROZEN") actions.append(actionButton("Compare sources", "assess", id));
       if (state === "ASSESSED") actions.append(actionButton("Run comparison again", "reassess", id));
       records.append(card);
+      await renderAssessmentHistory(card, id, Number(field(record, "revision")) || 0);
     }
     setScreenStatus("");
   } catch (error) {

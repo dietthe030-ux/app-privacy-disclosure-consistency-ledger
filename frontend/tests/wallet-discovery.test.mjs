@@ -165,3 +165,19 @@ test("keeps the wallet picker accessibility and selected-provider write contract
   assert.match(source, /Copy hash/);
   assert.match(source, /status-spinner/);
 });
+
+test("keeps form validation aligned with the contract and renders immutable assessment history", async () => {
+  const source = await readFile(new URL("../src/main.ts", import.meta.url), "utf8");
+  assert.match(source, /maxlength="64" pattern="\[A-Za-z0-9_-\]\+"/);
+  assert.match(source, /App-store ID/);
+  assert.match(source, /getAssessment\(recordId, current\)/);
+  assert.match(source, /Assessment history/);
+  assert.match(source, /store_evidence/);
+  assert.match(source, /policy_evidence/);
+  assert.match(source, /requested_url/);
+  assert.match(source, /captured_bytes/);
+  assert.match(source, /evidence\.sha256/);
+  assert.match(source, /evidence\.excerpt/);
+  assert.match(source, /evidence_quotes/);
+  assert.match(source, /supporting quotes/);
+});
