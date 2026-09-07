@@ -47,10 +47,10 @@ The contract is documentary comparison only. It does not establish privacy-law c
 ## PRE_DEPLOY status
 
 - Contract classification: `UPGRADABLE`; deployer is registered in `gl.storage.Root.get().upgraders` and stored as the explicit authorized upgrader.
-- Classification consequence: a post-deployment defect requires a replacement contract and frontend address update; no upgrade authority is advertised.
-- Studio deployer public address: `0xeF5D2119416A2f5afa35dCFA209766EFC1BE5902`.
-- Studio balance immediately before deployment: `998 GEN` (sufficient for the planned zero-value writes).
-- Anonymous `PRE_DEPLOY` verdict: `APPROVED` for the exact pre-deploy source package at HEAD `610495ab520aacf4d3a13ca34b6355896ab007e8`.
+- Classification consequence: the locked Studio deployer is also the sole explicit upgrader and is registered in the native Root Slot upgrader list. Losing that Studio account or a Studionet reset can still require replacement deployment; no stronger recovery claim is made.
+- Locked Studio deployer/upgrader public address: `0x34b92E6553eaCA11A00A9d86d75d8a7881779D78`.
+- Visible Studio balance at account lock: `10.001 GEN`; no signature or transaction was sent.
+- Anonymous `PRE_DEPLOY` status: the earlier approval is invalidated by the material upgradability/source change. Fresh same-reviewer approval is required for the exact current package before deployment.
 - Deployment runbook: `docs/DEPLOYMENT-RUNBOOK.md`.
 - Exact current-source package: local lint/schema/Direct Mode complete; frontend local checks complete.
 - Runtime compatibility evidence: `.probe/contract_probe.py` and `tests/direct/test_contract_probe.py` record that installed GenVM `0.3.0-rc7` exposes `Response.status`; `_response_status` prefers the official `status_code` field and safely falls back to that verified installed field.

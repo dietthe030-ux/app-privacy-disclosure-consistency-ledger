@@ -13,7 +13,7 @@ This runbook separates the steward-requested corrected candidate from the histor
 ## Recorded pre-deployment decisions
 
 1. Classification is `UPGRADABLE`: the deployer is stored as the authorized upgrader and registered in the native Root Slot upgrader list. Upgrade authority is lost if that Studio account becomes unavailable or Studio/Studionet resets; no stronger recovery claim is made.
-2. The selected Studio deployer public address was `0xeF5D2119416A2f5afa35dCFA209766EFC1BE5902`; balance was rechecked immediately before deployment at `998 GEN`.
+2. The selected and locked Studio deployer/upgrader public address is `0x34b92E6553eaCA11A00A9d86d75d8a7881779D78`; its visible pre-review balance was `10.001 GEN`. No signature or transaction was sent while selecting it.
 3. Historical approvals do not transfer. The corrected candidate requires a fresh anonymous `PRE_DEPLOY` verdict bound to its exact commit and source hash.
 4. Every conclusive verdict requires exact app-store URL/ID binding, a distinct non-store policy host, identity `MATCH` for both sources, valid bounded bodies, exact supporting quotes, and validator agreement.
 5. A malformed, unavailable or truncated source, invalid model schema, identity uncertainty or validator disagreement fails closed.

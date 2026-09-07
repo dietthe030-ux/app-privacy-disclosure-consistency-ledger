@@ -22,11 +22,15 @@ STUDIO_ACTION_LEDGER_STATUS: READY
 
 No Studio page, deployment, transaction or live E2E action for the corrected candidate occurred before this probe.
 
+STUDIO_FIRST_ACTION_AT: `2026-09-07T15:22:59Z` (read-only Studio open/account inspection after the completed probe).
+
+LOCKED_STUDIO_DEPLOYER_UPGRADER: `0x34b92E6553eaCA11A00A9d86d75d8a7881779D78` (visible balance `10.001 GEN`; no signature or transaction sent).
+
 ## STUDIO RPC BUDGET MATRIX
 
 | Row | Trigger | Observable action | Max actions | Poll interval / attempts | Terminal condition | Terminal receipt reads | Authoritative readbacks | Transactions | Retry / stop rule |
 |---|---|---|---:|---|---|---:|---:|---:|---|
-| S-01 | Before Studio opens | Verify chain, selected deployer and balance | 3 | none | chain 61999, locked account and sufficient balance | 0 | 0 | 0 | stop on identity/network mismatch |
+| S-01 | Before Studio opens | Verify chain, selected deployer and balance | 3 | none | chain 61999, account `0x34b92E6553eaCA11A00A9d86d75d8a7881779D78`, sufficient balance | 0 | 0 | 0 | stop on identity/network mismatch |
 | S-02 | Candidate load | Upload exact committed source and inspect discovered schema | 2 | none | 8 methods: 3 views and 5 writes | 0 | 0 | 0 | no reload unless deterministic upload failure is corrected |
 | S-03 | One approved deployment | Submit replacement deployment | 1 | 5 seconds / 36 | finalized or terminal failure | 1 | 1 source-code read | 1 | never deploy again without reconciling existing hash/address |
 | S-04 | Fresh lifecycle record | Submit `create` | 1 | 5 seconds / 36 | finalized or terminal failure | 1 | 1 `get` | 1 | never resubmit same record ID |
