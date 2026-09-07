@@ -64,7 +64,7 @@ npm test
 npm run build
 ```
 
-The corrected local package passes lint/schema, 13 Direct Mode tests, 13 frontend tests, and the production build. Replacement deployment and fresh live proof remain mandatory before resubmission.
+The corrected local package passes lint/schema, 15 Direct Mode tests, 13 frontend tests, and the production build. Replacement deployment and fresh live proof remain mandatory before resubmission.
 
 ## Deployment and recovery
 
