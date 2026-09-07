@@ -1,6 +1,6 @@
 # Verification — Privacy Disclosure Consistency Ledger
 
-This document is the single evidence ledger for the project and is intentionally secret-free. The steward-requested resubmission correction is now locally verified but not deployed. All live evidence below is retained as historical evidence for the prior frozen schema and must not be presented as proof of the corrected build.
+This document is the single evidence ledger for the project and is intentionally secret-free. The steward-requested correction is deployed at `0x41F4A7F278Ae526e98A329F2C31cA1CE31fa8c51` and its fresh Studio lifecycle is complete, pending independent `POST_DEPLOY_TEST` review. Older live evidence below remains historical and is not proof of the corrected build.
 
 ## Steward-request correction status
 
@@ -13,7 +13,7 @@ This document is the single evidence ledger for the project and is intentionally
 - Validator verification: validators independently refetch both sources, compare consequential normalized decisions, and verify that the leader's bounded supporting quotes occur in independently retrieved source bytes; equivalent decisions may use different valid quotes.
 - Upgrade lifecycle: constructor registers the deployer in native Root Slot upgraders; explicit authorization guards code replacement; authorized replacement and unauthorized rejection are covered locally.
 - Local checks: lint/schema PASS with 8 methods; Direct Mode `17 passed`; frontend `13 passed`; production build PASS.
-- Required next gate: fresh `PRE_DEPLOY` review for the corrected exact source. The prior address `0xfE2E4216502f12206A61a2b2103CbD1329FFb56b` is not the corrected contract.
+- Required next gate: independent `POST_DEPLOY_TEST` review of the corrected deployment and fresh lifecycle. The prior address `0xfE2E4216502f12206A61a2b2103CbD1329FFb56b` is not the corrected contract.
 
 ## Identity
 
@@ -25,7 +25,7 @@ This document is the single evidence ledger for the project and is intentionally
 - Current frontend source commit used by the exact-final Vercel deployment: `21439e6e8d2a1d88156593a943b356d1e64b48af`
 - Contract source commit: `e63d5eaa816f8dfa79e069f6e30291885555565e`
 - Network: Studionet (mandatory release network)
-- Corrected contract address and deployment transaction: pending fresh approved deployment.
+- Corrected contract address: `0x41F4A7F278Ae526e98A329F2C31cA1CE31fa8c51`; deployment transaction: `0x72732555ed7fda8caf2646f0e548908e180d789169c9ae3a4a443927d04813c6`.
 - Historical frozen address: `0xfE2E4216502f12206A61a2b2103CbD1329FFb56b`; it does not implement the corrected evidence schema.
 
 ## Local verification
@@ -72,7 +72,20 @@ The contract is documentary comparison only. It does not establish privacy-law c
 
 ## Live proof matrix
 
-The live rows below are bound to the deployed Studionet address and exact source hash.
+The corrected rows below are bound to Studionet address `0x41F4A7F278Ae526e98A329F2C31cA1CE31fa8c51`, source SHA-256 `C475DF6EF49A4EE4984CFD98A1664E50D3577AEE1B5D98899253917CA6F897AA`, and record `privacy-ledger-steward-20260907-001`.
+
+| ID | Action | Transaction | Finalized + semantic result | Authoritative readback | Status |
+|---|---|---|---|---|---|
+| LIVE-01 | Create | `0x789fd47aabe035eec33306506eabd7d5783a7fa5008d956a74bc1d79695c964f` | `FINALIZED`; `MAJORITY_AGREE`; leader `SUCCESS` | `DRAFT`, revision `0`, `UNRESOLVED` | PASS |
+| LIVE-02 | Freeze | `0x260e42bfee28df6a7b92cd0bef9f9f859261f38429a49c0a31ecfd494085d045` | `FINALIZED`; `MAJORITY_AGREE`; leader `SUCCESS` | `FROZEN`, revision `0`, `UNRESOLVED` | PASS |
+| LIVE-03 | Assess | `0xb50c041818f85a6f6cd36eecf7cffe75c7f17862be8a2f5fbf46ff28d69f9bd5` | `FINALIZED`; `MAJORITY_AGREE`; leader `SUCCESS` | `ASSESSED`, revision `1`; assessment 1 readable | PASS |
+| LIVE-04 | Reassess | `0x93228a72f006dabfdaef6fe655ec008e736f567d7b077b26da3f0c5fb68346d4` | `FINALIZED`; `MAJORITY_AGREE`; leader `SUCCESS` | `ASSESSED`, revision `2`; assessments 1 and 2 readable | PASS WITH DIGEST VARIANCE |
+
+Revision 1 remains readable with store/policy digests `73d292880ca37c53c26e99ef77478c1aaff52e49d560f4cee5f0e98dfc7849c2` / `215321f297e5b947097d488d53332af8cc2bb1d892a89658755a07e18340a2f9`. Revision 2 records `73d292880ca37c53c26e99ef77478c1aaff52e49d560f4cee5f0e98dfc7849c2` / `80b90356a4b2f8801579ec3b8ca39d04bb2848ee215c19d71a3d08cf8a682c31`. The dynamic publisher-policy response changed between retrievals; the immutable evidence history exposes rather than hides this drift. Both outcomes fail closed as `UNRESOLVED` with reason `SOURCE_TRUNCATED`.
+
+### Historical frozen-schema lifecycle
+
+The following rows are retained only as historical evidence for the previous contract and are not part of the corrected deployment's acceptance claim.
 
 | ID | Actor / action | Contract method | Transaction | Finalized + semantic result | Authoritative readback | Status |
 |---|---|---|---|---|---|---|

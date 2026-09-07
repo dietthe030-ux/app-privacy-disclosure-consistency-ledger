@@ -18,13 +18,25 @@ STUDIO_CAPABILITY_RESULT: Physical network request totals are not reliably expos
 
 STUDIO_PHYSICAL_COUNT_CLAIM: NONE
 
-STUDIO_ACTION_LEDGER_STATUS: READY
+STUDIO_ACTION_LEDGER_STATUS: COMPLETE
 
 No Studio page, deployment, transaction or live E2E action for the corrected candidate occurred before this probe.
 
 STUDIO_FIRST_ACTION_AT: `2026-09-07T15:22:59Z` (read-only Studio open/account inspection after the completed probe).
 
 LOCKED_STUDIO_DEPLOYER_UPGRADER: `0x34b92E6553eaCA11A00A9d86d75d8a7881779D78` (visible balance `10.001 GEN`; no signature or transaction sent).
+
+## ACTUAL STUDIO ACTION LEDGER
+
+- Transactions: `5` total — one deployment and four unique lifecycle writes.
+- Lifecycle retries: `0`; duplicate transactions: `0`.
+- Transaction hashes: deployment `0x72732555ed7fda8caf2646f0e548908e180d789169c9ae3a4a443927d04813c6`; create `0x789fd47aabe035eec33306506eabd7d5783a7fa5008d956a74bc1d79695c964f`; freeze `0x260e42bfee28df6a7b92cd0bef9f9f859261f38429a49c0a31ecfd494085d045`; assess `0xb50c041818f85a6f6cd36eecf7cffe75c7f17862be8a2f5fbf46ff28d69f9bd5`; reassess `0x93228a72f006dabfdaef6fe655ec008e736f567d7b077b26da3f0c5fb68346d4`.
+- Terminal receipt reads: `5` total, one per terminal transaction.
+- Authoritative readbacks: `9` total — deployed source once; create `get` once; freeze `get` once; assess `get` plus `get_assessment(1)` and one focused field projection; reassess `get` plus assessments 1 and 2.
+- Primary-AI lifecycle status observations: create `2`, freeze `3`, assess `3`, reassess `4`; all stopped at `FINALIZED`.
+- Diagnostic validator probes: `1`, confirming `20` backend validators while the restored Studio UI temporarily displayed zero.
+- Matrix variance: Studio background schema loads from many open editor tabs exhausted the hosted `30 requests/minute` bucket. Writes stopped during the limit; unused task-owned editor tabs were closed, the same hashes/state were preserved, and testing resumed after cooldown. Physical background-request totals remain unavailable and no physical-request count is claimed.
+- Final lifecycle readback: `ASSESSED`, revision `2`, both assessments readable. Store digests match; policy digests differ because the live publisher-policy response changed between retrievals. The exact variance is preserved for independent review.
 
 ## STUDIO RPC BUDGET MATRIX
 

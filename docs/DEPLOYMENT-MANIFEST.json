@@ -1,9 +1,9 @@
 {
-  "status": "CORRECTION_PENDING_PRE_DEPLOY",
+  "status": "CORRECTED_DEPLOYMENT_STUDIO_E2E_COMPLETE_PENDING_POST_DEPLOY_REVIEW",
   "current_candidate": {
     "source_sha256": "C475DF6EF49A4EE4984CFD98A1664E50D3577AEE1B5D98899253917CA6F897AA",
-    "deployment_status": "NOT_DEPLOYED",
-    "reason": "Steward-requested source binding, immutable evidence snapshots, complete get_assessment history and frontend history display require a replacement deployment."
+    "deployment_status": "DEPLOYED_FINALIZED",
+    "reason": "Steward-requested source binding, immutable evidence snapshots and complete get_assessment history are deployed and exercised on Studionet."
   },
   "historical_deployment_status": "DEPLOYED_FINALIZED",
   "historical_post_deploy_test_verdict": "APPROVED",
@@ -11,9 +11,9 @@
   "network": "Studionet",
   "chain_id": 61999,
   "rpc_url": "https://studio.genlayer.com/api",
-  "contract_address": null,
-  "explorer_url": null,
-  "deployment_transaction_hash": null,
+  "contract_address": "0x41F4A7F278Ae526e98A329F2C31cA1CE31fa8c51",
+  "explorer_url": "https://explorer-studio.genlayer.com/address/0x41F4A7F278Ae526e98A329F2C31cA1CE31fa8c51",
+  "deployment_transaction_hash": "0x72732555ed7fda8caf2646f0e548908e180d789169c9ae3a4a443927d04813c6",
   "source_file": "contracts/app_privacy_disclosure_consistency_ledger.py",
   "source_sha256": "C475DF6EF49A4EE4984CFD98A1664E50D3577AEE1B5D98899253917CA6F897AA",
   "git_commit": "e63d5eaa816f8dfa79e069f6e30291885555565e",
@@ -22,6 +22,36 @@
   "deployer_or_upgrader_address": "0x34b92E6553eaCA11A00A9d86d75d8a7881779D78",
   "linked_contracts": {},
   "configuration_transactions": [],
+  "source_bytes": 26522,
+  "live_source_parity": {
+    "rpc": "gen_getContractCode",
+    "bytes": 26522,
+    "sha256": "C475DF6EF49A4EE4984CFD98A1664E50D3577AEE1B5D98899253917CA6F897AA",
+    "exact_byte_equality": true
+  },
+  "corrected_live_case": {
+    "record_id": "privacy-ledger-steward-20260907-001",
+    "app_id": "310633997",
+    "store_url": "https://apps.apple.com/us/app/whatsapp-messenger/id310633997",
+    "policy_url": "https://www.whatsapp.com/legal/privacy-policy",
+    "platform": "ios",
+    "transactions": {
+      "create": "0x789fd47aabe035eec33306506eabd7d5783a7fa5008d956a74bc1d79695c964f",
+      "freeze": "0x260e42bfee28df6a7b92cd0bef9f9f859261f38429a49c0a31ecfd494085d045",
+      "assess": "0xb50c041818f85a6f6cd36eecf7cffe75c7f17862be8a2f5fbf46ff28d69f9bd5",
+      "reassess": "0x93228a72f006dabfdaef6fe655ec008e736f567d7b077b26da3f0c5fb68346d4"
+    },
+    "final_state": "ASSESSED",
+    "final_revision": 2,
+    "final_verdict": "UNRESOLVED",
+    "revision_1_retained": true,
+    "revision_2_readable": true,
+    "revision_1_store_digest": "73d292880ca37c53c26e99ef77478c1aaff52e49d560f4cee5f0e98dfc7849c2",
+    "revision_2_store_digest": "73d292880ca37c53c26e99ef77478c1aaff52e49d560f4cee5f0e98dfc7849c2",
+    "revision_1_policy_digest": "215321f297e5b947097d488d53332af8cc2bb1d892a89658755a07e18340a2f9",
+    "revision_2_policy_digest": "80b90356a4b2f8801579ec3b8ca39d04bb2848ee215c19d71a3d08cf8a682c31",
+    "digest_variance": "The dynamic publisher-policy response changed between retrievals. Both immutable snapshots and timestamps remain readable; store digest remained equal."
+  },
   "historical_live_case": {
     "record_id": "privacy-ledger-replacement-20260902",
     "store_url": "https://www.apple.com/legal/privacy/",
