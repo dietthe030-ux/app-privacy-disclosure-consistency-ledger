@@ -87,7 +87,8 @@ def _empty_side() -> dict[str, typing.Any]:
 
 
 def _parse_side(value: typing.Any) -> typing.Optional[dict[str, typing.Any]]:
-    if not isinstance(value, dict):
+    keys = {"collection", "sharing", "deletion", "retention_kind", "retention_days"}
+    if not isinstance(value, dict) or set(value.keys()) != keys:
         return None
     side = {}
     for field in ("collection", "sharing", "deletion"):
@@ -194,10 +195,13 @@ def _canonical_decision(
     else:
         try:
             parsed = json.loads(raw_text)
-            store = _parse_side(parsed.get("store")) if isinstance(parsed, dict) else None
-            policy = _parse_side(parsed.get("policy")) if isinstance(parsed, dict) else None
-            identity = _parse_identity(parsed.get("identity")) if isinstance(parsed, dict) else None
-            evidence = parsed.get("evidence") if isinstance(parsed, dict) else None
+            valid_top_level = isinstance(parsed, dict) and set(parsed.keys()) == {"store", "policy", "identity", "evidence"}
+            store = _parse_side(parsed.get("store")) if valid_top_level else None
+            policy = _parse_side(parsed.get("policy")) if valid_top_level else None
+            identity = _parse_identity(parsed.get("identity")) if valid_top_level else None
+            evidence = parsed.get("evidence") if valid_top_level else None
+            if not isinstance(evidence, dict) or set(evidence.keys()) != {"store", "policy"}:
+                evidence = None
             store_quotes = _parse_quotes(evidence.get("store"), store_body, store, identity.get("store_app") == "MATCH") if isinstance(evidence, dict) and store is not None and identity is not None else None
             policy_quotes = _parse_quotes(evidence.get("policy"), policy_body, policy, identity.get("publisher_policy") == "MATCH") if isinstance(evidence, dict) and policy is not None and identity is not None else None
             if store is None or policy is None or identity is None or store_quotes is None or policy_quotes is None:

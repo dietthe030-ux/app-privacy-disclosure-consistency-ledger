@@ -177,6 +177,32 @@ def test_invalid_model_outputs_fail_closed(direct_vm, direct_deploy, direct_alic
         direct_vm.clear_mocks()
 
 
+def test_model_schema_rejects_unknown_top_level_nested_and_evidence_keys(direct_vm, direct_deploy, direct_alice):
+    contract = direct_deploy("contracts/app_privacy_disclosure_consistency_ledger.py")
+    direct_vm.sender = direct_alice
+    identity = {"store_app": "MATCH", "publisher_policy": "MATCH"}
+    valid = {"store": _side(), "policy": _side(), "identity": identity, "evidence": _quotes()}
+    variants = []
+    extra_top = dict(valid)
+    extra_top["reasoning"] = "unsupported"
+    variants.append(extra_top)
+    extra_side = json.loads(json.dumps(valid))
+    extra_side["store"]["unsupported"] = True
+    variants.append(extra_side)
+    extra_evidence = json.loads(json.dumps(valid))
+    extra_evidence["evidence"]["unsupported"] = {}
+    variants.append(extra_evidence)
+    for index, response in enumerate(variants, start=1):
+        record_id = f"schema-{index}"
+        contract.create(record_id, "com.example.app", STORE_URL, POLICY_URL, "android")
+        contract.freeze(record_id)
+        _mock_assessment(direct_vm, _side(), _side(), llm_response=json.dumps(response))
+        assert contract.assess(record_id) == "UNRESOLVED"
+        assert json.loads(contract.get_assessment(record_id, 1))["reason_code"] == "MODEL_OUTPUT_INVALID"
+        assert direct_vm.run_validator() is True
+        direct_vm.clear_mocks()
+
+
 def test_empty_source_and_source_change_are_explicitly_recorded(direct_vm, direct_deploy, direct_alice):
     contract = direct_deploy("contracts/app_privacy_disclosure_consistency_ledger.py")
     direct_vm.sender = direct_alice
