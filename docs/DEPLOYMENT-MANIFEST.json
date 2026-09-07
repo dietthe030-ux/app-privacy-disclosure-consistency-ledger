@@ -74,7 +74,8 @@
     "network_reset": "The old address is not assumed recoverable. Redeploy from the recorded source and manifest, rerun live tests, then update the frontend address."
   },
   "historical_frontend_release": {
-    "status": "VERCEL_E2E_VERIFIED",
+    "status": "HISTORICAL_VERCEL_E2E_VERIFIED_FOR_SUPERSEDED_CONTRACT",
+    "scope_note": "This historical release is bound only to contract 0xfE2E4216502f12206A61a2b2103CbD1329FFb56b and does not validate corrected contract 0x41F4A7F278Ae526e98A329F2C31cA1CE31fa8c51. Corrected-address Vercel deployment and E2E are pending.",
     "github_commit": "21439e6e8d2a1d88156593a943b356d1e64b48af",
     "vercel_team": "dietthe030-uxs-projects",
     "vercel_project": "app-privacy-disclosure-consistency-ledger",

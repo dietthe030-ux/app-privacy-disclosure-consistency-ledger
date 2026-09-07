@@ -22,7 +22,7 @@ This document is the single evidence ledger for the project and is intentionally
 - Current contract source: `contracts/app_privacy_disclosure_consistency_ledger.py`
 - Current corrected candidate SHA-256: `C475DF6EF49A4EE4984CFD98A1664E50D3577AEE1B5D98899253917CA6F897AA`
 - Current frontend lockfile SHA-256: `73ECF77F53911D17E656528D3B7D38BBE7C70C76E0024DA2381EB2BB117DC054`
-- Current frontend source commit used by the exact-final Vercel deployment: `21439e6e8d2a1d88156593a943b356d1e64b48af`
+- Historical frontend source commit used by the superseded `0xfE2E...` Vercel deployment: `21439e6e8d2a1d88156593a943b356d1e64b48af`
 - Contract source commit: `e63d5eaa816f8dfa79e069f6e30291885555565e`
 - Network: Studionet (mandatory release network)
 - Corrected contract address: `0x41F4A7F278Ae526e98A329F2C31cA1CE31fa8c51`; deployment transaction: `0x72732555ed7fda8caf2646f0e548908e180d789169c9ae3a4a443927d04813c6`.
@@ -63,10 +63,10 @@ The contract is documentary comparison only. It does not establish privacy-law c
 - Anonymous delta verdicts: `APPROVED` for the frontend redesign/hash evidence delta at `b9be2bf65448ee0f8152100acb9ac6a5cc237477` and bounded finalized-readback delta at `eb853b6688a73b5924daa7bdafdd865f02a7b8ea`.
 - Current known warning: `genvm-lint` reports informational newer-runner notice `I200`; it is recorded and does not fail lint.
 
-## Replacement source parity
+## Historical 2026-09-02 replacement source parity
 
 - Superseded address: `0x97a005a129e0212c792CC00B20B702288c1C13EB`.
-- Replacement address: `0xfE2E4216502f12206A61a2b2103CbD1329FFb56b`.
+- Historical replacement address: `0xfE2E4216502f12206A61a2b2103CbD1329FFb56b`; it was later superseded by the steward-requested corrected contract.
 - Canonical `gen_getContractCode` replacement result: 16072 bytes, SHA-256 `ACF89615555C2CAF2634F690661B2A53873DB5B3807F463EB34284B8181946FB`.
 - Exact byte comparison: `True`; local source and live source are identical.
 
@@ -94,26 +94,26 @@ The following rows are retained only as historical evidence for the previous con
 | LIVE-03 | Any user assesses frozen sources | `assess` | `0x80fe6c5772896b06cf651a63c6145d16aad6fc23a4e4b6462e6d1922c524d021` | `FINALIZED`; `SUCCESS`; consensus reached | Finalized `get`: `state=ASSESSED`, `revision=1`; `get_assessment(1)`: matching digests, `UNRESOLVED` | PASS |
 | LIVE-04 | Any user appends a reassessment | `reassess` | `0x5302e0a159019d19ec46391637bf7365dbd01b8986a08d2c276e65a8853d0080` | `FINALIZED`; `SUCCESS`; consensus/finality reached | Finalized `get`: `state=ASSESSED`, `revision=2`; `get_assessment(2)` readable and preserves revision 1 | PASS |
 
-## Exact-final Vercel E2E lifecycle
+## Historical Vercel E2E — superseded contract `0xfE2E4216502f12206A61a2b2103CbD1329FFb56b`
 
-The exact final production alias is `https://app-privacy-disclosure-consistency.vercel.app/`. Deployment `dpl_FjcSZs34J9Tuiub9WDmQCVbvjxQF` is `READY`, has `gitCommitSha=21439e6e8d2a1d88156593a943b356d1e64b48af`, uses build root `frontend`, and serves `https://app-privacy-disclosure-consistency-ledger-255wf7epg.vercel.app`. The shortened compatibility alias `https://app-privacy-consistency.vercel.app/` was added to this same deployment after an independent probe of that hostname returned `DEPLOYMENT_NOT_FOUND`; fresh probes now return HTTP `200` for both aliases and both `?e2e=1` variants. The bundle is `/assets/index-CO7d9rP0.js`, 545492 bytes, SHA-256 `FF1F2EBF544224A567D405763C19120FF207E0C5A975E4AFEF42B68EE2E763F0`; it contains the replacement contract address, transaction evidence UI, progress spinner, and bounded readback path, while the superseded address is absent.
+All evidence in this section belongs only to the historical frontend wired to contract `0xfE2E4216502f12206A61a2b2103CbD1329FFb56b`. It does **not** validate the corrected contract `0x41F4A7F278Ae526e98A329F2C31cA1CE31fa8c51`, its future frontend artifact, or `POST_GITHUB_VERCEL_FINAL`. Corrected-address Vercel deployment and browser E2E are pending.
 
-The deployment metadata source commit is the exact pushed frontend source commit. Any later evidence-only documentation commit does not alter `frontend/`, so the deployment/source relationship remains explicit and auditable.
+Historical deployment `dpl_FjcSZs34J9Tuiub9WDmQCVbvjxQF` was `READY`, had `gitCommitSha=21439e6e8d2a1d88156593a943b356d1e64b48af`, used build root `frontend`, and served `https://app-privacy-disclosure-consistency-ledger-255wf7epg.vercel.app`. Its historical aliases were `https://app-privacy-disclosure-consistency.vercel.app/` and `https://app-privacy-consistency.vercel.app/`. Its bundle `/assets/index-CO7d9rP0.js` was 545492 bytes with SHA-256 `FF1F2EBF544224A567D405763C19120FF207E0C5A975E4AFEF42B68EE2E763F0` and contained historical contract `0xfE2E4216502f12206A61a2b2103CbD1329FFb56b`.
 
-The fresh browser run used OKX Wallet account `0xBf90Af1bc61314775d57B641b89c1f702a93b40D`, which differs from the locked Studio deployer `0xeF5D2119416A2f5afa35dCFA209766EFC1BE5902`. It used fresh record `privacy-ledger-final-e2e-20260902-r7` on the restored shortened alias `https://app-privacy-consistency.vercel.app/?e2e=1`, chain `61999`, and the public Apple disclosure/policy URLs.
+The historical deployment metadata source commit exactly matched that historical frontend source. The historical browser run used OKX Wallet account `0xBf90Af1bc61314775d57B641b89c1f702a93b40D`, fresh record `privacy-ledger-final-e2e-20260902-r7`, chain `61999`, and `https://app-privacy-consistency.vercel.app/?e2e=1`. These facts are retained only as provenance for the superseded frontend journey.
 
-| Final UI E2E | Transaction | Finality and semantic result | Browser UI result | Authoritative readback |
+| Historical UI E2E on `0xfE2E...` | Transaction | Finality and semantic result | Browser UI result | Authoritative readback |
 |---|---|---|---|---|
 | Create draft | `0xc3b00955f1bf9ccae9de3188eb3eefab1820f449539653c7d1480de5883d2cf6` | `FINALIZED`; `MAJORITY_AGREE`; leader execution `SUCCESS` | Hash shown; finalized confirmation; record read back | `state=DRAFT`, `revision=0` |
 | Freeze sources | `0x8e12320084eb09b269c6f4ae44e707b0b48ef777bb8de55673db4f2901646828` | `FINALIZED`; `MAJORITY_AGREE`; leader execution `SUCCESS` | Hash shown; finalized confirmation; record read back | `state=FROZEN`, `revision=0` |
 | Assess | `0xd47a69b832330909e0e6fb42d85a8d71e3372e260d48a57cc5d682f1c231576b` | `FINALIZED`; `MAJORITY_AGREE`; leader execution `SUCCESS` | Hash shown; finalized confirmation; record read back | `state=ASSESSED`, `revision=1` |
 | Reassess | `0xf777903d1eea25038aeac8643e2bd975f819c8484182cc8b65e25de7fa1ddfb2` | `FINALIZED`; `MAJORITY_AGREE`; leader execution `SUCCESS` | Hash shown; finalized confirmation; record read back | `state=ASSESSED`, `revision=2` |
 
-Authoritative GenLayerJS reads confirm the final record is `ASSESSED`, revision `2`, verdict `UNRESOLVED`; `get_assessment(1)` and `get_assessment(2)` are both readable, and both revisions retain equal store digest `2d3eebbcb618c9b79217b5c54e90ea8b966facafb0ea78e30e0c0eb8fa5a5e76` and policy digest `3d2c8c276b6ac1c8bf282790f30a5b0ef96594afc72ef91a1bc988f89e04736a`. All four receipts independently report `FINALIZED`, `MAJORITY_AGREE`, matching sender/recipient, and leader execution `SUCCESS`. No duplicate write was sent.
+Historical authoritative GenLayerJS reads for contract `0xfE2E...` confirmed its final record was `ASSESSED`, revision `2`, verdict `UNRESOLVED`; `get_assessment(1)` and `get_assessment(2)` were both readable, and both revisions retained equal store digest `2d3eebbcb618c9b79217b5c54e90ea8b966facafb0ea78e30e0c0eb8fa5a5e76` and policy digest `3d2c8c276b6ac1c8bf282790f30a5b0ef96594afc72ef91a1bc988f89e04736a`. All four historical receipts reported `FINALIZED`, `MAJORITY_AGREE`, matching sender/recipient, and leader execution `SUCCESS`; no duplicate write was sent. This evidence is not a readback of corrected contract `0x41F4...`.
 
-### Request-count ledger
+### Historical request-count ledger
 
-Instrumentation ran inside the deployed frontend only when `?e2e=1` was present. It counted wallet-provider requests and page JSON-RPC fetches, classified by method, with no secrets or storage inspection. The hard ceiling was `541`; the hard stop was not reached.
+This request ledger applies only to the historical `0xfE2E...` Vercel journey. Instrumentation ran inside that deployed frontend only when `?e2e=1` was present. It counted wallet-provider requests and page JSON-RPC fetches, classified by method, with no secrets or storage inspection. The hard ceiling was `541`; the hard stop was not reached. A fresh measured ledger remains required for the corrected `0x41F4...` production journey.
 
 | Action | Total requests | Polling | Readback | Write submissions | Retries |
 |---|---:|---:|---:|---:|---:|
@@ -123,9 +123,9 @@ Instrumentation ran inside the deployed frontend only when `?e2e=1` was present.
 | Reassess | 24 | 19 | 1 | 1 | 0 |
 | Whole run | **123** | — | — | **4** | **0** |
 
-Whole-run breakdown: provider `11` (`eth_requestAccounts=2`, `eth_chainId=3`, `eth_getBalance=2`, `eth_sendTransaction=4`) plus page JSON-RPC fetch `112` (`gen_call=43`, `eth_getTransactionCount=4`, `eth_estimateGas=4`, `eth_gasPrice=4`, `eth_getTransactionByHash=57`). The four write hashes are unique; no write retry or duplicate submission occurred. The run remained below the hard ceiling of `541`.
+Historical whole-run breakdown: provider `11` (`eth_requestAccounts=2`, `eth_chainId=3`, `eth_getBalance=2`, `eth_sendTransaction=4`) plus page JSON-RPC fetch `112` (`gen_call=43`, `eth_getTransactionCount=4`, `eth_estimateGas=4`, `eth_gasPrice=4`, `eth_getTransactionByHash=57`). The four historical write hashes are unique; no write retry or duplicate submission occurred. That superseded-contract run remained below the hard ceiling of `541`.
 
 ## Release blockers
 
-1. Keep frontend/Vercel wiring separately bound to the approved replacement contract and chain.
+1. Deploy and verify a new frontend/Vercel artifact explicitly wired to corrected contract `0x41F4A7F278Ae526e98A329F2C31cA1CE31fa8c51` on chain `61999`; historical `0xfE2E...` Vercel evidence cannot satisfy this gate.
 2. GitHub/Vercel final submission and Project Explorer manual submission remain separate release gates; this verification does not claim those submissions are complete.
