@@ -11,7 +11,8 @@
   "git_commit": "e63d5eaa816f8dfa79e069f6e30291885555565e",
   "constructor_args": [],
   "classification": "UPGRADABLE",
-  "deployer_or_upgrader_address": "0x34b92E6553eaCA11A00A9d86d75d8a7881779D78",
+  "deployer_or_upgrader_address": "0x8581c4a532dd3f9b163b12809b1bd089f367147f",
+  "deployer_or_upgrader_actor": "actor7",
   "linked_contracts": {},
   "configuration_transactions": [],
   "recovery_notes": {

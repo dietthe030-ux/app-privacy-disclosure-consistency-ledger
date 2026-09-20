@@ -24,7 +24,7 @@ No Studio page, deployment, transaction or live E2E action for the corrected can
 
 STUDIO_FIRST_ACTION_AT: `2026-09-07T15:22:59Z` (read-only Studio open/account inspection after the completed probe).
 
-LOCKED_STUDIO_DEPLOYER_UPGRADER: `0x34b92E6553eaCA11A00A9d86d75d8a7881779D78` (visible balance `10.001 GEN`; no signature or transaction sent).
+CURRENT_LOCKED_STUDIO_DEVNET_DEPLOYER_UPGRADER: actor `actor7`, address `0x8581c4a532dd3f9b163b12809b1bd089f367147f` (read-only balance `139.891938164499902407 GEN`; no signature or transaction sent).
 
 ## CURRENT STUDIO DEVNET 61997 PLAN — LOCKED BEFORE DEPLOYMENT
 
@@ -56,6 +56,8 @@ No deployment or lifecycle transaction has been made for the current Studio Devn
 Current whole-run ceilings: deployment transactions `1`; lifecycle transactions `4`; total transactions `5`; duplicate transactions `0`; status polls `228` maximum; terminal receipt reads `5` plus at most `4` diagnostics only after an observed mismatch; authoritative readbacks `10` planned and `18` hard maximum; observable primary-AI actions `270` hard maximum. For the frontend journey, the locked matrix in `docs/preflight/STUDIO-DEV-FRONTEND-RPC-MATRIX.md` sets a whole-run ceiling of `541` RPC requests, four lifecycle transactions, zero duplicate writes, zero automatic write retries, and one deliberate reconciliation per operation. Any wrong chain/account, insufficient balance, source mismatch, quota/rate limit, ambiguous hash, terminal failure, failed readback or ceiling breach is a hard stop.
 
 ## HISTORICAL 61999 STUDIO ACTION LEDGER — NOT CURRENT 61997 EVIDENCE
+
+HISTORICAL_61999_LOCKED_DEPLOYER_UPGRADER: `0x34b92E6553eaCA11A00A9d86d75d8a7881779D78` (historical visible balance `10.001 GEN`; not a current configured actor).
 
 - Historical 61999 transactions: `5` total — one deployment and four unique lifecycle writes.
 - Lifecycle retries: `0`; duplicate transactions: `0`.
