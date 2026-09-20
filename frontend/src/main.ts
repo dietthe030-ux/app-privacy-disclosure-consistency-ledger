@@ -1,7 +1,7 @@
 import "./style.css";
 import { config, createWriteClient, getAssessment, getRecord, listRecordIds, submitWrite } from "./ledger.ts";
-import { accountFromChange, bindProviderSession, ensureSpendableBalance, ensureStudionet, getAvailableWallets, isUserRejected, normalizeChainId, providerChainId, requestAccount, type DiscoveredWallet, type EthereumProvider } from "./wallet.ts";
-import { studionet } from "genlayer-js/chains";
+import { accountFromChange, bindProviderSession, ensureSpendableBalance, ensureStudioDevnet, getAvailableWallets, isUserRejected, normalizeChainId, providerChainId, requestAccount, type DiscoveredWallet, type EthereumProvider } from "./wallet.ts";
+import { studioDevnet } from "genlayer-js/chains";
 import { mountE2ETrace } from "./e2eTrace.ts";
 
 type Session = {
@@ -110,7 +110,7 @@ function showTransactionEvidence(hash: string, action: string): void {
   });
   const explorer = document.createElement("a");
   explorer.className = "hash-link";
-  explorer.href = `https://explorer-studio.genlayer.com/address/${config.address}`;
+  explorer.href = `https://explorer-studio-dev.genlayer.com/address/${config.address}`;
   explorer.target = "_blank";
   explorer.rel = "noreferrer";
   explorer.textContent = "Open contract";
@@ -263,7 +263,7 @@ function tearDownSession(): void {
 async function syncNetwork(): Promise<boolean> {
   if (!session) return false;
   const current = await providerChainId(session.provider);
-  const target = `0x${studionet.id.toString(16)}`;
+  const target = `0x${studioDevnet.id.toString(16)}`;
   if (normalizeChainId(current) !== target) {
     session.writeClient = undefined;
     setNetworkStatus("Switch to GenLayer Studio network");
@@ -360,7 +360,7 @@ function showWalletPicker(walletOptions: DiscoveredWallet[]): void {
         if (error) error.hidden = true;
         try {
           const account = await requestAccount(wallet.provider);
-          await ensureStudionet(wallet.provider, studionet);
+          await ensureStudioDevnet(wallet.provider, studioDevnet);
           await ensureSpendableBalance(wallet.provider, account);
           setConnectedSession(account, wallet.provider, wallet.label);
           closeModal(modal);

@@ -1,6 +1,5 @@
-import { createClient } from "genlayer-js";
-import { studionet } from "genlayer-js/chains";
-import { TransactionStatus } from "genlayer-js/types";
+import { createClient, isSuccessful } from "genlayer-js";
+import { studioDevnet } from "genlayer-js/chains";
 import type { EthereumProvider } from "./wallet.ts";
 import { beginAction, endAction, noteRetry, noteWriteSubmission } from "./e2eTrace.ts";
 
@@ -18,7 +17,7 @@ export const config: LedgerConfig | undefined = candidateAddress && addressPatte
   ? { address: candidateAddress as Address }
   : undefined;
 
-export const readClient = createClient({ chain: studionet });
+export const readClient = createClient({ chain: studioDevnet });
 
 function decodeContractReturn(value: unknown): unknown {
   if (typeof value !== "string") return value;
@@ -26,7 +25,7 @@ function decodeContractReturn(value: unknown): unknown {
 }
 
 export function createWriteClient(address: Address, provider: EthereumProvider): GenLayerClient {
-  return createClient({ chain: studionet, account: address, provider });
+  return createClient({ chain: studioDevnet, account: address, provider });
 }
 
 export async function listRecordIds(): Promise<string[]> {
@@ -66,23 +65,22 @@ export async function submitWrite(client: GenLayerClient, functionName: string, 
     const hash = await client.writeContract({ address: config.address, functionName, args, value: BigInt(0) }) as `0x${string}`;
     noteWriteSubmission(action, hash);
     onSubmitted?.(hash);
-    const waitForReceipt = readClient.waitForTransactionReceipt as unknown as (options: { hash: `0x${string}`; status: TransactionStatus; interval: number; retries: number; fullTransaction: boolean }) => Promise<unknown>;
-    const receipt = await waitForReceipt({ hash: hash as `0x${string}`, status: TransactionStatus.FINALIZED, interval: 3000, retries: 120, fullTransaction: true });
+    const waitForFinalization = readClient.waitForFinalization as unknown as (options: { hash: `0x${string}`; interval: number; retries: number; fullTransaction: boolean }) => Promise<unknown>;
+    const retries = action === "create" || action === "freeze" ? 35 : 59;
+    const receipt = await waitForFinalization({ hash: hash as `0x${string}`, interval: 5000, retries, fullTransaction: true });
     const receiptFields = receipt as unknown as Record<string, unknown>;
     const statusName = receiptFields.statusName ?? receiptFields.status_name;
-    const resultName = receiptFields.resultName ?? receiptFields.result_name;
-    const consensus = receiptFields.consensusData ?? receiptFields.consensus_data;
-    const leaderReceipts = typeof consensus === "object" && consensus !== null
-      ? (consensus as Record<string, unknown>).leaderReceipt ?? (consensus as Record<string, unknown>).leader_receipt
-      : undefined;
-    const leaderExecution = Array.isArray(leaderReceipts) && leaderReceipts.length > 0 && typeof leaderReceipts[0] === "object" && leaderReceipts[0] !== null
-      ? (leaderReceipts[0] as Record<string, unknown>).executionResult ?? (leaderReceipts[0] as Record<string, unknown>).execution_result
-      : undefined;
-    if (statusName !== "FINALIZED" || resultName !== "MAJORITY_AGREE" || leaderExecution !== "SUCCESS") {
+    if (statusName !== "FINALIZED" || !isSuccessful(receipt as Parameters<typeof isSuccessful>[0])) {
       throw new Error("The network finalized the request without a successful contract result.");
     }
     const recordId = typeof args[0] === "string" ? args[0] : "";
     const record = recordId ? await readWithRetry(() => getRecord(recordId)) : undefined;
+    const revision = typeof record === "object" && record !== null && typeof (record as Record<string, unknown>).revision === "number"
+      ? (record as Record<string, unknown>).revision as number
+      : 0;
+    if (recordId && (action === "assess" || action === "reassess") && revision > 0) {
+      await readWithRetry(() => getAssessment(recordId, revision));
+    }
     endAction(action, "SUCCESS");
     return { hash, record };
   } catch (error) {

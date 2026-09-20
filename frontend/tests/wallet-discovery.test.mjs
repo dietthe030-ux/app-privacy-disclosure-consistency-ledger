@@ -57,7 +57,7 @@ test("adds and retries a chain only after an unknown-chain switch error", async 
   const selected = {
     request: async ({ method, params }) => {
       calls.push({ method, params });
-      if (method === "eth_chainId") return switched ? "0xf22f" : "0x1";
+      if (method === "eth_chainId") return switched ? "0xf22d" : "0x1";
       if (method === "wallet_switchEthereumChain" && !switched) {
         const error = new Error("unknown chain");
         error.code = 4902;
@@ -67,7 +67,7 @@ test("adds and retries a chain only after an unknown-chain switch error", async 
       return null;
     },
   };
-  await wallet.ensureStudionet(selected, { id: 61999, name: "Genlayer Studio Network", rpcUrls: { default: { http: ["https://studio.genlayer.com/api"] } }, nativeCurrency: { name: "GEN Token", symbol: "GEN", decimals: 18 } });
+  await wallet.ensureStudioDevnet(selected, { id: 61997, name: "GenLayer Studio Devnet", rpcUrls: { default: { http: ["https://studio-dev.genlayer.com/api"] } }, nativeCurrency: { name: "GEN Token", symbol: "GEN", decimals: 18 } });
   assert.deepEqual(calls.map((call) => call.method), ["eth_chainId", "wallet_switchEthereumChain", "wallet_addEthereumChain", "wallet_switchEthereumChain", "eth_chainId"]);
 });
 
@@ -82,7 +82,7 @@ test("does not add a chain after a non-unknown switch error", async () => {
       throw error;
     },
   };
-  await assert.rejects(() => wallet.ensureStudionet(selected, { id: 61999, name: "Genlayer Studio Network", rpcUrls: { default: { http: ["https://studio.genlayer.com/api"] } }, nativeCurrency: { name: "GEN Token", symbol: "GEN", decimals: 18 } }), (error) => error.code === 4001);
+  await assert.rejects(() => wallet.ensureStudioDevnet(selected, { id: 61997, name: "GenLayer Studio Devnet", rpcUrls: { default: { http: ["https://studio-dev.genlayer.com/api"] } }, nativeCurrency: { name: "GEN Token", symbol: "GEN", decimals: 18 } }), (error) => error.code === 4001);
   assert.deepEqual(calls, ["eth_chainId", "wallet_switchEthereumChain"]);
 });
 
@@ -142,7 +142,7 @@ test("binds and cleans up account and chain listeners on the selected provider",
   let chainChanges = 0;
   const remove = wallet.bindProviderSession(selected, () => { accountChanges += 1; }, () => { chainChanges += 1; });
   listeners.get("accountsChanged")(["0x1111111111111111111111111111111111111111"]);
-  listeners.get("chainChanged")("0xf22f");
+  listeners.get("chainChanged")("0xf22d");
   assert.deepEqual([...listeners.keys()].sort(), ["accountsChanged", "chainChanged"]);
   assert.equal(accountChanges, 1);
   assert.equal(chainChanges, 1);

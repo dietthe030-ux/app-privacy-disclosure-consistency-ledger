@@ -122,7 +122,7 @@ export function accountFromChange(value: unknown): `0x${string}` | undefined {
   return typeof account === "string" && /^0x[a-fA-F0-9]{40}$/.test(account) ? account as `0x${string}` : undefined;
 }
 
-export async function ensureStudionet(provider: EthereumProvider, chain: { id: number; name: string; rpcUrls: { default: { http: readonly string[] } }; nativeCurrency: { name: string; symbol: string; decimals: number }; blockExplorers?: { default: { url: string } } }): Promise<void> {
+export async function ensureStudioDevnet(provider: EthereumProvider, chain: { id: number; name: string; rpcUrls: { default: { http: readonly string[] } }; nativeCurrency: { name: string; symbol: string; decimals: number }; blockExplorers?: { default: { url: string } } }): Promise<void> {
   const target = `0x${chain.id.toString(16)}`;
   const current = normalizeChainId(await provider.request({ method: "eth_chainId" }));
   if (current !== target) {

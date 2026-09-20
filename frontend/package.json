@@ -9,7 +9,7 @@
     "test": "node --experimental-strip-types --test tests/wallet-discovery.test.mjs"
   },
   "dependencies": {
-    "genlayer-js": "1.1.8"
+    "genlayer-js": "2.0.0-rc.1"
   },
   "devDependencies": {
     "typescript": "7.0.2",

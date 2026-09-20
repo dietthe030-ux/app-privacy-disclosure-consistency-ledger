@@ -46,7 +46,7 @@ const state: TraceState = {
   currentRetries: 0,
 };
 
-const pollingMethods = new Set(["gen_getTransactionStatus", "gen_getTransactionReceipt", "eth_getTransactionReceipt", "eth_getTransactionByHash"]);
+const pollingMethods = new Set(["gen_getTransactionLifecycle", "gen_getTransactionStatus", "gen_getTransactionReceipt", "eth_getTransactionReceipt", "eth_getTransactionByHash"]);
 const readMethods = new Set(["eth_call", "gen_call", "gen_getContractState", "gen_getContractCode"]);
 
 function refreshElement(): void {
