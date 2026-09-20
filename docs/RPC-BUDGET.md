@@ -24,7 +24,7 @@ No Studio page, deployment, transaction or live E2E action for the corrected can
 
 STUDIO_FIRST_ACTION_AT: `2026-09-07T15:22:59Z` (read-only Studio open/account inspection after the completed probe).
 
-CURRENT_LOCKED_STUDIO_DEVNET_DEPLOYER_UPGRADER: actor `actor7`, address `0x8581c4a532dd3f9b163b12809b1bd089f367147f` (current read-only balance is recorded in `docs/preflight/studio-tool-readiness.json`; no signature or transaction sent).
+CURRENT_LOCKED_STUDIO_DEVNET_DEPLOYER_UPGRADER: actor `actor7`, address `0x8581c4a532dd3f9b163b12809b1bd089f367147f` (current read-only balance is recorded in `docs/preflight/studio-tool-readiness-runtime-fix.json`, SHA-256 `7D3C68291296A0991280165E304F13FE8F206B89BE5BF77EDA913B4C86AACA15`, source-bound to `DCF01BA79105957001AEC350629E6D2CAEB3BC880CB677235D33C0762F7EDF4A`; no signature or transaction sent).
 
 ## CURRENT STUDIO DEVNET 61997 PLAN — LOCKED BEFORE DEPLOYMENT
 

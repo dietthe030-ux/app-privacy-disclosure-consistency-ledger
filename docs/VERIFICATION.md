@@ -53,7 +53,7 @@ The contract is documentary comparison only. It does not establish privacy-law c
 - Contract classification: `UPGRADABLE`; deployer is registered in `gl.storage.Root.get().upgraders` and stored as the explicit authorized upgrader.
 - Classification consequence: the locked Studio deployer is intended to be the sole explicit upgrader and will be registered in the native Root Slot upgrader list by the fresh 61997 deployment. Losing that Studio account or a Studio Devnet reset can require replacement deployment; no stronger recovery claim is made.
 - Locked current Studio Devnet deployer/upgrader: configured actor `actor7`, public address `0x8581c4a532dd3f9b163b12809b1bd089f367147f`.
-- Read-only Studio Devnet readiness balance is recorded in `docs/preflight/studio-tool-readiness.json`; no signature or transaction was sent. The prior `0x34b92E6553eaCA11A00A9d86d75d8a7881779D78` is historical 61999 actor data only.
+- Read-only Studio Devnet readiness balance is recorded in `docs/preflight/studio-tool-readiness-runtime-fix.json` (SHA-256 `7D3C68291296A0991280165E304F13FE8F206B89BE5BF77EDA913B4C86AACA15`, source-bound to `DCF01BA79105957001AEC350629E6D2CAEB3BC880CB677235D33C0762F7EDF4A`); no signature or transaction was sent. The prior `0x34b92E6553eaCA11A00A9d86d75d8a7881779D78` is historical 61999 actor data only.
 - Anonymous `PRE_DEPLOY` status: the current Studio Devnet migration package is awaiting correction/re-review; no deployment is authorized by this document until the exact package is approved.
 - Deployment runbook: `docs/DEPLOYMENT-RUNBOOK.md`.
 - Exact current-source package: local lint/schema/Direct Mode complete; frontend local checks complete.
