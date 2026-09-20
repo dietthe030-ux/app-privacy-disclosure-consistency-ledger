@@ -23,7 +23,7 @@ This document is the single evidence ledger for the project and is intentionally
 - Project folder: `E:\Genlayer-Projects\app-privacy-disclosure-consistency-ledger`
 - Current contract source: `contracts/app_privacy_disclosure_consistency_ledger.py`
 - Current corrected candidate SHA-256: `C475DF6EF49A4EE4984CFD98A1664E50D3577AEE1B5D98899253917CA6F897AA`
-- Current frontend lockfile SHA-256: `73ECF77F53911D17E656528D3B7D38BBE7C70C76E0024DA2381EB2BB117DC054`
+- Current frontend lockfile SHA-256: `0EF3A34944BFA2006C6C958C4BD9467C499A46EA9BE9630C6A38A2D24AA33F31`
 - Historical frontend source commit used by the superseded `0xfE2E...` Vercel deployment: `21439e6e8d2a1d88156593a943b356d1e64b48af`
 - Contract source commit: `e63d5eaa816f8dfa79e069f6e30291885555565e`
 - Current target network: Studio Devnet (`61997`); RPC `https://studio-dev.genlayer.com/api`; Explorer `https://explorer-studio-dev.genlayer.com/`.
