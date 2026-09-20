@@ -1,7 +1,7 @@
 {
   "status": "PRE_DEPLOY_READY_STUDIO_DEV_61997_PENDING_DEPLOYMENT",
   "current_candidate": {
-    "source_sha256": "DCF01BA79105957001AEC350629E6D2CAEB3BC880CB677235D33C0762F7EDF4A",
+    "source_sha256": "CEE7738EBB533F00BF707C5FC95EFD21CECDF263601F0B680B990E1CD05945AC",
     "deployment_status": "PENDING_DEPLOYMENT",
     "target_network": "Studio Devnet",
     "target_chain_id": 61997,
@@ -19,8 +19,8 @@
   "explorer_url": null,
   "deployment_transaction_hash": null,
   "source_file": "contracts/app_privacy_disclosure_consistency_ledger.py",
-  "source_sha256": "DCF01BA79105957001AEC350629E6D2CAEB3BC880CB677235D33C0762F7EDF4A",
-  "git_commit": "302a6de8f90294e13894a955e7178e0e31a7606c",
+  "source_sha256": "CEE7738EBB533F00BF707C5FC95EFD21CECDF263601F0B680B990E1CD05945AC",
+  "git_commit": "2ba319e128e94d8246c643252f3151fd2123aff3",
   "constructor_args": [],
   "classification": "UPGRADABLE",
   "deployer_or_upgrader_address": "0x8581c4a532dd3f9b163b12809b1bd089f367147f",
@@ -28,7 +28,7 @@
   "historical_61999_deployer_or_upgrader_address": "0x34b92E6553eaCA11A00A9d86d75d8a7881779D78",
   "linked_contracts": {},
   "configuration_transactions": [],
-  "source_bytes": 26539,
+  "source_bytes": 26558,
   "live_source_parity": null,
   "live_source_parity_status": "PENDING_STUDIO_DEV_61997_DEPLOYMENT",
   "historical_61999_live_source_parity": {
@@ -81,6 +81,16 @@
     "source_sha256": "C475DF6EF49A4EE4984CFD98A1664E50D3577AEE1B5D98899253917CA6F897AA",
     "usable_for_release": false,
     "reason": "The constructor execution failed; the address and transaction are retained only for reconciliation and must not be wired or used as current evidence."
+  },
+  "failed_61997_deployment_attempt_2": {
+    "transaction_hash": "0x272dbb4fded79ba11282453e0211a3822da94ccaeb62a0748f504c9306b688d6",
+    "returned_contract_address": "0x300C5c123F09e8D1bDE4d4392b4cc96c4853FC80",
+    "status": "FINALIZED",
+    "consensus": "MAJORITY_AGREE",
+    "execution": "FINISHED_WITH_ERROR",
+    "source_sha256": "DCF01BA79105957001AEC350629E6D2CAEB3BC880CB677235D33C0762F7EDF4A",
+    "usable_for_release": false,
+    "reason": "The exact reviewed primitive-local correction still failed during constructor execution; the address and transaction are retained only for reconciliation and must not be wired or used as current evidence."
   },
   "superseded_deployment": {
     "contract_address": "0x97a005a129e0212c792CC00B20B702288c1C13EB",

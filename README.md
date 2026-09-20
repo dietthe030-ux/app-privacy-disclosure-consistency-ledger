@@ -45,7 +45,7 @@ The frontend requires explicit wallet selection, checks the selected account and
 
 ```powershell
 genvm-lint check contracts/app_privacy_disclosure_consistency_ledger.py --json
-wsl.exe -e bash -lc "cd /mnt/e/Genlayer-Projects/app-privacy-disclosure-consistency-ledger && HOME=/mnt/c/Users/LEGION /tmp/privacy-ledger-test-venv/bin/python -m pytest -q tests/direct/ -p no:gltest -p no:cacheprovider"
+& 'C:\Users\LEGION\AppData\Local\Programs\Python\Python313\python.exe' -m pytest -q tests/direct/ -p no:gltest -p no:cacheprovider
 cd frontend
 npm install --save-exact
 npm test
@@ -58,13 +58,13 @@ For a live frontend after the pending deployment, copy `frontend/.env.example` t
 
 ```powershell
 genvm-lint check contracts/app_privacy_disclosure_consistency_ledger.py --json
-wsl.exe -e bash -lc "cd /mnt/e/Genlayer-Projects/app-privacy-disclosure-consistency-ledger && HOME=/mnt/c/Users/LEGION /tmp/privacy-ledger-test-venv/bin/python -m pytest -q tests/direct/ -p no:gltest -p no:cacheprovider"
+& 'C:\Users\LEGION\AppData\Local\Programs\Python\Python313\python.exe' -m pytest -q tests/direct/ -p no:gltest -p no:cacheprovider
 cd frontend
 npm test
 npm run build
 ```
 
-The candidate passes lint/schema, 17 Direct Mode tests in the pinned WSL environment, 13 frontend tests, and the production build. The Windows Direct Mode loader is not used as evidence because `genlayer-test==0.29.2` fails before contract import with `PermissionError: [WinError 32]`; the WSL route is the verified test environment. Its 26,539-byte committed source has SHA-256 `DCF01BA79105957001AEC350629E6D2CAEB3BC880CB677235D33C0762F7EDF4A`. Deployment parity and lifecycle writes remain pending for Studio Devnet 61997; historical 61999 live evidence is retained only in the verification ledger.
+The candidate passes lint/schema, 17 Direct Mode tests in the installed pinned Python 3.13 environment, 13 frontend tests, and the production build. Its 26,558-byte committed source has SHA-256 `CEE7738EBB533F00BF707C5FC95EFD21CECDF263601F0B680B990E1CD05945AC`. Deployment parity and lifecycle writes remain pending for Studio Devnet 61997; both failed 61997 deployment attempts are diagnostic only, and historical 61999 live evidence is retained only in the verification ledger.
 
 ## Deployment and recovery
 

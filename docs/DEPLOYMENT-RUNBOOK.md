@@ -5,15 +5,15 @@ This runbook separates the current Studio Devnet 61997 candidate from historical
 ## Current source
 
 - Contract: `contracts/app_privacy_disclosure_consistency_ledger.py`
-- SHA-256: `DCF01BA79105957001AEC350629E6D2CAEB3BC880CB677235D33C0762F7EDF4A`
-- Contract source commit: `302a6de8f90294e13894a955e7178e0e31a7606c`
+- SHA-256: `CEE7738EBB533F00BF707C5FC95EFD21CECDF263601F0B680B990E1CD05945AC`
+- Contract source commit: `2ba319e128e94d8246c643252f3151fd2123aff3`
 - Constructor arguments: `[]`
 - Contract methods: `create`, `freeze`, `assess`, `reassess`, `upgrade`, `get`, `get_assessment`, `list_ids`
 
 ## Recorded pre-deployment decisions
 
 1. Classification is `UPGRADABLE`: the deployer will be stored as the authorized upgrader and registered in the native Root Slot upgrader list by the fresh Studio Devnet deployment. Upgrade authority is lost if that Studio account becomes unavailable or Studio Devnet resets; no stronger recovery claim is made.
-2. The selected and locked current Studio Devnet deployer/upgrader is configured actor `actor7`, public address `0x8581c4a532dd3f9b163b12809b1bd089f367147f`; its current read-only readiness balance is recorded in `docs/preflight/studio-tool-readiness-runtime-fix.json` (SHA-256 `7D3C68291296A0991280165E304F13FE8F206B89BE5BF77EDA913B4C86AACA15`, source-bound to `DCF01BA79105957001AEC350629E6D2CAEB3BC880CB677235D33C0762F7EDF4A`). No signature or transaction was sent while selecting it. The prior `0x34b92E6553eaCA11A00A9d86d75d8a7881779D78` is historical 61999 actor data only.
+2. The selected and locked current Studio Devnet deployer/upgrader is configured actor `actor7`, public address `0x8581c4a532dd3f9b163b12809b1bd089f367147f`; its current read-only readiness balance is recorded in `docs/preflight/studio-tool-readiness-runtime-fix.json` (SHA-256 `C80D0A9BE2E4BE4CF30ECF71168F8D3E29863BD66C9D81186DB4298ADA9EFF60`, source-bound to `CEE7738EBB533F00BF707C5FC95EFD21CECDF263601F0B680B990E1CD05945AC`). No signature or transaction was sent while selecting it. The prior `0x34b92E6553eaCA11A00A9d86d75d8a7881779D78` is historical 61999 actor data only.
 3. Historical approvals do not transfer. The corrected candidate requires a fresh anonymous `PRE_DEPLOY` verdict bound to its exact commit and source hash.
 4. Every conclusive verdict requires exact app-store URL/ID binding, a distinct non-store policy host, identity `MATCH` for both sources, valid bounded bodies, exact supporting quotes, and validator agreement.
 5. A malformed, unavailable or truncated source, invalid model schema, identity uncertainty or validator disagreement fails closed.
@@ -30,7 +30,7 @@ genlayer deploy --contract contracts/app_privacy_disclosure_consistency_ledger.p
 
 The selected Studio Dev CLI/browser route must target chain `61997` (`0xf22d`) and Explorer `https://explorer-studio-dev.genlayer.com/`. After approval, upload the exact committed candidate source and deploy one new upgradable contract from the locked Studio account. The historical 61999 address must not be used or presented as current.
 
-After deployment, canonical `gen_getContractCode` must return bytes exactly equal to the corrected committed source and SHA-256 `DCF01BA79105957001AEC350629E6D2CAEB3BC880CB677235D33C0762F7EDF4A`. Any mismatch requires another replacement; documentation cannot waive byte parity.
+After deployment, canonical `gen_getContractCode` must return bytes exactly equal to the corrected committed source and SHA-256 `CEE7738EBB533F00BF707C5FC95EFD21CECDF263601F0B680B990E1CD05945AC`. Any mismatch requires another replacement; documentation cannot waive byte parity.
 
 ## Post-deployment matrix
 
