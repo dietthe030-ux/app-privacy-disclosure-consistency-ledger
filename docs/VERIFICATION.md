@@ -15,7 +15,7 @@ This document is the single evidence ledger for the project and is intentionally
 - Local checks: lint/schema PASS with 8 methods; Direct Mode `17 passed`; frontend `13 passed`; production build PASS.
 - Current target: Studio Devnet, chain `61997`, RPC `https://studio-dev.genlayer.com/api`, Explorer `https://explorer-studio-dev.genlayer.com/`.
 - Current deployment status: `PENDING_DEPLOYMENT`; failed diagnostic transactions `0xebb127384521ac8e654b54911a7d57ef4cc7c4ddff5c9b193b57edc63f7ed998` (address `0x689D1Bcd99cC7a27413fda4b19b3EFa603Fa5176`) and `0x272dbb4fded79ba11282453e0211a3822da94ccaeb62a0748f504c9306b688d6` (address `0x300C5c123F09e8D1bDE4d4392b4cc96c4853FC80`) both returned `FINALIZED` + `MAJORITY_AGREE` but `FINISHED_WITH_ERROR`; both are explicitly unusable. No accepted 61997 contract address, source parity, LIVE-01 through LIVE-04 proof, GitHub publication, Vercel artifact or production E2E is claimed.
-- Read-only Studio Devnet readiness artifact: `docs/preflight/studio-tool-readiness-runtime-fix.json`; SHA-256 `7D3C68291296A0991280165E304F13FE8F206B89BE5BF77EDA913B4C86AACA15`, refreshed immediately before this package. The older readiness snapshots remain historical evidence only.
+- Read-only Studio Devnet readiness artifact: `docs/preflight/studio-tool-readiness-runtime-fix.json`; SHA-256 `C80D0A9BE2E4BE4CF30ECF71168F8D3E29863BD66C9D81186DB4298ADA9EFF60`, refreshed immediately before this package. The older readiness snapshots remain historical evidence only.
 - Required next gates: obtain the scoped `PRE_DEPLOY` approval, deploy once to Studio Devnet, verify exact source parity and fresh lifecycle evidence, then wire the frontend to the new 61997 address and pursue the separate GitHub/Vercel gates.
 
 ## Identity
