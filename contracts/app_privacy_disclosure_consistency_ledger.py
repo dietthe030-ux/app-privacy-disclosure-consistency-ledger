@@ -368,9 +368,10 @@ class AppPrivacyDisclosureConsistencyLedger(gl.Contract):
     upgrader: Address
 
     def __init__(self):
-        self.upgrader = gl.message.sender_address
+        sender = gl.message.sender_address
+        self.upgrader = sender
         root = gl.storage.Root.get()
-        root.upgraders.get().append(self.upgrader)
+        root.upgraders.get().append(sender)
 
     @gl.public.write
     def upgrade(self, new_code: bytes) -> None:
