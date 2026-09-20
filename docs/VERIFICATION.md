@@ -1,6 +1,6 @@
 # Verification — Privacy Disclosure Consistency Ledger
 
-This document is the single evidence ledger for the project and is intentionally secret-free. The current candidate targets Studio Devnet 61997 but has no usable deployment address or accepted live lifecycle yet. Two failed 61997 attempts are retained as diagnostic evidence and are not release evidence. Historical 61999 deployments and Vercel journeys below are segregated provenance only and do not prove the current candidate.
+This document is the single evidence ledger for the project and is intentionally secret-free. The current candidate is deployed on Studio Devnet 61997 at `0xd07a6566f188ce5ce40b82598ee9c0f165608bea`; exact source parity and LIVE-01 through LIVE-04 are PASS. Two failed 61997 attempts are retained as diagnostic evidence and are not release evidence. Historical 61999 deployments and Vercel journeys below are segregated provenance only and do not prove the current candidate.
 
 ## Steward-request correction status
 
@@ -14,9 +14,9 @@ This document is the single evidence ledger for the project and is intentionally
 - Upgrade lifecycle: constructor registers the deployer in native Root Slot upgraders; explicit authorization guards code replacement; authorized replacement and unauthorized rejection are covered locally.
 - Local checks: lint/schema PASS with 8 methods; Direct Mode `17 passed`; frontend `13 passed`; production build PASS.
 - Current target: Studio Devnet, chain `61997`, RPC `https://studio-dev.genlayer.com/api`, Explorer `https://explorer-studio-dev.genlayer.com/`.
-- Current deployment status: `PENDING_DEPLOYMENT`; failed diagnostic transactions `0xebb127384521ac8e654b54911a7d57ef4cc7c4ddff5c9b193b57edc63f7ed998` (address `0x689D1Bcd99cC7a27413fda4b19b3EFa603Fa5176`) and `0x272dbb4fded79ba11282453e0211a3822da94ccaeb62a0748f504c9306b688d6` (address `0x300C5c123F09e8D1bDE4d4392b4cc96c4853FC80`) both returned `FINALIZED` + `MAJORITY_AGREE` but `FINISHED_WITH_ERROR`; both are explicitly unusable. No accepted 61997 contract address, source parity, LIVE-01 through LIVE-04 proof, GitHub publication, Vercel artifact or production E2E is claimed.
+- Current deployment status: `DEPLOYED_FINALIZED`; accepted address `0xd07a6566f188ce5ce40b82598ee9c0f165608bea`, deployment transaction `0x3fa837ba9b5a200c26bcba0a30260e3b1c642eb5b21650fbfc91f9ef0f300b9a`, exact `gen_getContractCode` parity PASS, and LIVE-01 through LIVE-04 PASS. Failed diagnostic transactions `0xebb127384521ac8e654b54911a7d57ef4cc7c4ddff5c9b193b57edc63f7ed998` (address `0x689D1Bcd99cC7a27413fda4b19b3EFa603Fa5176`) and `0x272dbb4fded79ba11282453e0211a3822da94ccaeb62a0748f504c9306b688d6` (address `0x300C5c123F09e8D1bDE4d4392b4cc96c4853FC80`) both returned `FINALIZED` + `MAJORITY_AGREE` but `FINISHED_WITH_ERROR`; both remain explicitly unusable. GitHub publication, Vercel deployment and production browser E2E are not claimed.
 - Read-only Studio Devnet readiness artifact: `docs/preflight/studio-tool-readiness-runtime-fix.json`; SHA-256 `D1B3C5E9E50B029561F278B4B1F64DB03ADCEA583708ED556D92AD05820ED300`, source-bound to the current adapted candidate. The recorded actor balance is the single read-only `account show` measurement at the artifact timestamp; the older readiness snapshots remain historical evidence only.
-- Required next gates: obtain the scoped `PRE_DEPLOY` approval, deploy once to Studio Devnet, verify exact source parity and fresh lifecycle evidence, then wire the frontend to the new 61997 address and pursue the separate GitHub/Vercel gates.
+- Required next gates: bind the frontend to the accepted 61997 address, obtain the scoped post-deploy approval, publish the exact revision to GitHub, deploy Vercel from build root `frontend`, and only then perform the separate production browser E2E gate.
 
 ## Identity
 
@@ -26,9 +26,9 @@ This document is the single evidence ledger for the project and is intentionally
 - Current corrected candidate SHA-256: `7A1F9260FCC24174482142B522AAE60CA9BD96352BF8C497EB2B2E03CC991C8E`
 - Current frontend lockfile SHA-256: `0EF3A34944BFA2006C6C958C4BD9467C499A46EA9BE9630C6A38A2D24AA33F31`
 - Historical frontend source commit used by the superseded `0xfE2E...` Vercel deployment: `21439e6e8d2a1d88156593a943b356d1e64b48af`
-- Contract source commit: `88256329df7805ca541aeb5d504e12c33e05bba2`
+- Contract source commit: `0c1ed06b00099023d7d04184017a9970e0d02275`
 - Current target network: Studio Devnet (`61997`); RPC `https://studio-dev.genlayer.com/api`; Explorer `https://explorer-studio-dev.genlayer.com/`.
-- Current contract address: `PENDING_DEPLOYMENT`; deployment transaction: `PENDING_DEPLOYMENT`.
+- Current contract address: `0xd07a6566f188ce5ce40b82598ee9c0f165608bea`; deployment transaction: `0x3fa837ba9b5a200c26bcba0a30260e3b1c642eb5b21650fbfc91f9ef0f300b9a`.
 - Historical 61999 corrected contract: `0x41F4A7F278Ae526e98A329F2C31cA1CE31fa8c51`; deployment transaction `0x72732555ed7fda8caf2646f0e548908e180d789169c9ae3a4a443927d04813c6`. This address and its lifecycle are not current 61997 proof.
 - Historical frozen address: `0xfE2E4216502f12206A61a2b2103CbD1329FFb56b`; it is not current 61997 proof.
 
@@ -37,7 +37,7 @@ This document is the single evidence ledger for the project and is intentionally
 | ID | Requirement | Command | Result |
 |---|---|---|---|
 | L-01 | Contract lint and schema visibility | `genvm-lint check contracts/app_privacy_disclosure_consistency_ledger.py --json` | PASS; 8 methods, 3 views, 5 writes |
-| L-02 | Contract lifecycle, native upgrade authorization, exact model schema, source binding, immutable evidence, independent quote verification, negative consensus and fail-closed behavior | `wsl.exe bash -lc "cd /mnt/e/Genlayer-Projects/app-privacy-disclosure-consistency-ledger && /tmp/genlayer-studio-env/bin/python -m pytest -q -p no:cacheprovider"` | PASS; 17 passed in the matching pinned runtime (`genlayer-py 0.19.0rc2`, `genlayer-test 0.30.0rc2`, GenVM v0.3.0-rc7 / Manager v0.6.0-rc5) |
+| L-02 | Contract lifecycle, native upgrade authorization, exact model schema, source binding, immutable evidence, independent quote verification, negative consensus and fail-closed behavior | `wsl.exe bash -lc "cd /mnt/e/Genlayer-Projects/app-privacy-disclosure-consistency-ledger && /mnt/e/Genlayer-Tools/studio-next-toolchain/.wsl-venv/bin/python -m pytest -q -p no:cacheprovider"` | PASS; 17 passed in the matching pinned runtime (`genlayer-py 0.19.0rc2`, `genlayer-test 0.30.0rc2`, GenVM v0.3.0-rc7 / Manager v0.6.0-rc5) |
 | F-01 | Frontend wallet/provider and assessment-history regression | `cd frontend; npm test` | PASS; 13 passed |
 | F-02 | Frontend TypeScript/Vite production build | `cd frontend; npm run build` | PASS; Vite build succeeded |
 | F-03 | Local dev entrypoint | `cd frontend; npm run dev -- --host 127.0.0.1` | PASS; HTTP 200 verified on `/` and `/src/main.ts` |
@@ -54,7 +54,7 @@ The contract is documentary comparison only. It does not establish privacy-law c
 - Classification consequence: the locked Studio deployer is intended to be the sole explicit upgrader and will be registered in the native Root Slot upgrader list by the fresh 61997 deployment. Losing that Studio account or a Studio Devnet reset can require replacement deployment; no stronger recovery claim is made.
 - Locked current Studio Devnet deployer/upgrader: configured actor `actor7`, public address `0x8581c4a532dd3f9b163b12809b1bd089f367147f`.
 - Read-only Studio Devnet readiness balance is recorded in `docs/preflight/studio-tool-readiness-runtime-fix.json` (SHA-256 `D1B3C5E9E50B029561F278B4B1F64DB03ADCEA583708ED556D92AD05820ED300`, source-bound to `7A1F9260FCC24174482142B522AAE60CA9BD96352BF8C497EB2B2E03CC991C8E`); the actor line and `accountShow` check use the same `139.987760811499867053 GEN` measurement, and no signature or transaction was sent. The prior `0x34b92E6553eaCA11A00A9d86d75d8a7881779D78` is historical 61999 actor data only.
-- Anonymous `PRE_DEPLOY` status: the current Studio Devnet migration package is awaiting correction/re-review; no deployment is authorized by this document until the exact package is approved.
+- Anonymous `PRE_DEPLOY` status: satisfied for the deployed candidate; the deployment and live lifecycle evidence are recorded below. The post-deploy package remains scoped to this exact source, address and evidence revision.
 - Deployment runbook: `docs/DEPLOYMENT-RUNBOOK.md`.
 - Exact current-source package: local lint/schema/Direct Mode complete; frontend local checks complete.
 - Runtime compatibility evidence: `.probe/contract_probe.py` and `tests/direct/test_contract_probe.py` record that installed GenVM `0.3.0-rc7` exposes `Response.status`; `_response_status` prefers the official `status_code` field and safely falls back to that verified installed field.
@@ -64,8 +64,24 @@ The contract is documentary comparison only. It does not establish privacy-law c
 - Local rendered picker inspection at `http://127.0.0.1:5173/`: the first-judge flow opened a public `Choose a wallet` dialog, showed the zero-provider message, focused `Close wallet chooser`, set the application inert attribute, and on `Escape` closed the dialog and restored focus to `Connect wallet`. No account RPC or transaction was sent.
 - Prior `POST_DEPLOY_TEST` verdict: `CHANGES REQUIRED` because the superseded deployment returned live source SHA-256 `BC02B9C1032D1C3D7CAA7AC43BEE12C86868072A25F1B0323B793D98697FF2E2` and 16520 bytes instead of the committed `ACF89615555C2CAF2634F690661B2A53873DB5B3807F463EB34284B8181946FB` and 16072 bytes. The frozen contract was replaced; the current package records fresh parity and fresh LIVE-01 through LIVE-04 evidence.
 - Historical 61999 `POST_DEPLOY_TEST` verdict: `APPROVED` for the then-current deployment package; it does not authorize or validate this 61997 candidate.
-- Historical anonymous delta verdicts remain attached only to the 61999 evidence package; current GitHub/Vercel and production E2E gates are pending.
+- Historical anonymous delta verdicts remain attached only to the 61999 evidence package; current GitHub/Vercel publication and production E2E gates are pending.
 - Current known warning: `genvm-lint` reports informational newer-runner notice `I200`; it is recorded and does not fail lint. The current exact local Direct Mode rerun used the matching pinned WSL toolchain and passed `17` tests; no Studio or browser action was performed.
+
+## Current Studio Devnet 61997 source parity and live proof
+
+- Current contract: `0xd07a6566f188ce5ce40b82598ee9c0f165608bea`; deployment transaction: `0x3fa837ba9b5a200c26bcba0a30260e3b1c642eb5b21650fbfc91f9ef0f300b9a`.
+- The deployment receipt is `FINALIZED`, consensus is `MAJORITY_AGREE`, execution is `SUCCESS`, and sender/recipient match the locked actor and current contract.
+- Canonical `gen_getContractCode` returned exactly 27,600 bytes with SHA-256 `7A1F9260FCC24174482142B522AAE60CA9BD96352BF8C497EB2B2E03CC991C8E`; byte comparison with the committed source is `True`.
+- Fresh record: `privacy-ledger-live-20260920-v03`; app ID `com.whatsapp`; platform `android`; store URL `https://play.google.com/store/apps/details?id=com.whatsapp`; policy URL `https://www.whatsapp.com/legal/privacy-policy`.
+
+| ID | Action | Transaction | Finalized + semantic result | Authoritative readback | Status |
+|---|---|---|---|---|---|
+| LIVE-01 | Create | `0x98d04e5e2edcb4735c64f999230f867d63c9f21e34907048b8f7f07d04a6a084` | `FINALIZED`; `MAJORITY_AGREE`; leader `SUCCESS`; `FINISHED_WITH_RETURN` | `DRAFT`, revision `0`, `UNRESOLVED` | PASS |
+| LIVE-02 | Freeze | `0xaa7bd02b9e19e9ac772a1c5911cfe78f9114618e0bfb4ce85af36e8f3ab35f82` | `FINALIZED`; `MAJORITY_AGREE`; leader `SUCCESS`; `FINISHED_WITH_RETURN` | `FROZEN`, revision `0`, `UNRESOLVED` | PASS |
+| LIVE-03 | Assess | `0x504639b10b8e51b6fd68ca2c56122d80229369592b043fea10b26787a0542821` | `FINALIZED`; `MAJORITY_AGREE`; leader `SUCCESS`; `FINISHED_WITH_RETURN` | `ASSESSED`, revision `1`; assessment 1 readable; reason `SOURCE_TRUNCATED` | PASS |
+| LIVE-04 | Reassess | `0x5af66bf1b033f93d946c6e93392eece5b5eceb79720ed1fcaf36311ddc1c5281` | `FINALIZED`; `MAJORITY_AGREE`; leader `SUCCESS`; `FINISHED_WITH_RETURN` | `ASSESSED`, revision `2`; assessments 1 and 2 readable; reason `SOURCE_TRUNCATED` | PASS WITH DIGEST VARIANCE |
+
+All four lifecycle receipts target the current contract and originate from the locked actor `0x8581c4a532dd3f9b163b12809b1bd089f367147f`. Revision 1 remains readable. Store digests are `57d82c9da791c7cd074c20a32133fda9aa869b21d56690431ac76e081bd12c48` and `0862af6fd737333c46eda0fed188b858d6bf91234ac0b99ba745d1767fa34dbe`; policy digests are `21db94801171e7b6334bef4c8c7b1d95727ae2e4c1a94e054aa646b47458a14c` and `038822f8689d51998fb4877f0ae04a73211e2e282e6695fbf85a7ceb5ebd70ad`. The public responses were truncated at 12,000 bytes and changed between retrievals; both immutable snapshots remain readable and the variance is retained. No duplicate write or write retry occurred. This is current Studio evidence, not Vercel browser E2E.
 
 ## Historical 2026-09-02 replacement source parity
 
@@ -131,6 +147,6 @@ Historical whole-run breakdown: provider `11` (`eth_requestAccounts=2`, `eth_cha
 
 ## Release blockers
 
-1. Deploy to Studio Devnet 61997 and verify a fresh contract address, exact source parity, and LIVE-01 through LIVE-04; historical 61999 addresses cannot satisfy this gate.
-2. Build and verify a new frontend/Vercel artifact explicitly wired to the fresh 61997 address; historical `0xfE2E...` and 61999 Vercel evidence cannot satisfy this gate.
-3. GitHub/Vercel final submission and Project Explorer manual submission remain separate release gates; this verification does not claim those submissions are complete.
+1. Publish the exact approved revision to GitHub and verify the remote commit and repository state.
+2. Build and verify a new Vercel artifact from the exact approved frontend source with build root `frontend`, chain `61997`, and contract `0xd07a6566f188ce5ce40b82598ee9c0f165608bea`; historical `0xfE2E...` and 61999 Vercel evidence cannot satisfy this gate.
+3. Perform the separate production browser E2E gate only after the Vercel alias is stable; this document does not claim that browser E2E or Project Explorer manual submission is complete.

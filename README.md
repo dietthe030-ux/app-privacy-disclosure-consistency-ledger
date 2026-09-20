@@ -4,12 +4,13 @@ A GenLayer project that binds an exact app-store listing to a publisher privacy 
 
 ## Current status
 
-The current candidate passes local lint/schema, Direct Mode, frontend tests and production build. It targets Studio Devnet (chain `61997`, RPC `https://studio-dev.genlayer.com/api`) and is ready for a fresh deployment after `PRE_DEPLOY` approval. Two earlier 61997 deployment attempts finalized with semantic execution error and are explicitly excluded; no usable current address, post-deploy proof, GitHub publication or Vercel production E2E exists yet. The earlier 61999 deployment and Vercel journey are historical-only evidence. See [docs/VERIFICATION.md](docs/VERIFICATION.md) for exact evidence and status.
+The current candidate passes local lint/schema, Direct Mode, frontend tests and production build. It is deployed on Studio Devnet (chain `61997`, RPC `https://studio-dev.genlayer.com/api`) at `0xd07a6566f188ce5ce40b82598ee9c0f165608bea`; exact `gen_getContractCode` parity and LIVE-01 through LIVE-04 are PASS. Two earlier 61997 deployment attempts finalized with semantic execution error and are explicitly excluded. GitHub publication, Vercel deployment and production browser E2E remain pending; the earlier 61999 deployment and Vercel journey are historical-only evidence. See [docs/VERIFICATION.md](docs/VERIFICATION.md) for exact evidence and status.
 
 ## Verified links
 
 - Current target network: [Studio Devnet Explorer](https://explorer-studio-dev.genlayer.com/)
 - Historical 61999 frontend (not current release evidence): [Vercel production](https://app-privacy-disclosure-consistency.vercel.app/)
+- Current Studio Devnet contract: [Explorer](https://explorer-studio-dev.genlayer.com/address/0xd07a6566f188ce5ce40b82598ee9c0f165608bea)
 
 ## Trust problem
 
@@ -45,30 +46,30 @@ The frontend requires explicit wallet selection, checks the selected account and
 
 ```powershell
 genvm-lint check contracts/app_privacy_disclosure_consistency_ledger.py --json
-& 'C:\Users\LEGION\AppData\Local\Programs\Python\Python313\python.exe' -m pytest -q tests/direct/ -p no:gltest -p no:cacheprovider
+wsl.exe bash -lc "cd /mnt/e/Genlayer-Projects/app-privacy-disclosure-consistency-ledger && /mnt/e/Genlayer-Tools/studio-next-toolchain/.wsl-venv/bin/python -m pytest -q -p no:cacheprovider"
 cd frontend
 npm install --save-exact
 npm test
 npm run build
 ```
 
-For a live frontend after the pending deployment, copy `frontend/.env.example` to `frontend/.env.local` and set `VITE_CONTRACT_ADDRESS` to the newly verified Studio Devnet address. Do not use a historical 61999 address. A public Vercel artifact must be built later from the exact approved frontend source with chain `61997` and the fresh address.
+For a live frontend, copy `frontend/.env.example` to `frontend/.env.local`; it is already bound to the verified Studio Devnet address. Do not use a historical 61999 address. A public Vercel artifact must be built later from the exact approved frontend source with chain `61997` and this address.
 
 ## Tests and verification
 
 ```powershell
 genvm-lint check contracts/app_privacy_disclosure_consistency_ledger.py --json
-& 'C:\Users\LEGION\AppData\Local\Programs\Python\Python313\python.exe' -m pytest -q tests/direct/ -p no:gltest -p no:cacheprovider
+wsl.exe bash -lc "cd /mnt/e/Genlayer-Projects/app-privacy-disclosure-consistency-ledger && /mnt/e/Genlayer-Tools/studio-next-toolchain/.wsl-venv/bin/python -m pytest -q -p no:cacheprovider"
 cd frontend
 npm test
 npm run build
 ```
 
-The candidate passes v0.3 lint/schema, 17 Direct Mode tests in the matching pinned toolchain, 13 frontend tests, and the production build. Its 27,600-byte committed source has SHA-256 `7A1F9260FCC24174482142B522AAE60CA9BD96352BF8C497EB2B2E03CC991C8E`. Deployment parity and lifecycle writes remain pending for Studio Devnet 61997; both failed 61997 deployment attempts are diagnostic only, and historical 61999 live evidence is retained only in the verification ledger.
+The candidate passes v0.3 lint/schema, 17 Direct Mode tests in the matching pinned toolchain, 13 frontend tests, and the production build. Its 27,600-byte committed source has SHA-256 `7A1F9260FCC24174482142B522AAE60CA9BD96352BF8C497EB2B2E03CC991C8E`. Deployment parity and LIVE-01 through LIVE-04 pass on Studio Devnet 61997 at `0xd07a6566f188ce5ce40b82598ee9c0f165608bea`; both failed 61997 deployment attempts are diagnostic only, and historical 61999 live evidence is retained only in the verification ledger. GitHub publication, Vercel deployment and production browser E2E are not claimed.
 
 ## Deployment and recovery
 
-No current contract is deployed for Studio Devnet 61997 in this candidate. The prior 61999 deployment and the existing Vercel artifact are explicitly historical-only; after fresh Devnet deployment, verify exact source parity, complete create → freeze → assess → reassess evidence, and only then wire the frontend and pursue GitHub/Vercel gates.
+The accepted current contract is deployed on Studio Devnet 61997 at `0xd07a6566f188ce5ce40b82598ee9c0f165608bea`, with exact source parity and complete create → freeze → assess → reassess evidence. The prior 61999 deployment and existing Vercel artifact are explicitly historical-only. The next separate gates are exact-commit GitHub publication, Vercel deployment from build root `frontend`, and then production browser E2E.
 
 ## Security and limitations
 

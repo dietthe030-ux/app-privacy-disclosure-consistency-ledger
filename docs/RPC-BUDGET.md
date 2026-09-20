@@ -26,7 +26,7 @@ STUDIO_FIRST_ACTION_AT: `2026-09-07T15:22:59Z` (read-only Studio open/account in
 
 CURRENT_LOCKED_STUDIO_DEVNET_DEPLOYER_UPGRADER: actor `actor7`, address `0x8581c4a532dd3f9b163b12809b1bd089f367147f` (current read-only balance is recorded in `docs/preflight/studio-tool-readiness-runtime-fix.json`, SHA-256 `D1B3C5E9E50B029561F278B4B1F64DB03ADCEA583708ED556D92AD05820ED300`, source-bound to `7A1F9260FCC24174482142B522AAE60CA9BD96352BF8C497EB2B2E03CC991C8E`; no signature or transaction sent).
 
-## CURRENT STUDIO DEVNET 61997 PLAN — LOCKED BEFORE DEPLOYMENT
+## CURRENT STUDIO DEVNET 61997 EVIDENCE — LOCKED ACTION PLAN AND RESULT
 
 CURRENT_TARGET_NETWORK: `Studio Devnet`
 
@@ -36,11 +36,11 @@ CURRENT_TARGET_RPC: `https://studio-dev.genlayer.com/api`
 
 CURRENT_TARGET_EXPLORER: `https://explorer-studio-dev.genlayer.com/`
 
-CURRENT_DEPLOYMENT_STATUS: `PENDING_DEPLOYMENT`
+CURRENT_DEPLOYMENT_STATUS: `DEPLOYED_FINALIZED`
 
-CURRENT_CONTRACT_ADDRESS: `null`
+CURRENT_CONTRACT_ADDRESS: `0xd07a6566f188ce5ce40b82598ee9c0f165608bea`
 
-No deployment or lifecycle transaction has been made for the current Studio Devnet candidate. The following is the locked minimum-sufficient action budget for the post-approval run; no blind retry or duplicate write is permitted.
+The current candidate has one accepted deployment and four unique lifecycle transactions. The following was the locked minimum-sufficient action budget for the run; no blind retry or duplicate write was permitted. The resulting observable action ledger and live evidence are recorded in `docs/preflight/STUDIO-E2E-CHECKPOINT-RUNTIME-V03-20260920.json`.
 
 | Row | Trigger | Observable action | Max actions | Poll interval / attempts | Terminal condition | Terminal receipt reads | Authoritative readbacks | Transactions | Retry / stop rule |
 |---|---|---|---:|---|---|---:|---:|---:|---|---|
@@ -53,7 +53,7 @@ No deployment or lifecycle transaction has been made for the current Studio Devn
 | D-07 | Assessed record | Submit `reassess` | 1 | 5 seconds / 60 | finalized and revision 2 retained | 1 | 3: `get`, assessments 1 and 2 | 1 | stop unless revision 1 remains readable |
 | D-08 | Final verification | Compare source bytes, hashes, addresses and evidence | 12 | none | complete exact evidence matrix | 4 maximum diagnostics | 8 maximum sparse reads | 0 | no write or deployment retry |
 
-Current whole-run ceilings: deployment transactions `1`; lifecycle transactions `4`; total transactions `5`; duplicate transactions `0`; status polls `228` maximum; terminal receipt reads `5` plus at most `4` diagnostics only after an observed mismatch; authoritative readbacks `10` planned and `18` hard maximum; observable primary-AI actions `270` hard maximum. For the frontend journey, the locked matrix in `docs/preflight/STUDIO-DEV-FRONTEND-RPC-MATRIX.md` sets a whole-run ceiling of `541` RPC requests, four lifecycle transactions, zero duplicate writes, zero automatic write retries, and one deliberate reconciliation per operation. Any wrong chain/account, insufficient balance, source mismatch, quota/rate limit, ambiguous hash, terminal failure, failed readback or ceiling breach is a hard stop.
+Current whole-run ceilings: deployment transactions `1`; lifecycle transactions `4`; total transactions `5`; duplicate transactions `0`; status polls `228` maximum; terminal receipt reads `5` plus at most `4` diagnostics only after an observed mismatch; authoritative readbacks `10` planned and `18` hard maximum; observable primary-AI actions `270` hard maximum. The Studio run completed within these controls with deployment `1`, lifecycle writes `4`, retries `0`, duplicate writes `0`, and three read-only estimate failures recorded without submission. For the separate frontend journey, the locked matrix in `docs/preflight/STUDIO-DEV-FRONTEND-RPC-MATRIX.md` sets a whole-run ceiling of `541` RPC requests, four lifecycle transactions, zero duplicate writes, zero automatic write retries, and one deliberate reconciliation per operation. Any wrong chain/account, insufficient balance, source mismatch, quota/rate limit, ambiguous hash, terminal failure, failed readback or ceiling breach is a hard stop.
 
 ## HISTORICAL 61999 STUDIO ACTION LEDGER — NOT CURRENT 61997 EVIDENCE
 
