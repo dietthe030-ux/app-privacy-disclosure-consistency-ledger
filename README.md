@@ -4,12 +4,12 @@ A GenLayer project that binds an exact app-store listing to a publisher privacy 
 
 ## Current status
 
-The steward-requested correction passes local lint/schema, Direct Mode, frontend tests and production build. Its exact source is deployed on Studionet at `0x41F4A7F278Ae526e98A329F2C31cA1CE31fa8c51`; source-byte parity and a fresh create → freeze → assess → reassess lifecycle passed independent `POST_DEPLOY_TEST` review. GitHub publication and a new Vercel build wired to this contract remain separate release gates. See [docs/VERIFICATION.md](docs/VERIFICATION.md) for exact evidence and status.
+The current candidate passes local lint/schema, Direct Mode, frontend tests and production build. It targets Studio Devnet (chain `61997`, RPC `https://studio-dev.genlayer.com/api`) and is ready for a fresh deployment after `PRE_DEPLOY` approval. No Studio Devnet address, deployment transaction, post-deploy proof, GitHub publication or Vercel production E2E exists for this candidate yet. The earlier 61999 deployment and Vercel journey are historical-only evidence. See [docs/VERIFICATION.md](docs/VERIFICATION.md) for exact evidence and status.
 
 ## Verified links
 
-- Corrected Studionet contract: [Explorer](https://explorer-studio.genlayer.com/address/0x41F4A7F278Ae526e98A329F2C31cA1CE31fa8c51)
-- Historical frontend (not yet rebound to the corrected contract): [Vercel production](https://app-privacy-disclosure-consistency.vercel.app/)
+- Current target network: [Studio Devnet Explorer](https://explorer-studio-dev.genlayer.com/)
+- Historical 61999 frontend (not current release evidence): [Vercel production](https://app-privacy-disclosure-consistency.vercel.app/)
 
 ## Trust problem
 
@@ -39,7 +39,7 @@ State moves from `DRAFT` to `FROZEN` to `ASSESSED`. `create` is permissionless, 
 
 ## Transaction lifecycle
 
-The frontend requires explicit wallet selection, checks the selected account and Studionet network, submits once, retains the transaction hash, waits for `FINALIZED` and successful execution, then performs an authoritative readback. Rejected, pending, failed, rate-limited, and reconciliation states remain actionable; the UI does not show success from a submission toast alone.
+The frontend requires explicit wallet selection, checks the selected account and Studio Devnet network, submits once, retains the transaction hash, waits for `FINALIZED` and successful execution, then performs an authoritative readback. Rejected, pending, failed, rate-limited, and reconciliation states remain actionable; the UI does not show success from a submission toast alone.
 
 ## Local checks
 
@@ -52,7 +52,7 @@ npm test
 npm run build
 ```
 
-For a live frontend, copy `frontend/.env.example` to `frontend/.env.local` and set `VITE_CONTRACT_ADDRESS` to the corrected Studionet address. The existing public Vercel artifact remains historical until a new build is independently bound to that address, chain `61999`, and the exact approved frontend source.
+For a live frontend after the pending deployment, copy `frontend/.env.example` to `frontend/.env.local` and set `VITE_CONTRACT_ADDRESS` to the newly verified Studio Devnet address. Do not use a historical 61999 address. A public Vercel artifact must be built later from the exact approved frontend source with chain `61997` and the fresh address.
 
 ## Tests and verification
 
@@ -64,11 +64,11 @@ npm test
 npm run build
 ```
 
-The corrected package passes lint/schema, 17 Direct Mode tests, 13 frontend tests, and the production build. Its 26,522-byte deployed source exactly matches SHA-256 `C475DF6EF49A4EE4984CFD98A1664E50D3577AEE1B5D98899253917CA6F897AA`; all four fresh lifecycle writes finalized successfully with authoritative revision readbacks and no retries or duplicate writes.
+The candidate passes lint/schema, 17 Direct Mode tests, 13 frontend tests, and the production build. Its 26,522-byte committed source has SHA-256 `C475DF6EF49A4EE4984CFD98A1664E50D3577AEE1B5D98899253917CA6F897AA`. Deployment parity and lifecycle writes remain pending for Studio Devnet 61997; historical 61999 live evidence is retained only in the verification ledger.
 
 ## Deployment and recovery
 
-The corrected upgradable contract is deployed at `0x41F4A7F278Ae526e98A329F2C31cA1CE31fa8c51` by transaction `0x72732555ed7fda8caf2646f0e548908e180d789169c9ae3a4a443927d04813c6`. Its deployer is registered as a native Root Slot upgrader. Earlier frozen contracts and the existing Vercel artifact are historical only; the next production deployment must bind the frontend to this corrected address and preserve exact source/build provenance.
+No current contract is deployed for Studio Devnet 61997 in this candidate. The prior 61999 deployment and the existing Vercel artifact are explicitly historical-only; after fresh Devnet deployment, verify exact source parity, complete create → freeze → assess → reassess evidence, and only then wire the frontend and pursue GitHub/Vercel gates.
 
 ## Security and limitations
 

@@ -1,35 +1,41 @@
 {
-  "status": "CORRECTED_DEPLOYMENT_POST_DEPLOY_TEST_APPROVED_PENDING_GITHUB_VERCEL",
+  "status": "PRE_DEPLOY_READY_STUDIO_DEV_61997_PENDING_DEPLOYMENT",
   "current_candidate": {
     "source_sha256": "C475DF6EF49A4EE4984CFD98A1664E50D3577AEE1B5D98899253917CA6F897AA",
-    "deployment_status": "DEPLOYED_FINALIZED",
-    "reason": "Steward-requested source binding, immutable evidence snapshots and complete get_assessment history are deployed and exercised on Studionet."
+    "deployment_status": "PENDING_DEPLOYMENT",
+    "target_network": "Studio Devnet",
+    "target_chain_id": 61997,
+    "target_rpc_url": "https://studio-dev.genlayer.com/api",
+    "target_explorer_url": "https://explorer-studio-dev.genlayer.com/",
+    "reason": "The exact candidate is prepared for a fresh Studio Devnet deployment. No 61997 address, deployment transaction, POST_DEPLOY_TEST, production E2E, GitHub or Vercel proof exists yet."
   },
-  "historical_deployment_status": "DEPLOYED_FINALIZED",
-  "historical_post_deploy_test_verdict": "APPROVED",
-  "historical_post_deploy_test_reviewed_head": "eb853b6688a73b5924daa7bdafdd865f02a7b8ea",
-  "network": "Studionet",
-  "chain_id": 61999,
-  "rpc_url": "https://studio.genlayer.com/api",
-  "contract_address": "0x41F4A7F278Ae526e98A329F2C31cA1CE31fa8c51",
-  "explorer_url": "https://explorer-studio.genlayer.com/address/0x41F4A7F278Ae526e98A329F2C31cA1CE31fa8c51",
-  "deployment_transaction_hash": "0x72732555ed7fda8caf2646f0e548908e180d789169c9ae3a4a443927d04813c6",
+  "historical_61999_deployment_status": "DEPLOYED_FINALIZED",
+  "historical_61999_post_deploy_test_verdict": "APPROVED",
+  "historical_61999_post_deploy_test_reviewed_head": "eb853b6688a73b5924daa7bdafdd865f02a7b8ea",
+  "network": "Studio Devnet",
+  "chain_id": 61997,
+  "rpc_url": "https://studio-dev.genlayer.com/api",
+  "contract_address": null,
+  "explorer_url": null,
+  "deployment_transaction_hash": null,
   "source_file": "contracts/app_privacy_disclosure_consistency_ledger.py",
   "source_sha256": "C475DF6EF49A4EE4984CFD98A1664E50D3577AEE1B5D98899253917CA6F897AA",
-  "git_commit": "e63d5eaa816f8dfa79e069f6e30291885555565e",
+  "git_commit": "e98bd8fc223bca7564cf0617f912acffb741b3ba",
   "constructor_args": [],
   "classification": "UPGRADABLE",
   "deployer_or_upgrader_address": "0x34b92E6553eaCA11A00A9d86d75d8a7881779D78",
   "linked_contracts": {},
   "configuration_transactions": [],
   "source_bytes": 26522,
-  "live_source_parity": {
+  "live_source_parity": null,
+  "live_source_parity_status": "PENDING_STUDIO_DEV_61997_DEPLOYMENT",
+  "historical_61999_live_source_parity": {
     "rpc": "gen_getContractCode",
     "bytes": 26522,
     "sha256": "C475DF6EF49A4EE4984CFD98A1664E50D3577AEE1B5D98899253917CA6F897AA",
     "exact_byte_equality": true
   },
-  "corrected_live_case": {
+  "historical_61999_live_case": {
     "record_id": "privacy-ledger-steward-20260907-001",
     "app_id": "310633997",
     "store_url": "https://apps.apple.com/us/app/whatsapp-messenger/id310633997",
@@ -52,7 +58,7 @@
     "revision_2_policy_digest": "80b90356a4b2f8801579ec3b8ca39d04bb2848ee215c19d71a3d08cf8a682c31",
     "digest_variance": "The dynamic publisher-policy response changed between retrievals. Both immutable snapshots and timestamps remain readable; store digest remained equal."
   },
-  "historical_live_case": {
+  "historical_superseded_live_case": {
     "record_id": "privacy-ledger-replacement-20260902",
     "store_url": "https://www.apple.com/legal/privacy/",
     "policy_url": "https://www.apple.com/legal/privacy/",
@@ -70,8 +76,8 @@
     "reason": "POST_DEPLOY source parity failed: live code contained one additional final newline; frozen contract required replacement deployment."
   },
   "recovery_notes": {
-    "studio_or_local_reset": "Recover by reusing the recorded source and constructor manifest against the accessible recorded account; verify the resulting address and source before rewiring the frontend.",
-    "network_reset": "The old address is not assumed recoverable. Redeploy from the recorded source and manifest, rerun live tests, then update the frontend address."
+    "studio_or_local_reset": "For the current Studio Devnet target, reuse the recorded source and constructor manifest against the explicitly selected account; verify the resulting address and source before any frontend wiring.",
+    "network_reset": "The historical 61999 addresses are not current or recoverable proof. Deploy fresh to Studio Devnet 61997, rerun live tests, then update the frontend address."
   },
   "historical_frontend_release": {
     "status": "HISTORICAL_VERCEL_E2E_VERIFIED_FOR_SUPERSEDED_CONTRACT",

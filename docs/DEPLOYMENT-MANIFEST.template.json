@@ -1,8 +1,8 @@
 {
-  "status": "PENDING_DEPLOYMENT",
-  "network": "Studionet",
-  "chain_id": 61999,
-  "rpc_url": "https://studio.genlayer.com/api",
+  "status": "PENDING_DEPLOYMENT_STUDIO_DEV_61997",
+  "network": "Studio Devnet",
+  "chain_id": 61997,
+  "rpc_url": "https://studio-dev.genlayer.com/api",
   "contract_address": null,
   "explorer_url": null,
   "deployment_transaction_hash": null,

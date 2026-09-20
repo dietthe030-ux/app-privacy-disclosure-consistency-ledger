@@ -13,7 +13,7 @@
 1. Contract: one `gl.Contract` with `DRAFT -> FROZEN -> ASSESSED`, append-only assessment history, owner-only freeze, permissionless assess/reassess, and safe failure without overwriting prior history.
 2. Consensus: each leader and validator independently fetches both frozen URLs and extracts only bounded normalized fields. Deterministic code computes the public verdict after consensus.
 3. Frontend: browse, create, detail/history; explicit MetaMask/OKX Wallet/Rabby picker; provider-selected writes; finality, execution-success and authoritative readback before success UI.
-4. Verification: Direct Mode first, then exact source lint/schema, PRE_DEPLOY review, Studionet deployment/E2E, GitHub/Vercel and final review gates.
+4. Verification: Direct Mode first, then exact source lint/schema, PRE_DEPLOY review, Studio Devnet 61997 deployment/E2E, GitHub/Vercel and final review gates.
 
 ## Required proof
 
@@ -26,7 +26,7 @@
 - Feasibility probe: `genvm-lint check` and `genlayer-test` Direct Mode passed on 2026-09-01 with `genvm-lint 0.11.0`, `genlayer-test 0.29.2`, Python 3.13, pickling enabled, agreement and deliberate disagreement coverage.
 - Corrected contract candidate: `contracts/app_privacy_disclosure_consistency_ledger.py`; lint/schema pass and Direct Mode suite reports `17 passed`, including source identity, deceptive URL, exact model schema, native upgrade authorization, immutable evidence, exact supporting quote, malformed/truncated source and fail-closed coverage.
 - Frontend: functional baseline added under `frontend/` after the user authorized the minimum dependency install. It uses `genlayer-js@1.1.8`, Vite `8.2.2`, TypeScript `7.0.2`, and no framework or connector dependency. It includes the explicit wallet picker, public record list/create/update journeys, finality/execution/readback handling, selected-provider balance preflight, and built-in Node regression tests.
-- Corrected frontend local checkpoint: `npm test` passes 13 tests and `npm run build` passes. It aligns Record ID rules and renders complete `get_assessment` history. The corrected contract is deployed and independently approved; the old Vercel artifact remains historical until a new production build is rebound and verified.
+- Current frontend local checkpoint: `npm test` passes 13 tests and `npm run build` passes. It aligns Record ID rules and renders complete `get_assessment` history. The Studio Devnet 61997 contract deployment and all production/Vercel gates remain pending; older 61999 deployment and Vercel artifacts are historical-only.
 
 ## Steward-request repair implementation plan
 
@@ -36,7 +36,7 @@ The September 2026 resubmission correction keeps the product boundary and lifecy
 2. Snapshot retrieval metadata and bounded evidence for both sources in every assessment revision: requested URL, verified requested host, HTTP status, retrieval timestamp, captured byte count, SHA-256 digest, and a bounded readable excerpt. The current WebRequest response has no final-URL or redirect-chain field; the exact limitation and compensating controls are recorded below rather than fabricating provenance.
 3. Return that complete immutable snapshot from `get_assessment(record_id, revision)` and render all retained revisions in the frontend, including normalized comparison fields and source evidence.
 4. Add focused regressions for source binding, ID parity, historical evidence retention, changed sources, and frontend history rendering; then rerun lint/schema, Direct Mode, frontend tests, and production build.
-5. Because the historical deployment is frozen and its storage/return schema changes materially, treat it as superseded. Deploy the corrected candidate with its deployer registered as native Root Slot upgrader; then require fresh lifecycle E2E, exact source parity, frontend address update, Vercel E2E, and affected anonymous gates before resubmission.
+5. Because the historical 61999 deployment is frozen and its storage/return schema changes materially, treat it as historical-only. Deploy the candidate to Studio Devnet 61997 with its deployer registered as native Root Slot upgrader; then require fresh lifecycle E2E, exact source parity, frontend address update, Vercel E2E, and affected anonymous gates before resubmission.
 
 ## FRONTEND RPC BUDGET MATRIX
 
@@ -65,7 +65,7 @@ FRONTEND_MATRIX_STATUS: READY
 | Fail-closed identity consequence | Both app-store identity and publisher-policy identity must be `MATCH` | `_verdict` | `test_identity_uncertainty_cannot_produce_conclusive_verdict` | uncertain relationship returns `UNRESOLVED` | VERIFIED |
 | Immutable revision evidence | Timestamp, URL, host, status, byte count, truncation, digest, excerpt, normalized fields and verdict | `Assessment.decision_json`, `get_assessment` | audit-evidence test | revision 1 remains byte-equivalent after revision 2 | VERIFIED |
 | Authoritative frontend readback | Read every revision through `get_assessment` and render the complete snapshot | `frontend/src/ledger.ts::getAssessment`, `frontend/src/main.ts::renderAssessmentHistory` | frontend history regression | tests and production build pass | VERIFIED LOCALLY |
-| Finality and live reproducibility | Corrected deployment and fresh lifecycle with authoritative readback | `docs/DEPLOYMENT-MANIFEST.json`; `docs/VERIFICATION.md` | Studionet deployment and create/freeze/assess/reassess approved; Vercel E2E pending | exact deployed-source parity and revision 1/2 retention verified | STUDIO VERIFIED; VERCEL PENDING |
+| Finality and live reproducibility | Fresh Studio Devnet deployment and lifecycle with authoritative readback | `docs/DEPLOYMENT-MANIFEST.json`; `docs/VERIFICATION.md` | 61997 deployment and create/freeze/assess/reassess pending; historical 61999 evidence is segregated; Vercel E2E pending | fresh deployed-source parity and revision 1/2 retention required | STUDIO DEVNET PENDING; VERCEL PENDING |
 
 ## SOURCE-VERIFICATION PATTERN DEVIATION — redirect provenance
 

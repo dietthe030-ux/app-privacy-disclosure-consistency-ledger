@@ -1,4 +1,4 @@
-# RPC Budget — Steward Resubmission Correction
+# RPC Budget — Studio Devnet 61997 Candidate
 
 ## STUDIO RPC MEASUREMENT CAPABILITY PROBE
 
@@ -26,9 +26,38 @@ STUDIO_FIRST_ACTION_AT: `2026-09-07T15:22:59Z` (read-only Studio open/account in
 
 LOCKED_STUDIO_DEPLOYER_UPGRADER: `0x34b92E6553eaCA11A00A9d86d75d8a7881779D78` (visible balance `10.001 GEN`; no signature or transaction sent).
 
-## ACTUAL STUDIO ACTION LEDGER
+## CURRENT STUDIO DEVNET 61997 PLAN — LOCKED BEFORE DEPLOYMENT
 
-- Transactions: `5` total — one deployment and four unique lifecycle writes.
+CURRENT_TARGET_NETWORK: `Studio Devnet`
+
+CURRENT_TARGET_CHAIN_ID: `61997` (`0xf22d`)
+
+CURRENT_TARGET_RPC: `https://studio-dev.genlayer.com/api`
+
+CURRENT_TARGET_EXPLORER: `https://explorer-studio-dev.genlayer.com/`
+
+CURRENT_DEPLOYMENT_STATUS: `PENDING_DEPLOYMENT`
+
+CURRENT_CONTRACT_ADDRESS: `null`
+
+No deployment or lifecycle transaction has been made for the current Studio Devnet candidate. The following is the locked minimum-sufficient action budget for the post-approval run; no blind retry or duplicate write is permitted.
+
+| Row | Trigger | Observable action | Max actions | Poll interval / attempts | Terminal condition | Terminal receipt reads | Authoritative readbacks | Transactions | Retry / stop rule |
+|---|---|---|---:|---|---|---:|---:|---:|---|---|
+| D-01 | Before Studio opens | Verify chain `61997`, selected actor and balance | 3 | none | target chain, explicit actor and sufficient balance | 0 | 0 | 0 | stop on identity/network mismatch |
+| D-02 | Candidate load | Upload exact committed source and inspect schema | 2 | none | 8 methods: 3 views and 5 writes | 0 | 0 | 0 | no reload unless deterministic upload failure is corrected |
+| D-03 | One approved deployment | Submit fresh Studio Devnet deployment | 1 | 5 seconds / 36 | finalized and semantic success | 1 | 1 source-code read | 1 | never redeploy without reconciling any returned hash/address |
+| D-04 | Fresh lifecycle record | Submit `create` | 1 | 5 seconds / 36 | finalized and DRAFT readback | 1 | 1 `get` | 1 | never resubmit the same record ID |
+| D-05 | Created record | Submit `freeze` | 1 | 5 seconds / 36 | finalized and FROZEN readback | 1 | 1 `get` | 1 | stop unless create readback is DRAFT |
+| D-06 | Frozen record | Submit `assess` | 1 | 5 seconds / 60 | finalized and revision 1 readback | 1 | 2: `get`, `get_assessment(1)` | 1 | stop unless freeze readback is FROZEN |
+| D-07 | Assessed record | Submit `reassess` | 1 | 5 seconds / 60 | finalized and revision 2 retained | 1 | 3: `get`, assessments 1 and 2 | 1 | stop unless revision 1 remains readable |
+| D-08 | Final verification | Compare source bytes, hashes, addresses and evidence | 12 | none | complete exact evidence matrix | 4 maximum diagnostics | 8 maximum sparse reads | 0 | no write or deployment retry |
+
+Current whole-run ceilings: deployment transactions `1`; lifecycle transactions `4`; total transactions `5`; duplicate transactions `0`; status polls `228` maximum; terminal receipt reads `5` plus at most `4` diagnostics only after an observed mismatch; authoritative readbacks `10` planned and `18` hard maximum; observable primary-AI actions `270` hard maximum. For the frontend journey, the locked matrix in `docs/preflight/STUDIO-DEV-FRONTEND-RPC-MATRIX.md` sets a whole-run ceiling of `541` RPC requests, four lifecycle transactions, zero duplicate writes, zero automatic write retries, and one deliberate reconciliation per operation. Any wrong chain/account, insufficient balance, source mismatch, quota/rate limit, ambiguous hash, terminal failure, failed readback or ceiling breach is a hard stop.
+
+## HISTORICAL 61999 STUDIO ACTION LEDGER — NOT CURRENT 61997 EVIDENCE
+
+- Historical 61999 transactions: `5` total — one deployment and four unique lifecycle writes.
 - Lifecycle retries: `0`; duplicate transactions: `0`.
 - Transaction hashes: deployment `0x72732555ed7fda8caf2646f0e548908e180d789169c9ae3a4a443927d04813c6`; create `0x789fd47aabe035eec33306506eabd7d5783a7fa5008d956a74bc1d79695c964f`; freeze `0x260e42bfee28df6a7b92cd0bef9f9f859261f38429a49c0a31ecfd494085d045`; assess `0xb50c041818f85a6f6cd36eecf7cffe75c7f17862be8a2f5fbf46ff28d69f9bd5`; reassess `0x93228a72f006dabfdaef6fe655ec008e736f567d7b077b26da3f0c5fb68346d4`.
 - Terminal receipt reads: `5` total, one per terminal transaction.
@@ -38,7 +67,7 @@ LOCKED_STUDIO_DEPLOYER_UPGRADER: `0x34b92E6553eaCA11A00A9d86d75d8a7881779D78` (v
 - Matrix variance: Studio background schema loads from many open editor tabs exhausted the hosted `30 requests/minute` bucket. Writes stopped during the limit; unused task-owned editor tabs were closed, the same hashes/state were preserved, and testing resumed after cooldown. Physical background-request totals remain unavailable and no physical-request count is claimed.
 - Final lifecycle readback: `ASSESSED`, revision `2`, both assessments readable. Store digests match; policy digests differ because the live publisher-policy response changed between retrievals. The exact variance is preserved for independent review.
 
-## STUDIO RPC BUDGET MATRIX
+## HISTORICAL 61999 RPC BUDGET MATRIX — NOT CURRENT 61997 INSTRUCTIONS
 
 | Row | Trigger | Observable action | Max actions | Poll interval / attempts | Terminal condition | Terminal receipt reads | Authoritative readbacks | Transactions | Retry / stop rule |
 |---|---|---|---:|---|---|---:|---:|---:|---|

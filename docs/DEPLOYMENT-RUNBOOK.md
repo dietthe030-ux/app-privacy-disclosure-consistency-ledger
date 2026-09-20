@@ -1,6 +1,6 @@
 # Deployment and recovery runbook
 
-This runbook separates the steward-requested corrected candidate from the historical frozen deployment. The corrected source is locally verified but may not be deployed until fresh `PRE_DEPLOY` approval. The previous contract/frontend evidence remains historical and cannot satisfy the corrected assessment schema.
+This runbook separates the current Studio Devnet 61997 candidate from historical 61999 deployments. The current source is locally verified but may not be deployed until fresh `PRE_DEPLOY` approval. Historical contract/frontend evidence cannot satisfy the current 61997 assessment schema or release gates.
 
 ## Current source
 
@@ -12,7 +12,7 @@ This runbook separates the steward-requested corrected candidate from the histor
 
 ## Recorded pre-deployment decisions
 
-1. Classification is `UPGRADABLE`: the deployer is stored as the authorized upgrader and registered in the native Root Slot upgrader list. Upgrade authority is lost if that Studio account becomes unavailable or Studio/Studionet resets; no stronger recovery claim is made.
+1. Classification is `UPGRADABLE`: the deployer will be stored as the authorized upgrader and registered in the native Root Slot upgrader list by the fresh Studio Devnet deployment. Upgrade authority is lost if that Studio account becomes unavailable or Studio Devnet resets; no stronger recovery claim is made.
 2. The selected and locked Studio deployer/upgrader public address is `0x34b92E6553eaCA11A00A9d86d75d8a7881779D78`; its visible pre-review balance was `10.001 GEN`. No signature or transaction was sent while selecting it.
 3. Historical approvals do not transfer. The corrected candidate requires a fresh anonymous `PRE_DEPLOY` verdict bound to its exact commit and source hash.
 4. Every conclusive verdict requires exact app-store URL/ID binding, a distinct non-store policy host, identity `MATCH` for both sources, valid bounded bodies, exact supporting quotes, and validator agreement.
@@ -20,15 +20,15 @@ This runbook separates the steward-requested corrected candidate from the histor
 
 The frontend write preflight requires at least `0.01 GEN` from the selected external wallet before enabling or submitting a zero-value contract write. This is a conservative local floor, not a claim about production gas pricing; final transaction success still requires finality, semantic execution success and readback.
 
-## Gated Studionet action
+## Gated Studio Devnet 61997 action
 
-The current official CLI guide documents this Studionet command:
+The current official CLI route for the locked target is:
 
 ```powershell
-genlayer deploy --contract contracts/app_privacy_disclosure_consistency_ledger.py --rpc https://studio.genlayer.com/api
+genlayer deploy --contract contracts/app_privacy_disclosure_consistency_ledger.py --rpc https://studio-dev.genlayer.com/api
 ```
 
-The CLI was unavailable on this machine, so the intended deployment route remains the Codex-controlled GenLayer Studio browser. Do not overwrite or present the old address as current. After approval, upload the exact committed candidate source and deploy one new upgradable contract from the locked Studio account.
+The selected Studio Dev CLI/browser route must target chain `61997` (`0xf22d`) and Explorer `https://explorer-studio-dev.genlayer.com/`. After approval, upload the exact committed candidate source and deploy one new upgradable contract from the locked Studio account. The historical 61999 address must not be used or presented as current.
 
 After deployment, canonical `gen_getContractCode` must return bytes exactly equal to the corrected committed source and SHA-256 `C475DF6EF49A4EE4984CFD98A1664E50D3577AEE1B5D98899253917CA6F897AA`. Any mismatch requires another replacement; documentation cannot waive byte parity.
 
@@ -47,13 +47,13 @@ Each successful write requires `FINALIZED`, current interface semantic execution
 
 The production aliases currently point to the historical frozen contract and are not corrected-release evidence. After the replacement contract passes live verification, update `VITE_CONTRACT_ADDRESS`, deploy from the exact corrected frontend commit with build root `frontend`, and repeat the full browser lifecycle. The UI must visibly render every retained assessment revision and its source metadata, quotes, normalized fields and digest.
 
-For a new local frontend session, set `frontend/.env.local`:
+For a new local frontend session after the fresh deployment, set `frontend/.env.local`:
 
 ```text
-VITE_CONTRACT_ADDRESS=<verified Studionet contract address>
+VITE_CONTRACT_ADDRESS=<verified Studio Devnet 61997 contract address>
 ```
 
-Then run `npm test`, `npm run build`, and the exact browser journey against that address. Never store a private key, seed phrase, wallet credential, or Studio identity secret in this project.
+Then run `npm test`, `npm run build`, and the exact browser journey against that address. The frontend must use chain `61997`; never store a private key, seed phrase, wallet credential, or Studio identity secret in this project.
 
 ## Official references
 
