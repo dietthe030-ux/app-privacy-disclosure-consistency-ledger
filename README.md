@@ -64,7 +64,7 @@ npm test
 npm run build
 ```
 
-The candidate passes lint/schema, 17 Direct Mode tests in the installed pinned Python 3.13 environment, 13 frontend tests, and the production build. Its 26,558-byte committed source has SHA-256 `CEE7738EBB533F00BF707C5FC95EFD21CECDF263601F0B680B990E1CD05945AC`. Deployment parity and lifecycle writes remain pending for Studio Devnet 61997; both failed 61997 deployment attempts are diagnostic only, and historical 61999 live evidence is retained only in the verification ledger.
+The candidate passes v0.3 lint/schema, 17 Direct Mode tests in the matching pinned toolchain, 13 frontend tests, and the production build. Its 27,600-byte committed source has SHA-256 `7A1F9260FCC24174482142B522AAE60CA9BD96352BF8C497EB2B2E03CC991C8E`. Deployment parity and lifecycle writes remain pending for Studio Devnet 61997; both failed 61997 deployment attempts are diagnostic only, and historical 61999 live evidence is retained only in the verification ledger.
 
 ## Deployment and recovery
 
