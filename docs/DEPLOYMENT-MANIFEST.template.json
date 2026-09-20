@@ -8,7 +8,7 @@
   "deployment_transaction_hash": null,
   "source_file": "contracts/app_privacy_disclosure_consistency_ledger.py",
   "source_sha256": "7A1F9260FCC24174482142B522AAE60CA9BD96352BF8C497EB2B2E03CC991C8E",
-  "git_commit": "8825632",
+  "git_commit": "88256329df7805ca541aeb5d504e12c33e05bba2",
   "constructor_args": [],
   "classification": "UPGRADABLE",
   "deployer_or_upgrader_address": "0x8581c4a532dd3f9b163b12809b1bd089f367147f",

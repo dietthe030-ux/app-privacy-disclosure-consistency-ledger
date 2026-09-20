@@ -4,7 +4,7 @@ A GenLayer project that binds an exact app-store listing to a publisher privacy 
 
 ## Current status
 
-The current candidate passes local lint/schema, Direct Mode, frontend tests and production build. It targets Studio Devnet (chain `61997`, RPC `https://studio-dev.genlayer.com/api`) and is ready for a fresh deployment after `PRE_DEPLOY` approval. One earlier 61997 deployment attempt finalized with semantic execution error and is explicitly excluded; no usable current address, post-deploy proof, GitHub publication or Vercel production E2E exists yet. The earlier 61999 deployment and Vercel journey are historical-only evidence. See [docs/VERIFICATION.md](docs/VERIFICATION.md) for exact evidence and status.
+The current candidate passes local lint/schema, Direct Mode, frontend tests and production build. It targets Studio Devnet (chain `61997`, RPC `https://studio-dev.genlayer.com/api`) and is ready for a fresh deployment after `PRE_DEPLOY` approval. Two earlier 61997 deployment attempts finalized with semantic execution error and are explicitly excluded; no usable current address, post-deploy proof, GitHub publication or Vercel production E2E exists yet. The earlier 61999 deployment and Vercel journey are historical-only evidence. See [docs/VERIFICATION.md](docs/VERIFICATION.md) for exact evidence and status.
 
 ## Verified links
 

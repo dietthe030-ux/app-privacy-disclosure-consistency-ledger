@@ -6,14 +6,14 @@ This runbook separates the current Studio Devnet 61997 candidate from historical
 
 - Contract: `contracts/app_privacy_disclosure_consistency_ledger.py`
 - SHA-256: `7A1F9260FCC24174482142B522AAE60CA9BD96352BF8C497EB2B2E03CC991C8E`
-- Contract source commit: `8825632`
+- Contract source commit: `88256329df7805ca541aeb5d504e12c33e05bba2`
 - Constructor arguments: `[]`
 - Contract methods: `create`, `freeze`, `assess`, `reassess`, `upgrade`, `get`, `get_assessment`, `list_ids`
 
 ## Recorded pre-deployment decisions
 
 1. Classification is `UPGRADABLE`: the deployer will be stored as the authorized upgrader and registered in the native Root Slot upgrader list by the fresh Studio Devnet deployment. Upgrade authority is lost if that Studio account becomes unavailable or Studio Devnet resets; no stronger recovery claim is made.
-2. The selected and locked current Studio Devnet deployer/upgrader is configured actor `actor7`, public address `0x8581c4a532dd3f9b163b12809b1bd089f367147f`; its current read-only readiness balance is recorded in `docs/preflight/studio-tool-readiness-runtime-fix.json` (SHA-256 `96F442D6BB0E3B34F0207D7B36888ACA693F23F4DA7737E6851E737C23561116`, source-bound to `7A1F9260FCC24174482142B522AAE60CA9BD96352BF8C497EB2B2E03CC991C8E`). No signature or transaction was sent while selecting it. The prior `0x34b92E6553eaCA11A00A9d86d75d8a7881779D78` is historical 61999 actor data only.
+2. The selected and locked current Studio Devnet deployer/upgrader is configured actor `actor7`, public address `0x8581c4a532dd3f9b163b12809b1bd089f367147f`; its current read-only readiness balance is recorded in `docs/preflight/studio-tool-readiness-runtime-fix.json` (SHA-256 `D1B3C5E9E50B029561F278B4B1F64DB03ADCEA583708ED556D92AD05820ED300`, source-bound to `7A1F9260FCC24174482142B522AAE60CA9BD96352BF8C497EB2B2E03CC991C8E`). No signature or transaction was sent while selecting it. The prior `0x34b92E6553eaCA11A00A9d86d75d8a7881779D78` is historical 61999 actor data only.
 3. Historical approvals do not transfer. The corrected candidate requires a fresh anonymous `PRE_DEPLOY` verdict bound to its exact commit and source hash.
 4. Every conclusive verdict requires exact app-store URL/ID binding, a distinct non-store policy host, identity `MATCH` for both sources, valid bounded bodies, exact supporting quotes, and validator agreement.
 5. A malformed, unavailable or truncated source, invalid model schema, identity uncertainty or validator disagreement fails closed.
