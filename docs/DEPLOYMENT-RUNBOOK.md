@@ -5,8 +5,8 @@ This runbook separates the current Studio Devnet 61997 candidate from historical
 ## Current source
 
 - Contract: `contracts/app_privacy_disclosure_consistency_ledger.py`
-- SHA-256: `C475DF6EF49A4EE4984CFD98A1664E50D3577AEE1B5D98899253917CA6F897AA`
-- Contract source commit: `e63d5eaa816f8dfa79e069f6e30291885555565e`
+- SHA-256: `DCF01BA79105957001AEC350629E6D2CAEB3BC880CB677235D33C0762F7EDF4A`
+- Contract source commit: `302a6de8f90294e13894a955e7178e0e31a7606c`
 - Constructor arguments: `[]`
 - Contract methods: `create`, `freeze`, `assess`, `reassess`, `upgrade`, `get`, `get_assessment`, `list_ids`
 
@@ -30,7 +30,7 @@ genlayer deploy --contract contracts/app_privacy_disclosure_consistency_ledger.p
 
 The selected Studio Dev CLI/browser route must target chain `61997` (`0xf22d`) and Explorer `https://explorer-studio-dev.genlayer.com/`. After approval, upload the exact committed candidate source and deploy one new upgradable contract from the locked Studio account. The historical 61999 address must not be used or presented as current.
 
-After deployment, canonical `gen_getContractCode` must return bytes exactly equal to the corrected committed source and SHA-256 `C475DF6EF49A4EE4984CFD98A1664E50D3577AEE1B5D98899253917CA6F897AA`. Any mismatch requires another replacement; documentation cannot waive byte parity.
+After deployment, canonical `gen_getContractCode` must return bytes exactly equal to the corrected committed source and SHA-256 `DCF01BA79105957001AEC350629E6D2CAEB3BC880CB677235D33C0762F7EDF4A`. Any mismatch requires another replacement; documentation cannot waive byte parity.
 
 ## Post-deployment matrix
 

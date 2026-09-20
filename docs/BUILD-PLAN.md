@@ -23,10 +23,10 @@
 
 ## Current local checkpoint
 
-- Feasibility probe: `genvm-lint check` and `genlayer-test` Direct Mode passed on 2026-09-01 with `genvm-lint 0.11.0`, `genlayer-test 0.29.2`, Python 3.13, pickling enabled, agreement and deliberate disagreement coverage.
+- Feasibility probe: `genvm-lint check` and `genlayer-test` Direct Mode pass with pickling enabled, agreement and deliberate disagreement coverage. The current exact-source rerun uses pinned WSL (`genlayer-py 0.16.3`, `genlayer-test 0.29.2`, `pytest 9.1.1`) because the Windows fd0 loader fails before contract import with `PermissionError: [WinError 32]`.
 - Corrected contract candidate: `contracts/app_privacy_disclosure_consistency_ledger.py`; lint/schema pass and Direct Mode suite reports `17 passed`, including source identity, deceptive URL, exact model schema, native upgrade authorization, immutable evidence, exact supporting quote, malformed/truncated source and fail-closed coverage.
 - Frontend: functional baseline added under `frontend/` after the user authorized the minimum dependency install. The current Studio Devnet migration uses `genlayer-js@2.0.0-rc.1`, Vite `8.2.2`, TypeScript `7.0.2`, and no framework or connector dependency. It includes the explicit wallet picker, public record list/create/update journeys, finality/execution/readback handling, selected-provider balance preflight, and built-in Node regression tests.
-- Current frontend local checkpoint: `npm test` passes 13 tests and `npm run build` passes. It aligns Record ID rules and renders complete `get_assessment` history. The Studio Devnet 61997 contract deployment and all production/Vercel gates remain pending; older 61999 deployment and Vercel artifacts are historical-only.
+- Current frontend local checkpoint: `npm test` passes 13 tests and `npm run build` passes. It aligns Record ID rules and renders complete `get_assessment` history. The first Studio Devnet 61997 attempt finalized with `FINISHED_WITH_ERROR` and is excluded; accepted deployment, lifecycle and all production/Vercel gates remain pending. Older 61999 deployment and Vercel artifacts are historical-only.
 
 ## Steward-request repair implementation plan
 

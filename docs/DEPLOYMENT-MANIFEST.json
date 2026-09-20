@@ -1,7 +1,7 @@
 {
   "status": "PRE_DEPLOY_READY_STUDIO_DEV_61997_PENDING_DEPLOYMENT",
   "current_candidate": {
-    "source_sha256": "C475DF6EF49A4EE4984CFD98A1664E50D3577AEE1B5D98899253917CA6F897AA",
+    "source_sha256": "DCF01BA79105957001AEC350629E6D2CAEB3BC880CB677235D33C0762F7EDF4A",
     "deployment_status": "PENDING_DEPLOYMENT",
     "target_network": "Studio Devnet",
     "target_chain_id": 61997,
@@ -19,8 +19,8 @@
   "explorer_url": null,
   "deployment_transaction_hash": null,
   "source_file": "contracts/app_privacy_disclosure_consistency_ledger.py",
-  "source_sha256": "C475DF6EF49A4EE4984CFD98A1664E50D3577AEE1B5D98899253917CA6F897AA",
-  "git_commit": "e98bd8fc223bca7564cf0617f912acffb741b3ba",
+  "source_sha256": "DCF01BA79105957001AEC350629E6D2CAEB3BC880CB677235D33C0762F7EDF4A",
+  "git_commit": "302a6de8f90294e13894a955e7178e0e31a7606c",
   "constructor_args": [],
   "classification": "UPGRADABLE",
   "deployer_or_upgrader_address": "0x8581c4a532dd3f9b163b12809b1bd089f367147f",
@@ -28,13 +28,13 @@
   "historical_61999_deployer_or_upgrader_address": "0x34b92E6553eaCA11A00A9d86d75d8a7881779D78",
   "linked_contracts": {},
   "configuration_transactions": [],
-  "source_bytes": 26522,
+  "source_bytes": 26539,
   "live_source_parity": null,
   "live_source_parity_status": "PENDING_STUDIO_DEV_61997_DEPLOYMENT",
   "historical_61999_live_source_parity": {
     "rpc": "gen_getContractCode",
-    "bytes": 26522,
-    "sha256": "C475DF6EF49A4EE4984CFD98A1664E50D3577AEE1B5D98899253917CA6F897AA",
+    "bytes": 26539,
+    "sha256": "DCF01BA79105957001AEC350629E6D2CAEB3BC880CB677235D33C0762F7EDF4A",
     "exact_byte_equality": true
   },
   "historical_61999_live_case": {
@@ -71,6 +71,16 @@
       "assess": "0x80fe6c5772896b06cf651a63c6145d16aad6fc23a4e4b6462e6d1922c524d021",
       "reassess": "0x5302e0a159019d19ec46391637bf7365dbd01b8986a08d2c276e65a8853d0080"
     }
+  },
+  "failed_61997_deployment_attempt": {
+    "transaction_hash": "0xebb127384521ac8e654b54911a7d57ef4cc7c4ddff5c9b193b57edc63f7ed998",
+    "returned_contract_address": "0x689D1Bcd99cC7a27413fda4b19b3EFa603Fa5176",
+    "status": "FINALIZED",
+    "consensus": "MAJORITY_AGREE",
+    "execution": "FINISHED_WITH_ERROR",
+    "source_sha256": "C475DF6EF49A4EE4984CFD98A1664E50D3577AEE1B5D98899253917CA6F897AA",
+    "usable_for_release": false,
+    "reason": "The constructor execution failed; the address and transaction are retained only for reconciliation and must not be wired or used as current evidence."
   },
   "superseded_deployment": {
     "contract_address": "0x97a005a129e0212c792CC00B20B702288c1C13EB",

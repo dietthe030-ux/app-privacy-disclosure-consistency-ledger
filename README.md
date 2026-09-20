@@ -4,7 +4,7 @@ A GenLayer project that binds an exact app-store listing to a publisher privacy 
 
 ## Current status
 
-The current candidate passes local lint/schema, Direct Mode, frontend tests and production build. It targets Studio Devnet (chain `61997`, RPC `https://studio-dev.genlayer.com/api`) and is ready for a fresh deployment after `PRE_DEPLOY` approval. No Studio Devnet address, deployment transaction, post-deploy proof, GitHub publication or Vercel production E2E exists for this candidate yet. The earlier 61999 deployment and Vercel journey are historical-only evidence. See [docs/VERIFICATION.md](docs/VERIFICATION.md) for exact evidence and status.
+The current candidate passes local lint/schema, Direct Mode, frontend tests and production build. It targets Studio Devnet (chain `61997`, RPC `https://studio-dev.genlayer.com/api`) and is ready for a fresh deployment after `PRE_DEPLOY` approval. One earlier 61997 deployment attempt finalized with semantic execution error and is explicitly excluded; no usable current address, post-deploy proof, GitHub publication or Vercel production E2E exists yet. The earlier 61999 deployment and Vercel journey are historical-only evidence. See [docs/VERIFICATION.md](docs/VERIFICATION.md) for exact evidence and status.
 
 ## Verified links
 
@@ -45,7 +45,7 @@ The frontend requires explicit wallet selection, checks the selected account and
 
 ```powershell
 genvm-lint check contracts/app_privacy_disclosure_consistency_ledger.py --json
-py -3.13 -m pytest -q tests/direct/ -p no:cacheprovider
+wsl.exe -e bash -lc "cd /mnt/e/Genlayer-Projects/app-privacy-disclosure-consistency-ledger && HOME=/mnt/c/Users/LEGION /tmp/privacy-ledger-test-venv/bin/python -m pytest -q tests/direct/ -p no:gltest -p no:cacheprovider"
 cd frontend
 npm install --save-exact
 npm test
@@ -58,13 +58,13 @@ For a live frontend after the pending deployment, copy `frontend/.env.example` t
 
 ```powershell
 genvm-lint check contracts/app_privacy_disclosure_consistency_ledger.py --json
-py -3.13 -m pytest -q tests/direct/ -p no:cacheprovider
+wsl.exe -e bash -lc "cd /mnt/e/Genlayer-Projects/app-privacy-disclosure-consistency-ledger && HOME=/mnt/c/Users/LEGION /tmp/privacy-ledger-test-venv/bin/python -m pytest -q tests/direct/ -p no:gltest -p no:cacheprovider"
 cd frontend
 npm test
 npm run build
 ```
 
-The candidate passes lint/schema, 17 Direct Mode tests, 13 frontend tests, and the production build. Its 26,522-byte committed source has SHA-256 `C475DF6EF49A4EE4984CFD98A1664E50D3577AEE1B5D98899253917CA6F897AA`. Deployment parity and lifecycle writes remain pending for Studio Devnet 61997; historical 61999 live evidence is retained only in the verification ledger.
+The candidate passes lint/schema, 17 Direct Mode tests in the pinned WSL environment, 13 frontend tests, and the production build. The Windows Direct Mode loader is not used as evidence because `genlayer-test==0.29.2` fails before contract import with `PermissionError: [WinError 32]`; the WSL route is the verified test environment. Its 26,539-byte committed source has SHA-256 `DCF01BA79105957001AEC350629E6D2CAEB3BC880CB677235D33C0762F7EDF4A`. Deployment parity and lifecycle writes remain pending for Studio Devnet 61997; historical 61999 live evidence is retained only in the verification ledger.
 
 ## Deployment and recovery
 

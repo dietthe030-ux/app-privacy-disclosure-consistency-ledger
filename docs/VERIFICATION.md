@@ -1,10 +1,10 @@
 # Verification — Privacy Disclosure Consistency Ledger
 
-This document is the single evidence ledger for the project and is intentionally secret-free. The current candidate targets Studio Devnet 61997 but has no deployment address or live lifecycle yet. Historical 61999 deployments and Vercel journeys below are segregated provenance only and do not prove the current candidate.
+This document is the single evidence ledger for the project and is intentionally secret-free. The current candidate targets Studio Devnet 61997 but has no usable deployment address or accepted live lifecycle yet. One failed 61997 attempt is retained as diagnostic evidence and is not release evidence. Historical 61999 deployments and Vercel journeys below are segregated provenance only and do not prove the current candidate.
 
 ## Steward-request correction status
 
-- Corrected contract source SHA-256: `C475DF6EF49A4EE4984CFD98A1664E50D3577AEE1B5D98899253917CA6F897AA`.
+- Corrected contract source SHA-256: `DCF01BA79105957001AEC350629E6D2CAEB3BC880CB677235D33C0762F7EDF4A`.
 - Source binding: Google Play requires exact package ID and path; Apple App Store requires the exact numeric ID path; publisher policy must use a distinct non-store HTTPS host.
 - Conclusive verdict boundary: both app listing identity and publisher-policy identity must be `MATCH`; mismatch or uncertainty produces `UNRESOLVED`.
 - Immutable assessment readback: every revision exposes retrieval time, requested URL, verified host, HTTP status, captured byte count, truncation flag, digest, bounded excerpt, exact supporting quotes for identity/category conclusions, normalized fields, reason and verdict through `get_assessment`.
@@ -14,8 +14,8 @@ This document is the single evidence ledger for the project and is intentionally
 - Upgrade lifecycle: constructor registers the deployer in native Root Slot upgraders; explicit authorization guards code replacement; authorized replacement and unauthorized rejection are covered locally.
 - Local checks: lint/schema PASS with 8 methods; Direct Mode `17 passed`; frontend `13 passed`; production build PASS.
 - Current target: Studio Devnet, chain `61997`, RPC `https://studio-dev.genlayer.com/api`, Explorer `https://explorer-studio-dev.genlayer.com/`.
-- Current deployment status: `PENDING_DEPLOYMENT`; no 61997 contract address, deployment transaction, source parity, LIVE-01 through LIVE-04 proof, GitHub publication, Vercel artifact or production E2E is claimed.
-- Read-only Studio Devnet readiness artifact: `docs/preflight/studio-tool-readiness.json`; its current exact SHA is bound by the current preflight receipt because readiness timestamp and balance are refreshed before STUDIO_OPEN.
+- Current deployment status: `PENDING_DEPLOYMENT`; failed diagnostic transaction `0xebb127384521ac8e654b54911a7d57ef4cc7c4ddff5c9b193b57edc63f7ed998` returned `FINALIZED` + `MAJORITY_AGREE` but `FINISHED_WITH_ERROR` at address `0x689D1Bcd99cC7a27413fda4b19b3EFa603Fa5176`, which is explicitly unusable. No accepted 61997 contract address, source parity, LIVE-01 through LIVE-04 proof, GitHub publication, Vercel artifact or production E2E is claimed.
+- Read-only Studio Devnet readiness artifact: `docs/preflight/studio-tool-readiness-runtime-fix.json`; SHA-256 `7D3C68291296A0991280165E304F13FE8F206B89BE5BF77EDA913B4C86AACA15`, refreshed immediately before this package. The older readiness snapshots remain historical evidence only.
 - Required next gates: obtain the scoped `PRE_DEPLOY` approval, deploy once to Studio Devnet, verify exact source parity and fresh lifecycle evidence, then wire the frontend to the new 61997 address and pursue the separate GitHub/Vercel gates.
 
 ## Identity
@@ -23,10 +23,10 @@ This document is the single evidence ledger for the project and is intentionally
 - Category: `PROJECT`
 - Project folder: `E:\Genlayer-Projects\app-privacy-disclosure-consistency-ledger`
 - Current contract source: `contracts/app_privacy_disclosure_consistency_ledger.py`
-- Current corrected candidate SHA-256: `C475DF6EF49A4EE4984CFD98A1664E50D3577AEE1B5D98899253917CA6F897AA`
+- Current corrected candidate SHA-256: `DCF01BA79105957001AEC350629E6D2CAEB3BC880CB677235D33C0762F7EDF4A`
 - Current frontend lockfile SHA-256: `0EF3A34944BFA2006C6C958C4BD9467C499A46EA9BE9630C6A38A2D24AA33F31`
 - Historical frontend source commit used by the superseded `0xfE2E...` Vercel deployment: `21439e6e8d2a1d88156593a943b356d1e64b48af`
-- Contract source commit: `e63d5eaa816f8dfa79e069f6e30291885555565e`
+- Contract source commit: `302a6de8f90294e13894a955e7178e0e31a7606c`
 - Current target network: Studio Devnet (`61997`); RPC `https://studio-dev.genlayer.com/api`; Explorer `https://explorer-studio-dev.genlayer.com/`.
 - Current contract address: `PENDING_DEPLOYMENT`; deployment transaction: `PENDING_DEPLOYMENT`.
 - Historical 61999 corrected contract: `0x41F4A7F278Ae526e98A329F2C31cA1CE31fa8c51`; deployment transaction `0x72732555ed7fda8caf2646f0e548908e180d789169c9ae3a4a443927d04813c6`. This address and its lifecycle are not current 61997 proof.
@@ -37,7 +37,7 @@ This document is the single evidence ledger for the project and is intentionally
 | ID | Requirement | Command | Result |
 |---|---|---|---|
 | L-01 | Contract lint and schema visibility | `genvm-lint check contracts/app_privacy_disclosure_consistency_ledger.py --json` | PASS; 8 methods, 3 views, 5 writes |
-| L-02 | Contract lifecycle, native upgrade authorization, exact model schema, source binding, immutable evidence, independent quote verification, negative consensus and fail-closed behavior | `py -3.13 -m pytest -q tests/direct/ -p no:cacheprovider` | PASS; 17 passed |
+| L-02 | Contract lifecycle, native upgrade authorization, exact model schema, source binding, immutable evidence, independent quote verification, negative consensus and fail-closed behavior | `wsl.exe -e bash -lc "cd /mnt/e/Genlayer-Projects/app-privacy-disclosure-consistency-ledger && HOME=/mnt/c/Users/LEGION /tmp/privacy-ledger-test-venv/bin/python -m pytest -q tests/direct/ -p no:gltest -p no:cacheprovider"` | PASS; 17 passed in pinned WSL (`genlayer-py 0.16.3`, `genlayer-test 0.29.2`, `pytest 9.1.1`) |
 | F-01 | Frontend wallet/provider and assessment-history regression | `cd frontend; npm test` | PASS; 13 passed |
 | F-02 | Frontend TypeScript/Vite production build | `cd frontend; npm run build` | PASS; Vite build succeeded |
 | F-03 | Local dev entrypoint | `cd frontend; npm run dev -- --host 127.0.0.1` | PASS; HTTP 200 verified on `/` and `/src/main.ts` |
@@ -65,7 +65,7 @@ The contract is documentary comparison only. It does not establish privacy-law c
 - Prior `POST_DEPLOY_TEST` verdict: `CHANGES REQUIRED` because the superseded deployment returned live source SHA-256 `BC02B9C1032D1C3D7CAA7AC43BEE12C86868072A25F1B0323B793D98697FF2E2` and 16520 bytes instead of the committed `ACF89615555C2CAF2634F690661B2A53873DB5B3807F463EB34284B8181946FB` and 16072 bytes. The frozen contract was replaced; the current package records fresh parity and fresh LIVE-01 through LIVE-04 evidence.
 - Historical 61999 `POST_DEPLOY_TEST` verdict: `APPROVED` for the then-current deployment package; it does not authorize or validate this 61997 candidate.
 - Historical anonymous delta verdicts remain attached only to the 61999 evidence package; current GitHub/Vercel and production E2E gates are pending.
-- Current known warning: `genvm-lint` reports informational newer-runner notice `I200`; it is recorded and does not fail lint.
+- Current known warning: `genvm-lint` reports informational newer-runner notice `I200`; it is recorded and does not fail lint. Windows Direct Mode is not release evidence because the pinned loader fails before contract import with `PermissionError: [WinError 32]`; the verified Direct Mode result is from WSL.
 
 ## Historical 2026-09-02 replacement source parity
 
