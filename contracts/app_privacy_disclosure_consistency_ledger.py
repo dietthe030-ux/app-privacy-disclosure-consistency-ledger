@@ -1,12 +1,13 @@
-# v0.1.0
-# { "Depends": "py-genlayer:1jb45aa8ynh2a9c9xn3b7qqh8sm5q93hwfp7jqmwsfhh8jpz09h6" }
+# v0.3.0
+# { "Depends": "py-genlayer:5jycge4q8k23462jtb0b9fyey1s9qz928sz2nbrd9mg4sxqg2qng" }
 
 from dataclasses import dataclass
 import hashlib
 import json
 import typing
 
-from genlayer import *
+import genlayer as gl
+from genlayer.storage import allow as allow_storage
 
 
 MAX_SOURCE_BYTES = 12000
@@ -236,6 +237,30 @@ def _canonical_decision(
     return json.dumps(decision, sort_keys=True, separators=(",", ":"))
 
 
+def _malformed_source_decision(store_url: str, policy_url: str) -> str:
+    empty_body = b""
+    def evidence(url: str) -> dict[str, typing.Any]:
+        return {
+            "requested_url": url,
+            "verified_host": _url_host(url),
+            "http_status": 200,
+            "body_valid": False,
+            "captured_bytes": 0,
+            "truncated": False,
+            "sha256": hashlib.sha256(empty_body).hexdigest(),
+            "excerpt": "",
+        }
+    return _canonical_decision(
+        "",
+        200,
+        200,
+        empty_body,
+        empty_body,
+        evidence(store_url),
+        evidence(policy_url),
+    )
+
+
 def _valid_evidence_metadata(value: typing.Any, expected_url: str) -> bool:
     keys = {"requested_url", "verified_host", "http_status", "body_valid", "captured_bytes", "truncated", "sha256", "excerpt"}
     return (
@@ -328,7 +353,7 @@ def _prompt(app_id: str, platform: str, store_text: str, policy_text: str) -> st
 @allow_storage
 @dataclass
 class Assessment:
-    revision: u32
+    revision: gl.u32
     checked_at: str
     evidence_status: str
     reason_code: str
@@ -339,9 +364,9 @@ class Assessment:
     deletion_store: str
     deletion_policy: str
     retention_kind_store: str
-    retention_days_store: u32
+    retention_days_store: gl.u32
     retention_kind_policy: str
-    retention_days_policy: u32
+    retention_days_policy: gl.u32
     verdict: str
     source_digest_store: str
     source_digest_policy: str
@@ -351,21 +376,21 @@ class Assessment:
 @allow_storage
 @dataclass
 class Record:
-    owner: Address
+    owner: gl.Address
     app_id: str
     platform: str
     store_url: str
     policy_url: str
     state: str
     verdict: str
-    revision: u32
+    revision: gl.u32
 
 
-class AppPrivacyDisclosureConsistencyLedger(gl.Contract):
-    records: TreeMap[str, Record]
-    record_ids: DynArray[str]
-    assessments: TreeMap[str, Assessment]
-    upgrader: Address
+class AppPrivacyDisclosureConsistencyLedger(gl.contract.Contract):
+    records: gl.storage.TreeMap[str, Record]
+    record_ids: gl.storage.DynArray[str]
+    assessments: gl.storage.TreeMap[str, Assessment]
+    upgrader: gl.Address
 
     def __init__(self):
         sender = gl.message.sender_address
@@ -449,17 +474,20 @@ class AppPrivacyDisclosureConsistencyLedger(gl.Contract):
         revision: int,
     ) -> str:
         def leader_fn() -> str:
-            store_response = gl.nondet.web.get(store_url)
-            policy_response = gl.nondet.web.get(policy_url)
-            store_body, store_evidence = _source_evidence(store_url, store_response)
-            policy_body, policy_evidence = _source_evidence(policy_url, policy_response)
+            try:
+                store_response = gl.nondet.web.get(store_url)
+                policy_response = gl.nondet.web.get(policy_url)
+                store_body, store_evidence = _source_evidence(store_url, store_response)
+                policy_body, policy_evidence = _source_evidence(policy_url, policy_response)
+            except Exception:
+                return _malformed_source_decision(store_url, policy_url)
             raw = gl.nondet.exec_prompt(
                 _prompt(
                     app_id,
                     platform,
                     store_body.decode("utf-8", errors="replace"),
                     policy_body.decode("utf-8", errors="replace"),
-                )
+                ),
             )
             return _canonical_decision(
                 raw,
@@ -485,7 +513,7 @@ class AppPrivacyDisclosureConsistencyLedger(gl.Contract):
                         platform,
                         store_body.decode("utf-8", errors="replace"),
                         policy_body.decode("utf-8", errors="replace"),
-                    )
+                    ),
                 )
                 own = _canonical_decision(
                     raw,
@@ -505,9 +533,12 @@ class AppPrivacyDisclosureConsistencyLedger(gl.Contract):
                     policy_body,
                 )
             except Exception:
-                return False
+                try:
+                    return json.loads(_payload(leader_result)).get("reason_code") == "MALFORMED_SOURCE"
+                except Exception:
+                    return False
 
-        result = gl.vm.run_nondet_unsafe(leader_fn, validator_fn)
+        result = gl.vm.run_nondet(leader_fn, validator_fn)
         payload = _payload(result)
         try:
             decision = json.loads(payload)
@@ -515,11 +546,11 @@ class AppPrivacyDisclosureConsistencyLedger(gl.Contract):
             raise gl.vm.UserError("Assessment result was not valid JSON")
         verdict = self._verdict(decision)
         decision["verdict"] = verdict
-        decision["retrieved_at"] = gl.message_raw["datetime"]
+        decision["retrieved_at"] = gl.message.raw["datetime"]
         persisted_json = json.dumps(decision, sort_keys=True, separators=(",", ":"))
         assessment = Assessment(
-            revision=u32(revision),
-            checked_at=gl.message_raw["datetime"],
+            revision=revision,
+            checked_at=gl.message.raw["datetime"],
             evidence_status=decision["evidence_status"],
             reason_code=decision["reason_code"],
             collection_store=decision["store"]["collection"],
@@ -529,9 +560,9 @@ class AppPrivacyDisclosureConsistencyLedger(gl.Contract):
             deletion_store=decision["store"]["deletion"],
             deletion_policy=decision["policy"]["deletion"],
             retention_kind_store=decision["store"]["retention_kind"],
-            retention_days_store=u32(decision["store"]["retention_days"]),
+            retention_days_store=decision["store"]["retention_days"],
             retention_kind_policy=decision["policy"]["retention_kind"],
-            retention_days_policy=u32(decision["policy"]["retention_days"]),
+            retention_days_policy=decision["policy"]["retention_days"],
             verdict=verdict,
             source_digest_store=decision["store_evidence"]["sha256"],
             source_digest_policy=decision["policy_evidence"]["sha256"],
@@ -541,7 +572,7 @@ class AppPrivacyDisclosureConsistencyLedger(gl.Contract):
         record = self.records[record_id]
         record.state = "ASSESSED"
         record.verdict = verdict
-        record.revision = u32(revision)
+        record.revision = revision
         return verdict
 
     @gl.public.write
@@ -573,7 +604,7 @@ class AppPrivacyDisclosureConsistencyLedger(gl.Contract):
             policy_url=policy_url,
             state="DRAFT",
             verdict="UNRESOLVED",
-            revision=u32(0),
+            revision=0,
         )
         self.record_ids.append(record_id)
 
@@ -641,7 +672,7 @@ class AppPrivacyDisclosureConsistencyLedger(gl.Contract):
         )
 
     @gl.public.view
-    def get_assessment(self, record_id: str, revision: u32) -> str:
+    def get_assessment(self, record_id: str, revision: gl.u32) -> str:
         key = self._assessment_key(record_id, int(revision))
         if key not in self.assessments:
             raise gl.vm.UserError("Unknown assessment")
@@ -649,5 +680,5 @@ class AppPrivacyDisclosureConsistencyLedger(gl.Contract):
         return assessment.decision_json
 
     @gl.public.view
-    def list_ids(self) -> DynArray[str]:
+    def list_ids(self) -> gl.storage.DynArray[str]:
         return self.record_ids

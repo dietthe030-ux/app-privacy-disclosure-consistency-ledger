@@ -5,6 +5,17 @@ STORE_URL = "https://play.google.com/store/apps/details?id=com.example.app"
 POLICY_URL = "https://publisher.example/privacy"
 
 
+def _mock_llm_text(direct_vm, prompt, response):
+    """Keep JSON-shaped mock output as text for the current direct runner."""
+    try:
+        json.loads(response)
+    except (TypeError, ValueError):
+        encoded = response
+    else:
+        encoded = json.dumps(response)
+    direct_vm.mock_llm(prompt, encoded)
+
+
 def _quotes(store_quote="store", policy_quote="policy", policy_identity=True, store_side=None, policy_side=None):
     store_side = store_side or {"collection": "PERMITTED", "sharing": "NOT_MENTIONED", "deletion": "PERMITTED", "retention_kind": "DAYS"}
     policy_side = policy_side or {"collection": "PERMITTED", "sharing": "NOT_MENTIONED", "deletion": "PERMITTED", "retention_kind": "DAYS"}
@@ -25,7 +36,8 @@ def _quotes(store_quote="store", policy_quote="policy", policy_identity=True, st
 def _mock_assessment(direct_vm, store, policy, store_body="store", policy_body="policy", llm_response=None):
     direct_vm.mock_web(r"play\.google\.com/store/apps/details", {"status": 200, "body": store_body})
     direct_vm.mock_web(r"publisher\.example/privacy", {"status": 200, "body": policy_body})
-    direct_vm.mock_llm(
+    _mock_llm_text(
+        direct_vm,
         r"Compare the two app privacy disclosures",
         llm_response if llm_response is not None else json.dumps({"store": store, "policy": policy, "identity": {"store_app": "MATCH", "publisher_policy": "MATCH"}, "evidence": _quotes(store_body, policy_body, store_side=store, policy_side=policy)}),
     )
@@ -101,7 +113,8 @@ def test_conflict_and_unavailable_sources_fail_safe(direct_vm, direct_deploy, di
 
     direct_vm.mock_web(r"play\.google\.com/store/apps/details", {"status": 503, "body": "down"})
     direct_vm.mock_web(r"publisher\.example/privacy", {"status": 200, "body": "policy"})
-    direct_vm.mock_llm(
+    _mock_llm_text(
+        direct_vm,
         r"Compare the two app privacy disclosures",
         json.dumps({"store": _side(), "policy": _side(), "identity": {"store_app": "MATCH", "publisher_policy": "MATCH"}, "evidence": _quotes("down", "policy")}),
     )
@@ -190,7 +203,7 @@ def test_invalid_model_outputs_fail_closed(direct_vm, direct_deploy, direct_alic
         contract.freeze(record_id)
         direct_vm.mock_web(r"play\.google\.com/store/apps/details", {"status": 200, "body": "store"})
         direct_vm.mock_web(r"publisher\.example/privacy", {"status": 200, "body": "policy"})
-        direct_vm.mock_llm(r"Compare the two app privacy disclosures", response)
+        _mock_llm_text(direct_vm, r"Compare the two app privacy disclosures", response)
         assert contract.assess(record_id) == "UNRESOLVED", f"response index {index}"
         assert direct_vm.run_validator() is True
         direct_vm.clear_mocks()
@@ -247,7 +260,8 @@ def test_prompt_boundary_encodes_untrusted_delimiters(direct_vm, direct_deploy, 
     encoded = malicious.encode("utf-8").hex()
     direct_vm.mock_web(r"play\.google\.com/store/apps/details", {"status": 200, "body": malicious})
     direct_vm.mock_web(r"publisher\.example/privacy", {"status": 200, "body": "policy"})
-    direct_vm.mock_llm(
+    _mock_llm_text(
+        direct_vm,
         rf"{encoded}",
         json.dumps({"store": _side(), "policy": _side(), "identity": {"store_app": "MATCH", "publisher_policy": "MATCH"}, "evidence": _quotes(malicious, "policy")}),
     )
@@ -343,7 +357,7 @@ def test_malformed_source_body_fails_closed(direct_vm, direct_deploy, direct_ali
     contract.freeze("malformed-1")
     direct_vm.mock_web(r"play\.google\.com/store/apps/details", {"status": 200, "body": ["not", "bytes"]})
     direct_vm.mock_web(r"publisher\.example/privacy", {"status": 200, "body": "policy"})
-    direct_vm.mock_llm(r"Compare the two app privacy disclosures", "{}")
+    _mock_llm_text(direct_vm, r"Compare the two app privacy disclosures", "{}")
     assert contract.assess("malformed-1") == "UNRESOLVED"
     result = json.loads(contract.get_assessment("malformed-1", 1))
     assert result["reason_code"] == "MALFORMED_SOURCE"

@@ -1,4 +1,5 @@
-# { "Depends": "py-genlayer:1jb45aa8ynh2a9c9xn3b7qqh8sm5q93hwfp7jqmwsfhh8jpz09h6" }
+# v0.3.0
+# { "Depends": "py-genlayer:5jycge4q8k23462jtb0b9fyey1s9qz928sz2nbrd9mg4sxqg2qng" }
 
 """Local-only probe for the installed GenVM web Response shape.
 
@@ -10,7 +11,7 @@ reproducible through the same Direct Mode harness used by the contract tests.
 import json
 import typing
 
-from genlayer import *
+import genlayer as gl
 
 
 def _shape(url: str) -> str:
@@ -26,7 +27,7 @@ def _shape(url: str) -> str:
     )
 
 
-class ContractProbe(gl.Contract):
+class ContractProbe(gl.contract.Contract):
     def __init__(self):
         pass
 
@@ -40,7 +41,7 @@ class ContractProbe(gl.Contract):
                 return False
             return leader_result.calldata == _shape(url)
 
-        result = gl.vm.run_nondet_unsafe(leader_fn, validator_fn)
+        result = gl.vm.run_nondet(leader_fn, validator_fn)
         if isinstance(result, gl.vm.Return):
             return result.calldata
         if isinstance(result, str):
