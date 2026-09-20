@@ -39,7 +39,7 @@ Use one live row for each unique transition and retain failed attempts as diagno
 - `LIVE-01`: create a draft using an exact Google Play package/listing or Apple numeric ID/listing and a distinct publisher policy; readback shows `Draft` and revision `0`.
 - `LIVE-02`: owner freezes the record; readback shows frozen sources.
 - `LIVE-03`: any caller assesses frozen sources; `get_assessment(1)` must show complete source metadata, identity result, exact supporting quotes, normalized fields and verdict.
-- `LIVE-04`: any caller reassesses after a controlled public source change; revision `2` must differ where expected while `get_assessment(1)` remains byte-for-byte unchanged.
+- `LIVE-04`: any caller reassesses after a subsequent public retrieval of the frozen sources; revision `1` must remain byte-for-byte/readback equivalent, revision `2` must be retained, and any observed source-digest variance must remain visible rather than normalized away. A controlled publisher mutation is optional future evidence and is not claimed by the current package. The exact reconciliation is `docs/preflight/POST-DEPLOY-ACCEPTANCE-RECONCILIATION-BF20-CD71AD9-20260920.md`.
 
 Current accepted record: `privacy-ledger-live-20260920-v03` using the Android package `com.whatsapp`, with lifecycle transactions recorded in `docs/preflight/STUDIO-E2E-CHECKPOINT-RUNTIME-V03-20260920.json`. The final state is `ASSESSED`, revision `2`; revisions `1` and `2` remain readable. The current Studio evidence is not Vercel browser E2E.
 

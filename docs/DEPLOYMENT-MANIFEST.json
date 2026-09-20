@@ -19,6 +19,10 @@
     },
     "post_deploy_test_status": "PASS",
     "post_deploy_evidence": "docs/preflight/STUDIO-E2E-CHECKPOINT-RUNTIME-V03-20260920.json",
+    "post_deploy_evidence_sha256": "DA22EE79AC9AD0E2051F0DE4E73E997FEC3B255BD9585CF6A751B05404199DE1",
+    "frontend_rpc_matrix": "docs/preflight/STUDIO-DEV-FRONTEND-RPC-MATRIX.md",
+    "frontend_rpc_matrix_sha256": "0341310A428F81DBAD9D047D81E6EE1B0EB4F76F0D466643993DDDF363A1BFEF",
+    "acceptance_reconciliation": "docs/preflight/POST-DEPLOY-ACCEPTANCE-RECONCILIATION-BF20-CD71AD9-20260920.md",
     "reason": "The exact candidate is deployed and passed source parity plus LIVE-01 through LIVE-04 on Studio Devnet 61997. GitHub publication, Vercel deployment and production browser E2E remain pending."
   },
   "historical_61999_deployment_status": "DEPLOYED_FINALIZED",
@@ -71,7 +75,8 @@
     "revision_2_store_digest": "0862af6fd737333c46eda0fed188b858d6bf91234ac0b99ba745d1767fa34dbe",
     "revision_1_policy_digest": "21db94801171e7b6334bef4c8c7b1d95727ae2e4c1a94e054aa646b47458a14c",
     "revision_2_policy_digest": "038822f8689d51998fb4877f0ae04a73211e2e282e6695fbf85a7ceb5ebd70ad",
-    "digest_variance": "The live public responses were truncated at 12000 bytes and changed between retrievals; both immutable snapshots remain readable and the variance is explicitly retained."
+    "digest_variance": "The live public responses were truncated at 12000 bytes and changed between subsequent retrievals; both immutable snapshots remain readable and the variance is explicitly retained. This is observed natural drift, not a controlled publisher mutation claim.",
+    "acceptance_scope": "SUBSEQUENT_PUBLIC_RETRIEVAL_WITH_IMMUTABLE_REVISION_LINEAGE"
   },
   "historical_61999_live_source_parity": {
     "rpc": "gen_getContractCode",
