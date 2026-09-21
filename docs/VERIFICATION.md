@@ -1,6 +1,6 @@
 # Verification — Privacy Disclosure Consistency Ledger
 
-This document is the single public, secret-free evidence ledger. The current Studio Devnet 61997 contract at `0xd07a6566f188ce5ce40b82598ee9c0f165608bea` passed exact source parity and LIVE-01 through LIVE-04. A separate-wallet production Vercel journey on the current contract completed all four lifecycle writes and retained two readable assessments on the preceding application bundle. The current bundle corrects the E2E account guard; refreshed anonymous approval and an exact-final four-write rerun remain pending. Final release review and manual Explorer resubmission are not claimed. Failed 61997 attempts and historical 61999 journeys are segregated below.
+This document is the single public, secret-free evidence ledger. The current Studio Devnet 61997 contract at `0xd07a6566f188ce5ce40b82598ee9c0f165608bea` passed exact source parity and LIVE-01 through LIVE-04. A separate-wallet production Vercel journey on the exact current deployment completed all four lifecycle writes, retained two readable assessments and passed reload/reconnect. Final anonymous release review and manual Explorer resubmission are not claimed. Failed 61997 attempts and historical 61999 journeys are segregated below.
 
 ## Steward-request correction status
 
@@ -87,8 +87,25 @@ All four lifecycle receipts target the current contract and originate from the l
 
 - Canonical alias: `https://app-privacy-disclosure-consistency.vercel.app/`; project `dietthe030-uxs-projects/app-privacy-disclosure-consistency-ledger`, build root `frontend`, chain `61997`, contract `0xd07a6566f188ce5ce40b82598ee9c0f165608bea`.
 - Retained four-write journey source/deployment: `88e727683d068b120709de0f3c4ddff32a94f5bf`, `dpl_719MTBTxeFSqM5U32CZh3HHVbmcm`. It remains useful historical current-contract evidence but does not validate the exact-final bundle described next.
-- Current application source/deployment: `dae976ea1b8e64da94eb338f4c399bbaf3d12ed0`, READY deployment `dpl_87X5mWJtw9dm8pyvV2aL4mboX8fA`, URL `https://app-privacy-disclosure-consistency-ledger-pic6tm56v.vercel.app/`. The alias, `?e2e=1` and deployment URL all returned HTTP 200 with bundle `/assets/index-JYw0N3Lq.js` (627504 bytes; SHA-256 `4CA7B6E5BB74C40A308D3ECA95E31858E3054B394CC2AA9CBD1ABBD72411DED9`). The bundle contains the current contract and current Studio deployer, and excludes the stale deployer. Refreshed anonymous approval and then an exact-final four-write browser rerun are pending.
+- Current application source/deployment: `dae976ea1b8e64da94eb338f4c399bbaf3d12ed0`, READY deployment `dpl_87X5mWJtw9dm8pyvV2aL4mboX8fA`, URL `https://app-privacy-disclosure-consistency-ledger-pic6tm56v.vercel.app/`. The alias, `?e2e=1` and deployment URL all returned HTTP 200 with bundle `/assets/index-JYw0N3Lq.js` (627504 bytes; SHA-256 `4CA7B6E5BB74C40A308D3ECA95E31858E3054B394CC2AA9CBD1ABBD72411DED9`). The bundle contains the current contract and current Studio deployer, and excludes the stale deployer. The exact-final four-write browser run below was completed on this bundle.
 - Separate browser wallet: OKX Wallet, displayed only as `OKX Wallet · 0x2dea…44ed`; selected-account inequality against the locked Studio deployer was true. Fresh record `privacy-ledger-vercel-20260921-v01` used the exact Google Play `com.whatsapp` listing and the distinct WhatsApp publisher-policy URL.
+
+### Exact-final browser lifecycle on the current deployment
+
+The current READY deployment `dpl_87X5mWJtw9dm8pyvV2aL4mboX8fA` was exercised on the canonical production alias with a fresh external-wallet record `privacy-ledger-final-20260921-v02`. The page started disconnected, discovered only the available OKX Wallet, and connected by explicit selection. The header displayed only `OKX Wallet · 0x2dea…44ed`; the selected account differed from the current Studio deployer. The record used the exact Google Play `com.whatsapp` listing and the distinct WhatsApp publisher-policy URL.
+
+| Action | Exact-final transaction | Finality / receipt | UI and authoritative readback | Browser requests |
+|---|---|---|---|---:|
+| Create | `0xc8735b9062dae39b9a47281e09312e75ab12f28c22f784990a81f24fcac17db0` | `FINALIZED` / `0x1` | `DRAFT`, revision 0 | 15 |
+| Freeze | `0xa6092dbecc097a90fe25184b564d41aa74eb480937e5db7a87c05dcc360ad18a` | `FINALIZED` / `0x1` | `FROZEN`, revision 0 | 15 |
+| Assess | `0xba06436c940edde8b76487062c62163d8b1f2176bb8f24375c29733a425ac958` | `FINALIZED` / `0x1` | `ASSESSED`, revision 1 readable | 19 |
+| Reassess | `0xa0298f1ab9ba6f6a2980679fb88ad10e592ada9b7b931191debda65185fc0f04` | `FINALIZED` / `0x1` | `ASSESSED`, revision 2; revisions 1 and 2 readable | 19 |
+
+Each write was submitted exactly once, with zero automatic write retries. Direct GenLayerJS readback returns `ASSESSED`, revision 2 and verdict `UNRESOLVED`; both retained assessments include HTTP 200 metadata and bounded source snapshots. Revision 1 store/policy digests are `73e3c5336cf41810125b260485bbb85a53d134b3cf553ee500a726f60d12788f` / `fb8f8deab4d91bb981ec496f0113f5f693b8c80f45279e70ff70e6e1aa8291d3`; revision 2 digests are `2c7caeaa6b5100ec27805947fa8cefba16a2cda27c6a0d28b8f6b2b3e29eea4f` / `6256f2fafb060eb132953b8312e7c62cef7b7223af7e2a87a2e8611b7a7554c9`. Each source digest equals its retained evidence SHA-256. The public responses changed naturally between retrievals; no controlled publisher mutation is claimed. Reload started disconnected; explicit OKX reconnection restored the shortened badge and displayed revision 2 plus both historical assessments, without a new write.
+
+Measured RPC: initial browser segment 8 provider + 106 page requests = 114; post-reload/reconnect 4 provider + 10 page requests = 14; direct status/receipt/readback reconciliation 15. Whole exact-final run including independent verification: **143 / 541**. Per-write polling/readback/retries were create `8/1/0`, freeze `8/1/0`, assess `11/2/0`, reassess `11/2/0`. Four distinct transaction hashes, four write submissions, no duplicate or hard stop. The browser's transaction labels remained pending until finality, semantic success and readback.
+
+The earlier journey below is retained as preceding-bundle evidence and is not substituted for this exact-final run.
 
 | Browser action | Hash | Finality / receipt | UI and authoritative result | Browser requests |
 |---|---|---|---|---:|

@@ -1,5 +1,5 @@
 {
-  "status": "POST_DEPLOY_TEST_REREVIEW_PENDING",
+  "status": "POST_GITHUB_VERCEL_FINAL_REVIEW_PENDING",
   "current_candidate": {
     "source_sha256": "7A1F9260FCC24174482142B522AAE60CA9BD96352BF8C497EB2B2E03CC991C8E",
     "deployment_status": "DEPLOYED_FINALIZED",
@@ -23,7 +23,7 @@
     "frontend_rpc_matrix": "docs/preflight/STUDIO-DEV-FRONTEND-RPC-MATRIX.md",
     "frontend_rpc_matrix_sha256": "DFCC3620412CDC719F63E7DC5CFB843216F74E2F7F86CECF3C24BCF6565E55D5",
     "acceptance_reconciliation": "docs/preflight/POST-DEPLOY-ACCEPTANCE-RECONCILIATION-BF20-CD71AD9-20260920.md",
-    "reason": "The candidate passed Studio Devnet source parity and LIVE-01 through LIVE-04. GitHub and the current Vercel alias are live. The frontend E2E account guard is now bound to the current Studio deployer; refreshed anonymous approval is required before the exact-final four-write browser rerun."
+    "reason": "Studio Devnet source parity and LIVE-01 through LIVE-04 passed. The current Vercel deployment passed an exact-final external-wallet four-write browser lifecycle, reload/reconnect and bounded RPC accounting. Final anonymous release review remains pending."
   },
   "historical_61999_deployment_status": "DEPLOYED_FINALIZED",
   "historical_61999_post_deploy_test_verdict": "APPROVED",
@@ -149,7 +149,7 @@
     "network_reset": "The historical 61999 addresses are not current or recoverable proof. Deploy fresh to Studio Devnet 61997, rerun live tests, then update the frontend address."
   },
   "current_frontend_release": {
-    "status": "PRODUCTION_READY_POST_DEPLOY_REREVIEW_PENDING",
+    "status": "PRODUCTION_READY_EXACT_FINAL_E2E_PASS_FINAL_REVIEW_PENDING",
     "github_application_source_commit": "dae976ea1b8e64da94eb338f4c399bbaf3d12ed0",
     "github_followup_ignore_only_commit": "a7f868d0f22a93fe6f2df4c9385e8ae3bc668df0",
     "vercel_team": "dietthe030-uxs-projects",
@@ -167,9 +167,43 @@
     "alias_http_status": 200,
     "alias_e2e_http_status": 200,
     "deployment_url_http_status": 200,
-    "presentation_delta_check": "The current bundle preserves the concise OKX Wallet and shortened-address presentation and corrects the E2E account guard to compare against current Studio deployer 0x8581c4a532dd3f9b163b12809b1bd089f367147f. Regression tests prove false for that deployer and true for a distinct browser account. Exact-final four-write browser evidence remains pending refreshed anonymous approval.",
+    "presentation_delta_check": "The current bundle preserves the concise OKX Wallet and shortened-address presentation and corrects the E2E account guard to compare against the current Studio deployer. Regression and exact-final browser checks passed.",
     "lifecycle_evidence_deployment_id": "dpl_719MTBTxeFSqM5U32CZh3HHVbmcm",
-    "lifecycle_evidence_scope": "Historical current-contract browser lifecycle retained from the preceding bundle. It does not substitute for the exact-final four-write rerun required after the account-guard correction.",
+    "lifecycle_evidence_scope": "The original four-write browser lifecycle is retained as preceding-bundle history. Exact-final current-bundle evidence is recorded in exact_final_e2e below.",
+    "exact_final_e2e": {
+      "deployment_id": "dpl_87X5mWJtw9dm8pyvV2aL4mboX8fA",
+      "alias": "https://app-privacy-disclosure-consistency.vercel.app/?e2e=1",
+      "record_id": "privacy-ledger-final-20260921-v02",
+      "browser_wallet_display": "OKX Wallet · 0x2dea…44ed",
+      "account_differs_from_studio_deployer": true,
+      "transactions": {
+        "create": "0xc8735b9062dae39b9a47281e09312e75ab12f28c22f784990a81f24fcac17db0",
+        "freeze": "0xa6092dbecc097a90fe25184b564d41aa74eb480937e5db7a87c05dcc360ad18a",
+        "assess": "0xba06436c940edde8b76487062c62163d8b1f2176bb8f24375c29733a425ac958",
+        "reassess": "0xa0298f1ab9ba6f6a2980679fb88ad10e592ada9b7b931191debda65185fc0f04"
+      },
+      "all_finalized": true,
+      "all_receipts_successful": true,
+      "write_submissions_per_action": 1,
+      "automatic_write_retries": 0,
+      "duplicate_writes": false,
+      "final_state": "ASSESSED",
+      "final_revision": 2,
+      "final_verdict": "UNRESOLVED",
+      "assessments_1_and_2_readable": true,
+      "source_digests_match_retained_evidence": true,
+      "reload_reconnect_pass": true,
+      "request_ledger": {
+        "ceiling": 541,
+        "initial_browser": 114,
+        "post_reload_browser": 14,
+        "independent_reconciliation": 15,
+        "whole_run": 143,
+        "per_write": {"create": 15, "freeze": 15, "assess": 19, "reassess": 19},
+        "per_write_polling": {"create": 8, "freeze": 8, "assess": 11, "reassess": 11},
+        "hard_stop_reached": false
+      }
+    },
     "browser_wallet": "OKX Wallet",
     "browser_wallet_display": "OKX Wallet · 0x2dea…44ed",
     "sender_differs_from_studio_deployer": true,
