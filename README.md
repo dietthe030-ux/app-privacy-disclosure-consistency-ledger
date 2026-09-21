@@ -1,4 +1,4 @@
-# Privacy Disclosure Consistency Ledger
+# Disclosure Ledger
 
 A GenLayer project that binds an exact app-store listing to a publisher privacy policy, captures independently verifiable evidence, and compares their bounded public claims over time.
 
@@ -48,7 +48,7 @@ The frontend requires explicit wallet selection, checks the selected account and
 genvm-lint check contracts/app_privacy_disclosure_consistency_ledger.py --json
 wsl.exe bash -lc "cd /mnt/e/Genlayer-Projects/app-privacy-disclosure-consistency-ledger && /mnt/e/Genlayer-Tools/studio-next-toolchain/.wsl-venv/bin/python -m pytest -q -p no:cacheprovider"
 cd frontend
-npm install --save-exact
+npm ci
 npm test
 npm run build
 ```
