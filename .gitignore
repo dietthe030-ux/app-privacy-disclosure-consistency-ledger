@@ -9,3 +9,5 @@ artifacts/
 /RESEARCH-HANDOFF-*.md
 /frontend/DESIGN.md
 /docs/preflight/
+/.vercel/
+/.env.local
