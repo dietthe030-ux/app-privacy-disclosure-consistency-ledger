@@ -1,7 +1,7 @@
 import { createClient, isSuccessful } from "genlayer-js";
 import { studioDevnet } from "genlayer-js/chains";
 import type { EthereumProvider } from "./wallet.ts";
-import { beginAction, endAction, noteRetry, noteWriteSubmission } from "./e2eTrace.ts";
+import { beginAction, endAction, noteActionError, noteRetry, noteWriteSubmission } from "./e2eTrace.ts";
 
 export type Address = `0x${string}`;
 export type GenLayerClient = ReturnType<typeof createClient>;
@@ -84,6 +84,7 @@ export async function submitWrite(client: GenLayerClient, functionName: string, 
     endAction(action, "SUCCESS");
     return { hash, record };
   } catch (error) {
+    noteActionError(error);
     endAction(action, "ERROR");
     throw error;
   }

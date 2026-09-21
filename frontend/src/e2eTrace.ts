@@ -29,6 +29,7 @@ type TraceState = {
   currentAction?: ActionName;
   currentRetries: number;
   accountDiffersFromStudioDeployer?: boolean;
+  lastError?: { code?: string | number; message: string };
 };
 
 const enabled = typeof window !== "undefined" && typeof window.location?.search === "string" && new URLSearchParams(window.location.search).get("e2e") === "1";
@@ -112,6 +113,16 @@ export function noteRetry(): void {
   state.currentRetries += 1;
 }
 
+export function noteActionError(error: unknown): void {
+  if (!enabled) return;
+  const record = typeof error === "object" && error !== null ? error as { code?: unknown; message?: unknown } : {};
+  state.lastError = {
+    ...(typeof record.code === "string" || typeof record.code === "number" ? { code: record.code } : {}),
+    message: typeof record.message === "string" ? record.message.slice(0, 500) : String(error).slice(0, 500),
+  };
+  refreshElement();
+}
+
 export function endAction(action: ActionName, status: "SUCCESS" | "ERROR"): void {
   if (!enabled || state.currentAction !== action) return;
   state.actions.push({
@@ -146,6 +157,7 @@ export function snapshot(): unknown {
     writeHashes: state.writeHashes,
     actions: state.actions,
     accountDiffersFromStudioDeployer: state.accountDiffersFromStudioDeployer,
+    lastError: state.lastError,
     hardStopReached: state.providerTotal + state.fetchRpc >= 541,
     eventCount: state.events.length,
   };

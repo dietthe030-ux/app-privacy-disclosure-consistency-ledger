@@ -147,6 +147,8 @@ test("binds and cleans up account and chain listeners on the selected provider",
 test("keeps the wallet picker accessibility and selected-provider write contract intact", async () => {
   const source = await readFile(new URL("../src/main.ts", import.meta.url), "utf8");
   const walletSource = await readFile(new URL("../src/wallet.ts", import.meta.url), "utf8");
+  const ledgerSource = await readFile(new URL("../src/ledger.ts", import.meta.url), "utf8");
+  const traceSource = await readFile(new URL("../src/e2eTrace.ts", import.meta.url), "utf8");
   assert.match(source, /role="dialog"/);
   assert.match(source, /aria-modal="true"/);
   assert.match(source, /root\.inert = true/);
@@ -158,6 +160,9 @@ test("keeps the wallet picker accessibility and selected-provider write contract
   assert.match(source, /is connected as \$\{shortAccount\(account\)\}/);
   assert.doesNotMatch(source, /Connected account: \$\{account\}|is connected as \$\{account\}/);
   assert.match(source, /noteConnectedAccount\(account\)/);
+  assert.match(source, /setScreenStatus\("Create was not submitted\."\)/);
+  assert.match(ledgerSource, /noteActionError\(error\)/);
+  assert.match(traceSource, /lastError/);
   assert.match(source, /ensureWriteClient\(\)/);
   assert.match(source, /submitWrite\(client/);
   assert.match(source, /transaction-evidence/);

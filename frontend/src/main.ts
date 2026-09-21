@@ -434,6 +434,7 @@ function showCreateForm(): void {
       setScreenStatus("Record created and read back from the ledger.");
     } catch (writeError) {
       if (button) button.disabled = false;
+      setScreenStatus("Create was not submitted.");
       if (error) { error.textContent = errorMessage(writeError); error.hidden = false; }
     }
   });
