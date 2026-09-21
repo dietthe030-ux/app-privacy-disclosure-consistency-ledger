@@ -50,6 +50,11 @@ const state: TraceState = {
 
 const pollingMethods = new Set(["gen_getTransactionLifecycle", "gen_getTransactionStatus", "gen_getTransactionReceipt", "eth_getTransactionReceipt", "eth_getTransactionByHash"]);
 const readMethods = new Set(["eth_call", "gen_call", "gen_getContractState", "gen_getContractCode"]);
+const studioDeployer = "0x8581c4a532dd3f9b163b12809b1bd089f367147f";
+
+export function differsFromStudioDeployer(account: `0x${string}`): boolean {
+  return account.toLowerCase() !== studioDeployer;
+}
 
 function refreshElement(): void {
   if (!enabled) return;
@@ -75,7 +80,7 @@ export function mountE2ETrace(): void { refreshElement(); }
 
 export function noteConnectedAccount(account: `0x${string}`): void {
   if (!enabled) return;
-  state.accountDiffersFromStudioDeployer = account.toLowerCase() !== "0xef5d2119416a2f5afa35dcfa209766efc1be5902";
+  state.accountDiffersFromStudioDeployer = differsFromStudioDeployer(account);
   refreshElement();
 }
 

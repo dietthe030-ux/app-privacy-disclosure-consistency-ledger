@@ -12,7 +12,7 @@ This document is the single public, secret-free evidence ledger. The current Stu
 - Frontend renders every retained revision and aligns Record ID validation with the contract.
 - Validator verification: validators independently refetch both sources, compare consequential normalized decisions, and verify that the leader's bounded supporting quotes occur in independently retrieved source bytes; equivalent decisions may use different valid quotes.
 - Upgrade lifecycle: constructor registers the deployer in native Root Slot upgraders; explicit authorization guards code replacement; authorized replacement and unauthorized rejection are covered locally.
-- Local checks: lint/schema PASS with 8 methods; Direct Mode `17 passed`; frontend `12 passed`; production build PASS.
+- Local checks: lint/schema PASS with 8 methods; Direct Mode `17 passed`; frontend `13 passed`; production build PASS.
 - Current target: Studio Devnet, chain `61997`, RPC `https://studio-dev.genlayer.com/api`, Explorer `https://explorer-studio-dev.genlayer.com/`.
 - Current deployment status: `DEPLOYED_FINALIZED`; accepted address `0xd07a6566f188ce5ce40b82598ee9c0f165608bea`, deployment transaction `0x3fa837ba9b5a200c26bcba0a30260e3b1c642eb5b21650fbfc91f9ef0f300b9a`, exact `gen_getContractCode` parity PASS, and LIVE-01 through LIVE-04 PASS. Failed diagnostic transactions `0xebb127384521ac8e654b54911a7d57ef4cc7c4ddff5c9b193b57edc63f7ed998` (address `0x689D1Bcd99cC7a27413fda4b19b3EFa603Fa5176`) and `0x272dbb4fded79ba11282453e0211a3822da94ccaeb62a0748f504c9306b688d6` (address `0x300C5c123F09e8D1bDE4d4392b4cc96c4853FC80`) both returned `FINALIZED` + `MAJORITY_AGREE` but `FINISHED_WITH_ERROR`; both remain explicitly unusable. Current GitHub/Vercel/browser evidence is documented below.
 - Read-only Studio Devnet readiness artifact: `docs/preflight/studio-tool-readiness-runtime-fix.json`; SHA-256 `D1B3C5E9E50B029561F278B4B1F64DB03ADCEA583708ED556D92AD05820ED300`, source-bound to the current adapted candidate. The recorded actor balance is the single read-only `account show` measurement at the artifact timestamp; the older readiness snapshots remain historical evidence only.
@@ -38,7 +38,7 @@ This document is the single public, secret-free evidence ledger. The current Stu
 |---|---|---|---|
 | L-01 | Contract lint and schema visibility | `genvm-lint check contracts/app_privacy_disclosure_consistency_ledger.py --json` | PASS; 8 methods, 3 views, 5 writes |
 | L-02 | Contract lifecycle, native upgrade authorization, exact model schema, source binding, immutable evidence, independent quote verification, negative consensus and fail-closed behavior | `wsl.exe bash -lc "cd /mnt/e/Genlayer-Projects/app-privacy-disclosure-consistency-ledger && /mnt/e/Genlayer-Tools/studio-next-toolchain/.wsl-venv/bin/python -m pytest -q -p no:cacheprovider"` | PASS; 17 passed in the matching pinned runtime (`genlayer-py 0.19.0rc2`, `genlayer-test 0.30.0rc2`, GenVM v0.3.0-rc7 / Manager v0.6.0-rc5) |
-| F-01 | Frontend wallet/provider and assessment-history regression | `cd frontend; npm test` | PASS; 12 passed |
+| F-01 | Frontend wallet/provider and assessment-history regression | `cd frontend; npm test` | PASS; 13 passed |
 | F-02 | Frontend TypeScript/Vite production build | `cd frontend; npm run build` | PASS; Vite build succeeded |
 | F-03 | Local dev entrypoint | `cd frontend; npm run dev -- --host 127.0.0.1` | PASS; HTTP 200 verified on `/` and `/src/main.ts` |
 

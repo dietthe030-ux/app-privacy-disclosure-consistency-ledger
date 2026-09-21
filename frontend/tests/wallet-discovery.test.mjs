@@ -10,6 +10,7 @@ class FakeWindow extends EventTarget {
 globalThis.window = new FakeWindow();
 
 const wallet = await import("../src/wallet.ts");
+const trace = await import("../src/e2eTrace.ts");
 
 function provider(flags = {}) {
   const calls = [];
@@ -118,6 +119,11 @@ test("accepts an account change and clears an account removal", () => {
   assert.equal(wallet.accountFromChange(["not-an-address"]), undefined);
 });
 
+test("compares the browser account with the current Studio deployer", () => {
+  assert.equal(trace.differsFromStudioDeployer("0x8581c4a532dd3f9b163b12809b1bd089f367147f"), false);
+  assert.equal(trace.differsFromStudioDeployer("0x1111111111111111111111111111111111111111"), true);
+});
+
 test("does not expose an unknown legacy provider", async () => {
   window.ethereum = provider();
   const freshWallet = await import(`../src/wallet.ts?legacy-unknown=${Date.now()}`);
@@ -166,6 +172,8 @@ test("keeps the wallet picker accessibility and selected-provider write contract
   assert.match(ledgerSource, /feeValue: estimate\.feeValue/);
   assert.doesNotMatch(ledgerSource, /value: BigInt\(0\)/);
   assert.match(traceSource, /lastError/);
+  assert.match(traceSource, /0x8581c4a532dd3f9b163b12809b1bd089f367147f/);
+  assert.doesNotMatch(traceSource, /0xef5d2119416a2f5afa35dcfa209766efc1be5902/);
   assert.match(source, /ensureWriteClient\(\)/);
   assert.match(source, /submitWrite\(client/);
   assert.match(source, /transaction-evidence/);

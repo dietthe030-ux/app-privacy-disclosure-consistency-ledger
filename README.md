@@ -65,7 +65,7 @@ npm test
 npm run build
 ```
 
-The candidate passes v0.3 lint/schema, 17 Direct Mode tests in the matching pinned toolchain, 12 frontend tests, and the production build. Its 27,600-byte committed source has SHA-256 `7A1F9260FCC24174482142B522AAE60CA9BD96352BF8C497EB2B2E03CC991C8E`. Deployment parity and LIVE-01 through LIVE-04 pass on Studio Devnet 61997 at `0xd07a6566f188ce5ce40b82598ee9c0f165608bea`. The production-browser lifecycle and the subsequent presentation-only reload/reconnect are recorded separately in the verification ledger. Failed 61997 attempts and historical 61999 evidence are excluded from current release proof.
+The candidate passes v0.3 lint/schema, 17 Direct Mode tests in the matching pinned toolchain, 13 frontend tests, and the production build. Its 27,600-byte committed source has SHA-256 `7A1F9260FCC24174482142B522AAE60CA9BD96352BF8C497EB2B2E03CC991C8E`. Deployment parity and LIVE-01 through LIVE-04 pass on Studio Devnet 61997 at `0xd07a6566f188ce5ce40b82598ee9c0f165608bea`. The production-browser lifecycle and the subsequent presentation-only reload/reconnect are recorded separately in the verification ledger. Failed 61997 attempts and historical 61999 evidence are excluded from current release proof.
 
 ## Deployment and recovery
 
