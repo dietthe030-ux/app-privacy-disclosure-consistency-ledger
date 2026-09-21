@@ -182,4 +182,4 @@ Historical whole-run breakdown: provider `11` (`eth_requestAccounts=2`, `eth_cha
 
 ## Remaining release gates
 
-The four-write browser evidence, bounded request ledger, final-bundle wallet-label smoke, source/deployment binding and historical segregation above are prepared for independent `POST_GITHUB_VERCEL_FINAL` review. Approval is not presumed. Explorer pre-submission review and the user's manual resubmission remain separate; this document does not claim either occurred.
+The exact-final four-write browser evidence, bounded request ledger, reload/reconnect, source/deployment binding and historical segregation above are prepared for independent `POST_GITHUB_VERCEL_FINAL` review. Approval is not presumed. Explorer pre-submission review and the user's manual resubmission remain separate; this document does not claim either occurred.
