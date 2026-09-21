@@ -2,7 +2,7 @@ import "./style.css";
 import { config, createWriteClient, getAssessment, getRecord, listRecordIds, submitWrite } from "./ledger.ts";
 import { accountFromChange, bindProviderSession, ensureStudioDevnet, getAvailableWallets, isUserRejected, normalizeChainId, providerChainId, requestAccount, type DiscoveredWallet, type EthereumProvider } from "./wallet.ts";
 import { studioDevnet } from "genlayer-js/chains";
-import { mountE2ETrace } from "./e2eTrace.ts";
+import { mountE2ETrace, noteConnectedAccount } from "./e2eTrace.ts";
 
 type Session = {
   account: `0x${string}`;
@@ -89,6 +89,8 @@ function setScreenStatus(message: string, active = false): void {
   screenStatus.setAttribute("aria-busy", String(active));
 }
 function setNetworkStatus(message: string): void { if (networkStatus) networkStatus.textContent = message; }
+
+function shortAccount(account: `0x${string}`): string { return `${account.slice(0, 6)}…${account.slice(-4)}`; }
 
 function showTransactionEvidence(hash: string, action: string): void {
   if (!transactionEvidence || !config) return;
@@ -270,7 +272,7 @@ async function syncNetwork(): Promise<boolean> {
     return false;
   }
   session.writeClient = createWriteClient(session.account, session.provider);
-  setNetworkStatus("Connected to GenLayer Studio");
+  setNetworkStatus(`${session.walletLabel} · ${shortAccount(session.account)}`);
   return true;
 }
 
@@ -294,12 +296,14 @@ function setConnectedSession(account: `0x${string}`, provider: EthereumProvider,
     }
     if (session) {
       session.account = next;
+      noteConnectedAccount(next);
       void syncNetwork().catch(() => setNetworkStatus("Network connection needs attention"));
     }
   };
   const chainListener = (): void => { void syncNetwork().catch(() => setNetworkStatus("Network connection needs attention")); };
   const removeListeners = bindProviderSession(provider, accountListener, chainListener);
   session = { account, provider, walletLabel, writeClient: undefined, accountListener, chainListener, removeListeners };
+  noteConnectedAccount(account);
   if (connectButton) connectButton.textContent = "Switch wallet";
   setNetworkStatus("Checking wallet connection…");
   void syncNetwork().catch(() => setNetworkStatus("Network connection needs attention"));
@@ -362,7 +366,7 @@ function showWalletPicker(walletOptions: DiscoveredWallet[]): void {
           await ensureStudioDevnet(wallet.provider, studioDevnet);
           setConnectedSession(account, wallet.provider, wallet.label);
           closeModal(modal);
-          setScreenStatus(`${wallet.label} is connected. You can now create or update a record.`);
+          setScreenStatus(`${wallet.label} is connected as ${shortAccount(account)}. You can now create or update a record.`);
         } catch (connectionError) {
           button.disabled = false;
           if (error) { error.textContent = errorMessage(connectionError); error.hidden = false; }

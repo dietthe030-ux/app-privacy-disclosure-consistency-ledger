@@ -154,6 +154,10 @@ test("keeps the wallet picker accessibility and selected-provider write contract
   assert.match(source, /event\.key !== \"Tab\"/);
   assert.match(source, /restoreFocus\?\.focus\(\)/);
   assert.match(source, /createWriteClient\(session\.account, session\.provider\)/);
+  assert.match(source, /session\.walletLabel.*shortAccount\(session\.account\)/);
+  assert.match(source, /is connected as \$\{shortAccount\(account\)\}/);
+  assert.doesNotMatch(source, /Connected account: \$\{account\}|is connected as \$\{account\}/);
+  assert.match(source, /noteConnectedAccount\(account\)/);
   assert.match(source, /ensureWriteClient\(\)/);
   assert.match(source, /submitWrite\(client/);
   assert.match(source, /transaction-evidence/);

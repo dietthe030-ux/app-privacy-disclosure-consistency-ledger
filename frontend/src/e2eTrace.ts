@@ -28,6 +28,7 @@ type TraceState = {
   actions: ActionLedger[];
   currentAction?: ActionName;
   currentRetries: number;
+  accountDiffersFromStudioDeployer?: boolean;
 };
 
 const enabled = typeof window !== "undefined" && typeof window.location?.search === "string" && new URLSearchParams(window.location.search).get("e2e") === "1";
@@ -70,6 +71,12 @@ function countFor(action: ActionName, predicate: (event: TraceEvent) => boolean)
 }
 
 export function mountE2ETrace(): void { refreshElement(); }
+
+export function noteConnectedAccount(account: `0x${string}`): void {
+  if (!enabled) return;
+  state.accountDiffersFromStudioDeployer = account.toLowerCase() !== "0xef5d2119416a2f5afa35dcfa209766efc1be5902";
+  refreshElement();
+}
 
 export function instrumentProvider(provider: EthereumProvider): EthereumProvider {
   if (!enabled) return provider;
@@ -138,6 +145,7 @@ export function snapshot(): unknown {
     writeSubmissions: state.writeSubmissions,
     writeHashes: state.writeHashes,
     actions: state.actions,
+    accountDiffersFromStudioDeployer: state.accountDiffersFromStudioDeployer,
     hardStopReached: state.providerTotal + state.fetchRpc >= 541,
     eventCount: state.events.length,
   };
