@@ -21,7 +21,7 @@
     "post_deploy_evidence": "docs/preflight/STUDIO-E2E-CHECKPOINT-RUNTIME-V03-20260920.json",
     "post_deploy_evidence_sha256": "DA22EE79AC9AD0E2051F0DE4E73E997FEC3B255BD9585CF6A751B05404199DE1",
     "frontend_rpc_matrix": "docs/preflight/STUDIO-DEV-FRONTEND-RPC-MATRIX.md",
-    "frontend_rpc_matrix_sha256": "0341310A428F81DBAD9D047D81E6EE1B0EB4F76F0D466643993DDDF363A1BFEF",
+    "frontend_rpc_matrix_sha256": "DFCC3620412CDC719F63E7DC5CFB843216F74E2F7F86CECF3C24BCF6565E55D5",
     "acceptance_reconciliation": "docs/preflight/POST-DEPLOY-ACCEPTANCE-RECONCILIATION-BF20-CD71AD9-20260920.md",
     "reason": "The candidate passed Studio Devnet source parity and LIVE-01 through LIVE-04. GitHub and the current Vercel alias are live. The separate-wallet browser lifecycle passed on the immediately preceding frontend bundle; a final wallet-label-only bundle was verified by reload/reconnect without another write. Independent final release review remains pending."
   },
