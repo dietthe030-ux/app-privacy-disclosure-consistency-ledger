@@ -157,7 +157,7 @@ test("keeps the wallet picker accessibility and selected-provider write contract
   assert.match(source, /restoreFocus\?\.focus\(\)/);
   assert.match(source, /createWriteClient\(session\.account, session\.provider\)/);
   assert.match(source, /session\.walletLabel.*shortAccount\(session\.account\)/);
-  assert.match(source, /is connected as \$\{shortAccount\(account\)\}/);
+  assert.match(source, /\$\{wallet\.label\} · \$\{shortAccount\(account\)\}/);
   assert.doesNotMatch(source, /Connected account: \$\{account\}|is connected as \$\{account\}/);
   assert.match(source, /noteConnectedAccount\(account\)/);
   assert.match(source, /setScreenStatus\("Create was not submitted\."\)/);

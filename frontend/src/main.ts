@@ -366,7 +366,7 @@ function showWalletPicker(walletOptions: DiscoveredWallet[]): void {
           await ensureStudioDevnet(wallet.provider, studioDevnet);
           setConnectedSession(account, wallet.provider, wallet.label);
           closeModal(modal);
-          setScreenStatus(`${wallet.label} is connected as ${shortAccount(account)}. You can now create or update a record.`);
+          setScreenStatus(`${wallet.label} · ${shortAccount(account)}`);
         } catch (connectionError) {
           button.disabled = false;
           if (error) { error.textContent = errorMessage(connectionError); error.hidden = false; }
