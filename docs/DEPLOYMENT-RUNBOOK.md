@@ -18,7 +18,7 @@ This runbook separates the accepted Studio Devnet 61997 deployment from historic
 4. Every conclusive verdict requires exact app-store URL/ID binding, a distinct non-store policy host, identity `MATCH` for both sources, valid bounded bodies, exact supporting quotes, and validator agreement.
 5. A malformed, unavailable or truncated source, invalid model schema, identity uncertainty or validator disagreement fails closed.
 
-Wallet connection requires only an account and the configured Studio Devnet chain. It does not impose an artificial GEN balance floor. If a write cannot pay its actual network cost, that transaction reports the provider error; final transaction success still requires finality, semantic execution success and readback.
+Wallet connection requires only an account and the configured Studio Devnet chain. It does not impose an artificial GEN balance floor. Before each write, GenLayerJS estimates the current protocol fee for that concrete call and submits the returned distribution and non-zero `feeValue`; the contract-call `value` remains unset because these methods are not payable. If the selected wallet cannot cover the estimated protocol fee, that transaction reports the provider error. Final transaction success still requires finality, semantic execution success and readback.
 
 ## Accepted Studio Devnet 61997 deployment
 

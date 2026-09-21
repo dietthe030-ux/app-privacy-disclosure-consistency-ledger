@@ -62,7 +62,16 @@ export async function submitWrite(client: GenLayerClient, functionName: string, 
   const action = functionName === "create" ? "create" : functionName === "freeze" ? "freeze" : functionName === "assess" ? "assess" : "reassess";
   beginAction(action);
   try {
-    const hash = await client.writeContract({ address: config.address, functionName, args, value: BigInt(0) }) as `0x${string}`;
+    const call = { address: config.address, functionName, args };
+    const estimate = await client.estimateTransactionFeesForWrite(call);
+    const hash = await client.writeContract({
+      ...call,
+      fees: {
+        distribution: estimate.distribution,
+        messageAllocations: estimate.messageAllocations,
+        feeValue: estimate.feeValue,
+      },
+    }) as `0x${string}`;
     noteWriteSubmission(action, hash);
     onSubmitted?.(hash);
     const waitForFinalization = readClient.waitForFinalization as unknown as (options: { hash: `0x${string}`; interval: number; retries: number; fullTransaction: boolean }) => Promise<unknown>;

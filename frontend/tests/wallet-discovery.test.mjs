@@ -162,6 +162,9 @@ test("keeps the wallet picker accessibility and selected-provider write contract
   assert.match(source, /noteConnectedAccount\(account\)/);
   assert.match(source, /setScreenStatus\("Create was not submitted\."\)/);
   assert.match(ledgerSource, /noteActionError\(error\)/);
+  assert.match(ledgerSource, /estimateTransactionFeesForWrite\(call\)/);
+  assert.match(ledgerSource, /feeValue: estimate\.feeValue/);
+  assert.doesNotMatch(ledgerSource, /value: BigInt\(0\)/);
   assert.match(traceSource, /lastError/);
   assert.match(source, /ensureWriteClient\(\)/);
   assert.match(source, /submitWrite\(client/);
