@@ -47,7 +47,7 @@ Each successful write requires `FINALIZED`, current interface semantic execution
 
 ## Frontend wiring and production E2E
 
-The current frontend binding is `VITE_CONTRACT_ADDRESS=0xd07a6566f188ce5ce40b82598ee9c0f165608bea` on chain `61997`. The old production aliases and their browser journey are historical evidence for superseded 61999 contracts, not evidence for this release. Publish the exact approved source, deploy from build root `frontend`, verify the resulting artifact, and only then run the separate production browser lifecycle. The UI must visibly render every retained assessment revision and its source metadata, quotes, normalized fields and digest.
+The current frontend binding is `VITE_CONTRACT_ADDRESS=0xd07a6566f188ce5ce40b82598ee9c0f165608bea` on chain `61997`. GitHub `main` and Vercel project `dietthe030-uxs-projects/app-privacy-disclosure-consistency-ledger` serve the [current alias](https://app-privacy-disclosure-consistency.vercel.app/) from build root `frontend`. The previous 61999 journey is historical-only. On the 61997 production alias, a separate OKX account completed create → freeze → assess → reassess, including finality, receipt, revision retention and authoritative readback; see `docs/VERIFICATION.md`. The final deployment changed only connected-wallet confirmation copy and was verified by reload/reconnect with the two revisions visible; no new write was made for that presentation-only delta. Independent final release review remains pending.
 
 For a new local frontend session after the fresh deployment, set `frontend/.env.local`:
 
@@ -55,7 +55,7 @@ For a new local frontend session after the fresh deployment, set `frontend/.env.
 VITE_CONTRACT_ADDRESS=0xd07a6566f188ce5ce40b82598ee9c0f165608bea
 ```
 
-Then run `npm test` and `npm run build`. The separate browser journey is intentionally pending until the exact Vercel artifact and stable alias are verified. The frontend must use chain `61997`; never store a private key, seed phrase, wallet credential, or Studio identity secret in this project.
+Then run `npm test` and `npm run build`. The production alias and final bundle identity are recorded in `docs/DEPLOYMENT-MANIFEST.json`. The frontend must use chain `61997`; never store a private key, seed phrase, wallet credential, or Studio identity secret in this project.
 
 ## Official references
 

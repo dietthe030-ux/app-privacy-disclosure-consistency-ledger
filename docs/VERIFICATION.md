@@ -1,6 +1,6 @@
 # Verification — Privacy Disclosure Consistency Ledger
 
-This document is the single evidence ledger for the project and is intentionally secret-free. The current candidate is deployed on Studio Devnet 61997 at `0xd07a6566f188ce5ce40b82598ee9c0f165608bea`; exact source parity and LIVE-01 through LIVE-04 are PASS. Two failed 61997 attempts are retained as diagnostic evidence and are not release evidence. Historical 61999 deployments and Vercel journeys below are segregated provenance only and do not prove the current candidate.
+This document is the single public, secret-free evidence ledger. The current Studio Devnet 61997 contract at `0xd07a6566f188ce5ce40b82598ee9c0f165608bea` passed exact source parity and LIVE-01 through LIVE-04. A separate-wallet production Vercel journey on the current contract completed all four lifecycle writes and retained two readable assessments. The final wallet-label-only bundle was verified by reload/reconnect on the same alias. Final anonymous release review and manual Explorer resubmission remain pending. Failed 61997 attempts and historical 61999 journeys are segregated below.
 
 ## Steward-request correction status
 
@@ -14,9 +14,9 @@ This document is the single evidence ledger for the project and is intentionally
 - Upgrade lifecycle: constructor registers the deployer in native Root Slot upgraders; explicit authorization guards code replacement; authorized replacement and unauthorized rejection are covered locally.
 - Local checks: lint/schema PASS with 8 methods; Direct Mode `17 passed`; frontend `12 passed`; production build PASS.
 - Current target: Studio Devnet, chain `61997`, RPC `https://studio-dev.genlayer.com/api`, Explorer `https://explorer-studio-dev.genlayer.com/`.
-- Current deployment status: `DEPLOYED_FINALIZED`; accepted address `0xd07a6566f188ce5ce40b82598ee9c0f165608bea`, deployment transaction `0x3fa837ba9b5a200c26bcba0a30260e3b1c642eb5b21650fbfc91f9ef0f300b9a`, exact `gen_getContractCode` parity PASS, and LIVE-01 through LIVE-04 PASS. Failed diagnostic transactions `0xebb127384521ac8e654b54911a7d57ef4cc7c4ddff5c9b193b57edc63f7ed998` (address `0x689D1Bcd99cC7a27413fda4b19b3EFa603Fa5176`) and `0x272dbb4fded79ba11282453e0211a3822da94ccaeb62a0748f504c9306b688d6` (address `0x300C5c123F09e8D1bDE4d4392b4cc96c4853FC80`) both returned `FINALIZED` + `MAJORITY_AGREE` but `FINISHED_WITH_ERROR`; both remain explicitly unusable. GitHub publication, Vercel deployment and production browser E2E are not claimed.
+- Current deployment status: `DEPLOYED_FINALIZED`; accepted address `0xd07a6566f188ce5ce40b82598ee9c0f165608bea`, deployment transaction `0x3fa837ba9b5a200c26bcba0a30260e3b1c642eb5b21650fbfc91f9ef0f300b9a`, exact `gen_getContractCode` parity PASS, and LIVE-01 through LIVE-04 PASS. Failed diagnostic transactions `0xebb127384521ac8e654b54911a7d57ef4cc7c4ddff5c9b193b57edc63f7ed998` (address `0x689D1Bcd99cC7a27413fda4b19b3EFa603Fa5176`) and `0x272dbb4fded79ba11282453e0211a3822da94ccaeb62a0748f504c9306b688d6` (address `0x300C5c123F09e8D1bDE4d4392b4cc96c4853FC80`) both returned `FINALIZED` + `MAJORITY_AGREE` but `FINISHED_WITH_ERROR`; both remain explicitly unusable. Current GitHub/Vercel/browser evidence is documented below.
 - Read-only Studio Devnet readiness artifact: `docs/preflight/studio-tool-readiness-runtime-fix.json`; SHA-256 `D1B3C5E9E50B029561F278B4B1F64DB03ADCEA583708ED556D92AD05820ED300`, source-bound to the current adapted candidate. The recorded actor balance is the single read-only `account show` measurement at the artifact timestamp; the older readiness snapshots remain historical evidence only.
-- Required next gates: bind the frontend to the accepted 61997 address, obtain the scoped post-deploy approval, publish the exact revision to GitHub, deploy Vercel from build root `frontend`, and only then perform the separate production browser E2E gate.
+- Required next gates: independent `POST_GITHUB_VERCEL_FINAL` review of this exact public evidence package, then separate Explorer pre-submission review and user-only manual resubmission. No approval is inferred from the local E2E result.
 
 ## Identity
 
@@ -64,7 +64,7 @@ The contract is documentary comparison only. It does not establish privacy-law c
 - Local rendered picker inspection at `http://127.0.0.1:5173/`: the first-judge flow opened a public `Choose a wallet` dialog, showed the zero-provider message, focused `Close wallet chooser`, set the application inert attribute, and on `Escape` closed the dialog and restored focus to `Connect wallet`. No account RPC or transaction was sent.
 - Prior `POST_DEPLOY_TEST` verdict: `CHANGES REQUIRED` because the superseded deployment returned live source SHA-256 `BC02B9C1032D1C3D7CAA7AC43BEE12C86868072A25F1B0323B793D98697FF2E2` and 16520 bytes instead of the committed `ACF89615555C2CAF2634F690661B2A53873DB5B3807F463EB34284B8181946FB` and 16072 bytes. The frozen contract was replaced; the current package records fresh parity and fresh LIVE-01 through LIVE-04 evidence.
 - Historical 61999 `POST_DEPLOY_TEST` verdict: `APPROVED` for the then-current deployment package; it does not authorize or validate this 61997 candidate.
-- Historical anonymous delta verdicts remain attached only to the 61999 evidence package; current GitHub/Vercel publication and production E2E gates are pending.
+- Historical anonymous delta verdicts remain attached only to the 61999 evidence package. Current GitHub/Vercel/browser evidence is separate and awaits exact-revision release review.
 - Current known warning: `genvm-lint` reports informational newer-runner notice `I200`; it is recorded and does not fail lint. The current exact local Direct Mode rerun used the matching pinned WSL toolchain and passed `17` tests; no Studio or browser action was performed.
 
 ## Current Studio Devnet 61997 source parity and live proof
@@ -82,6 +82,24 @@ The contract is documentary comparison only. It does not establish privacy-law c
 | LIVE-04 | Reassess | `0x5af66bf1b033f93d946c6e93392eece5b5eceb79720ed1fcaf36311ddc1c5281` | `FINALIZED`; `MAJORITY_AGREE`; leader `SUCCESS`; `FINISHED_WITH_RETURN` | `ASSESSED`, revision `2`; assessments 1 and 2 readable; reason `SOURCE_TRUNCATED` | PASS WITH DIGEST VARIANCE |
 
 All four lifecycle receipts target the current contract and originate from the locked actor `0x8581c4a532dd3f9b163b12809b1bd089f367147f`. Revision 1 remains readable. Store digests are `57d82c9da791c7cd074c20a32133fda9aa869b21d56690431ac76e081bd12c48` and `0862af6fd737333c46eda0fed188b858d6bf91234ac0b99ba745d1767fa34dbe`; policy digests are `21db94801171e7b6334bef4c8c7b1d95727ae2e4c1a94e054aa646b47458a14c` and `038822f8689d51998fb4877f0ae04a73211e2e282e6695fbf85a7ceb5ebd70ad`. The public responses were truncated at 12,000 bytes and changed between subsequent retrievals; both immutable snapshots remain readable and the variance is retained. This is observed natural drift, not a controlled publisher mutation claim; the exact acceptance reconciliation is `docs/preflight/POST-DEPLOY-ACCEPTANCE-RECONCILIATION-BF20-CD71AD9-20260920.md`. No duplicate write or write retry occurred. This is current Studio evidence, not Vercel browser E2E.
+
+## Current production Vercel journey — Studio Devnet 61997
+
+- Canonical alias: `https://app-privacy-disclosure-consistency.vercel.app/`; project `dietthe030-uxs-projects/app-privacy-disclosure-consistency-ledger`, build root `frontend`, chain `61997`, contract `0xd07a6566f188ce5ce40b82598ee9c0f165608bea`.
+- Four-write journey source/deployment: `88e727683d068b120709de0f3c4ddff32a94f5bf`, `dpl_719MTBTxeFSqM5U32CZh3HHVbmcm`. A subsequent presentation-only wallet-label change was published as `3978a96a6405945cf3e8e253f8fc7c9a7e2eb68a` on READY deployment `dpl_2W1jsxxRiMjKDn42x4EJ61w6frJC`, URL `https://app-privacy-disclosure-consistency-ledger-ophjro0n5.vercel.app/`. GitHub `main` then advanced through an ignore-only commit without changing application code.
+- Final alias, `?e2e=1` and deployment URL all returned HTTP 200 with bundle `/assets/index-B-ChrMeg.js` (627470 bytes; SHA-256 `846F4E1A3FAA0AAB97BDD461DE20EFE60EB6CF4964A1452648CE0A14EF8BB0CD`). The current contract address is in the bundle. The final bundle changed only connection-confirmation copy and was checked by reload/reconnect; the four-write evidence below belongs to the immediately preceding deployment, not a new write run on the final bundle.
+- Separate browser wallet: OKX Wallet, displayed only as `OKX Wallet · 0x2dea…44ed`; selected-account inequality against the locked Studio deployer was true. Fresh record `privacy-ledger-vercel-20260921-v01` used the exact Google Play `com.whatsapp` listing and the distinct WhatsApp publisher-policy URL.
+
+| Browser action | Hash | Finality / receipt | UI and authoritative result | Browser requests |
+|---|---|---|---|---:|
+| Create | `0x296a6be93e66261521dd3dc65ff0bfc58f42a8f4e6bb5ec7343b575249950b21` | `FINALIZED`; receipt `0x1` | `DRAFT`, revision 0 | 17 |
+| Freeze | `0x652b523ea3a48df4b12c049acf60e806815a6aaa982eb6a494797b828ad255f2` | `FINALIZED`; receipt `0x1` | `FROZEN`, revision 0 | 16 |
+| Assess | `0x81454e95bf275ad2bb60a2509df9c308efb878266533b4962b967dec00b42671` | `FINALIZED`; receipt `0x1` | Revision 1 readable after bounded readback recovery | 19 |
+| Reassess | `0x6ad771fbfc966e98fc7bfd78bdbcece4e6b2ae75a3b1220fc66561f38702fee1` | `FINALIZED`; receipt `0x1` | `ASSESSED`, revision 2; both revisions visible | 20 |
+
+The assess transaction finalized successfully, but its immediate `get` readback exhausted three bounded attempts during a transient `Server busy: all 8 execution slots occupied` interval. Status, receipt and `get_assessment(1)` reconciled that same hash; a reload and reconnect then showed revision 1, with no second assess submission. Reassess completed normally. Each write was submitted exactly once, with zero automatic write retries. Final `get` reports `ASSESSED`, revision `2`, verdict `UNRESOLVED`; `get_assessment(1)` and `(2)` retain independent HTTP metadata, bounded snapshots and source digests. Each digest equals the retained evidence SHA-256. Revision 1 store/policy digests are `7392d6c152cf80d9a7925f02dd9c379654665ff39dee792cca0be64f24013260` / `975b33cdc87c2249f7d3420579a2d4661ca4dc826d9fe9705fa32f9fbf834704`; revision 2 digests are `07a906a782d1b7af8fd4d0e85d833ac6c0fcc4a83a42285819641eda284e0c76` / `3d1739d698aaf1214b1f9df5299b41a4bd04ea24b6c8f26d8ffd1b05f4a0466a`. Dynamic public responses varied naturally between retrievals; no controlled publisher mutation is claimed.
+
+Measured requests: browser segment 1 `69` (7 provider + 62 page RPC); post-reload segment 2 `37` (5 provider + 32 page RPC); bounded external reconciliation/final readback `15`. Whole run including diagnostics: **121 / 541**. Per-write polling/readback/retry counts were create `9/2/0`, freeze `9/1/0`, assess `10/3/3`, reassess `12/2/0`; the three assess retries were reads only, not writes. Final-bundle reload/reconnect was a presentation-scoped smoke check with no transaction and is not included in the four-write request ledger.
 
 ## Historical 2026-09-02 replacement source parity
 
@@ -116,7 +134,7 @@ The following rows are retained only as historical evidence for the previous con
 
 ## Historical Vercel E2E — historical 61999 frontend and superseded contract `0xfE2E4216502f12206A61a2b2103CbD1329FFb56b`
 
-All evidence in this section belongs only to the historical frontend wired to 61999 contract `0xfE2E4216502f12206A61a2b2103CbD1329FFb56b`. It does **not** validate historical 61999 contract `0x41F4A7F278Ae526e98A329F2C31cA1CE31fa8c51`, the current Studio Devnet 61997 candidate, its future frontend artifact, or `POST_GITHUB_VERCEL_FINAL`. Current 61997 Vercel deployment and browser E2E are pending.
+All evidence in this section belongs only to the historical frontend wired to 61999 contract `0xfE2E4216502f12206A61a2b2103CbD1329FFb56b`. It does **not** validate historical 61999 contract `0x41F4A7F278Ae526e98A329F2C31cA1CE31fa8c51`, the current Studio Devnet 61997 frontend or `POST_GITHUB_VERCEL_FINAL`. Current 61997 evidence is recorded separately above.
 
 Historical deployment `dpl_FjcSZs34J9Tuiub9WDmQCVbvjxQF` was `READY`, had `gitCommitSha=21439e6e8d2a1d88156593a943b356d1e64b48af`, used build root `frontend`, and served `https://app-privacy-disclosure-consistency-ledger-255wf7epg.vercel.app`. Its historical aliases were `https://app-privacy-disclosure-consistency.vercel.app/` and `https://app-privacy-consistency.vercel.app/`. Its bundle `/assets/index-CO7d9rP0.js` was 545492 bytes with SHA-256 `FF1F2EBF544224A567D405763C19120FF207E0C5A975E4AFEF42B68EE2E763F0` and contained historical contract `0xfE2E4216502f12206A61a2b2103CbD1329FFb56b`.
 
@@ -133,7 +151,7 @@ Historical authoritative GenLayerJS reads for contract `0xfE2E...` confirmed its
 
 ### Historical request-count ledger
 
-This request ledger applies only to the historical 61999 `0xfE2E...` Vercel journey. Instrumentation ran inside that deployed frontend only when `?e2e=1` was present. It counted wallet-provider requests and page JSON-RPC fetches, classified by method, with no secrets or storage inspection. The hard ceiling was `541`; the hard stop was not reached. A fresh measured ledger remains required for the current Studio Devnet 61997 production journey.
+This request ledger applies only to the historical 61999 `0xfE2E...` Vercel journey. Instrumentation ran inside that deployed frontend only when `?e2e=1` was present. It counted wallet-provider requests and page JSON-RPC fetches, classified by method, with no secrets or storage inspection. The hard ceiling was `541`; the hard stop was not reached. The fresh Studio Devnet 61997 ledger is above.
 
 | Action | Total requests | Polling | Readback | Write submissions | Retries |
 |---|---:|---:|---:|---:|---:|
@@ -145,8 +163,6 @@ This request ledger applies only to the historical 61999 `0xfE2E...` Vercel jour
 
 Historical whole-run breakdown: provider `11` (`eth_requestAccounts=2`, `eth_chainId=3`, `eth_getBalance=2`, `eth_sendTransaction=4`) plus page JSON-RPC fetch `112` (`gen_call=43`, `eth_getTransactionCount=4`, `eth_estimateGas=4`, `eth_gasPrice=4`, `eth_getTransactionByHash=57`). The four historical write hashes are unique; no write retry or duplicate submission occurred. That superseded-contract run remained below the hard ceiling of `541`.
 
-## Release blockers
+## Remaining release gates
 
-1. Publish the exact approved revision to GitHub and verify the remote commit and repository state.
-2. Build and verify a new Vercel artifact from the exact approved frontend source with build root `frontend`, chain `61997`, and contract `0xd07a6566f188ce5ce40b82598ee9c0f165608bea`; historical `0xfE2E...` and 61999 Vercel evidence cannot satisfy this gate.
-3. Perform the separate production browser E2E gate only after the Vercel alias is stable; this document does not claim that browser E2E or Project Explorer manual submission is complete.
+The four-write browser evidence, bounded request ledger, final-bundle wallet-label smoke, source/deployment binding and historical segregation above are prepared for independent `POST_GITHUB_VERCEL_FINAL` review. Approval is not presumed. Explorer pre-submission review and the user's manual resubmission remain separate; this document does not claim either occurred.

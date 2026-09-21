@@ -4,12 +4,12 @@ A GenLayer project that binds an exact app-store listing to a publisher privacy 
 
 ## Current status
 
-The current candidate passes local lint/schema, Direct Mode, frontend tests and production build. It is deployed on Studio Devnet (chain `61997`, RPC `https://studio-dev.genlayer.com/api`) at `0xd07a6566f188ce5ce40b82598ee9c0f165608bea`; exact `gen_getContractCode` parity and LIVE-01 through LIVE-04 are PASS. Two earlier 61997 deployment attempts finalized with semantic execution error and are explicitly excluded. GitHub publication, Vercel deployment and production browser E2E remain pending; the earlier 61999 deployment and Vercel journey are historical-only evidence. See [docs/VERIFICATION.md](docs/VERIFICATION.md) for exact evidence and status.
+The current candidate passes local lint/schema, Direct Mode, frontend tests and production build. It is deployed on Studio Devnet (chain `61997`, RPC `https://studio-dev.genlayer.com/api`) at `0xd07a6566f188ce5ce40b82598ee9c0f165608bea`; exact `gen_getContractCode` parity and LIVE-01 through LIVE-04 are PASS. GitHub `main` and the [production frontend](https://app-privacy-disclosure-consistency.vercel.app/) are live. A separate-wallet Chrome journey completed create → freeze → assess → reassess on this contract, with finality, readbacks, revision retention and measured RPC usage. The final wallet-label-only bundle was then verified on the same alias by reload/reconnect, without another write. Two failed 61997 deployments and the earlier 61999 frontend remain historical-only. Final anonymous release review and manual Explorer resubmission are not claimed. See [docs/VERIFICATION.md](docs/VERIFICATION.md).
 
 ## Verified links
 
 - Current target network: [Studio Devnet Explorer](https://explorer-studio-dev.genlayer.com/)
-- Historical 61999 frontend (not current release evidence): [Vercel production](https://app-privacy-disclosure-consistency.vercel.app/)
+- Current frontend: [Vercel production](https://app-privacy-disclosure-consistency.vercel.app/)
 - Current Studio Devnet contract: [Explorer](https://explorer-studio-dev.genlayer.com/address/0xd07a6566f188ce5ce40b82598ee9c0f165608bea)
 
 ## Trust problem
@@ -53,7 +53,7 @@ npm test
 npm run build
 ```
 
-For a live frontend, copy `frontend/.env.example` to `frontend/.env.local`; it is already bound to the verified Studio Devnet address. Do not use a historical 61999 address. A public Vercel artifact must be built later from the exact approved frontend source with chain `61997` and this address.
+For local development, copy `frontend/.env.example` to `frontend/.env.local`; it is bound to the verified Studio Devnet address. Do not use a historical 61999 address. The production Vercel build uses chain `61997` and this address; see the deployment manifest for the exact artifact and bundle identity.
 
 ## Tests and verification
 
@@ -65,11 +65,11 @@ npm test
 npm run build
 ```
 
-The candidate passes v0.3 lint/schema, 17 Direct Mode tests in the matching pinned toolchain, 12 frontend tests, and the production build. Its 27,600-byte committed source has SHA-256 `7A1F9260FCC24174482142B522AAE60CA9BD96352BF8C497EB2B2E03CC991C8E`. Deployment parity and LIVE-01 through LIVE-04 pass on Studio Devnet 61997 at `0xd07a6566f188ce5ce40b82598ee9c0f165608bea`; both failed 61997 deployment attempts are diagnostic only, and historical 61999 live evidence is retained only in the verification ledger. GitHub publication, Vercel deployment and production browser E2E are not claimed.
+The candidate passes v0.3 lint/schema, 17 Direct Mode tests in the matching pinned toolchain, 12 frontend tests, and the production build. Its 27,600-byte committed source has SHA-256 `7A1F9260FCC24174482142B522AAE60CA9BD96352BF8C497EB2B2E03CC991C8E`. Deployment parity and LIVE-01 through LIVE-04 pass on Studio Devnet 61997 at `0xd07a6566f188ce5ce40b82598ee9c0f165608bea`. The production-browser lifecycle and the subsequent presentation-only reload/reconnect are recorded separately in the verification ledger. Failed 61997 attempts and historical 61999 evidence are excluded from current release proof.
 
 ## Deployment and recovery
 
-The accepted current contract is deployed on Studio Devnet 61997 at `0xd07a6566f188ce5ce40b82598ee9c0f165608bea`, with exact source parity and complete create → freeze → assess → reassess evidence. The prior 61999 deployment and existing Vercel artifact are explicitly historical-only. The next separate gates are exact-commit GitHub publication, Vercel deployment from build root `frontend`, and then production browser E2E.
+The accepted contract is deployed on Studio Devnet 61997 at `0xd07a6566f188ce5ce40b82598ee9c0f165608bea`, with exact source parity. The frontend is published from build root `frontend` on the current production alias. Its four-write E2E record reaches `ASSESSED`, revision `2`, and both assessments remain readable. A transient post-assess readback saturation was reconciled without a duplicate write. Final release review and manual Explorer resubmission remain separate gates.
 
 ## Security and limitations
 
