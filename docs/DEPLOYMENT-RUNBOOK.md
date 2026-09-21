@@ -18,7 +18,7 @@ This runbook separates the accepted Studio Devnet 61997 deployment from historic
 4. Every conclusive verdict requires exact app-store URL/ID binding, a distinct non-store policy host, identity `MATCH` for both sources, valid bounded bodies, exact supporting quotes, and validator agreement.
 5. A malformed, unavailable or truncated source, invalid model schema, identity uncertainty or validator disagreement fails closed.
 
-The frontend write preflight requires at least `0.01 GEN` from the selected external wallet before enabling or submitting a zero-value contract write. This is a conservative local floor, not a claim about production gas pricing; final transaction success still requires finality, semantic execution success and readback.
+Wallet connection requires only an account and the configured Studio Devnet chain. It does not impose an artificial GEN balance floor. If a write cannot pay its actual network cost, that transaction reports the provider error; final transaction success still requires finality, semantic execution success and readback.
 
 ## Accepted Studio Devnet 61997 deployment
 

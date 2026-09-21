@@ -111,26 +111,6 @@ test("does not expose an unknown legacy provider", async () => {
   window.ethereum = undefined;
 });
 
-test("rejects a wallet with no spendable GEN balance", async () => {
-  const selected = { request: async ({ method }) => method === "eth_getBalance" ? "0x0" : null };
-  await assert.rejects(
-    () => wallet.ensureSpendableBalance(selected, "0x1111111111111111111111111111111111111111"),
-    /at least 0\.01 GEN/,
-  );
-});
-
-test("accepts the justified minimum balance from the selected provider", async () => {
-  const calls = [];
-  const selected = {
-    request: async ({ method, params }) => {
-      calls.push({ method, params });
-      return method === "eth_getBalance" ? "0x2386f26fc10000" : null;
-    },
-  };
-  await wallet.ensureSpendableBalance(selected, "0x1111111111111111111111111111111111111111");
-  assert.deepEqual(calls, [{ method: "eth_getBalance", params: ["0x1111111111111111111111111111111111111111", "latest"] }]);
-});
-
 test("binds and cleans up account and chain listeners on the selected provider", () => {
   const listeners = new Map();
   const selected = {
@@ -152,6 +132,7 @@ test("binds and cleans up account and chain listeners on the selected provider",
 
 test("keeps the wallet picker accessibility and selected-provider write contract intact", async () => {
   const source = await readFile(new URL("../src/main.ts", import.meta.url), "utf8");
+  const walletSource = await readFile(new URL("../src/wallet.ts", import.meta.url), "utf8");
   assert.match(source, /role="dialog"/);
   assert.match(source, /aria-modal="true"/);
   assert.match(source, /root\.inert = true/);
@@ -164,6 +145,8 @@ test("keeps the wallet picker accessibility and selected-provider write contract
   assert.match(source, /transaction-evidence/);
   assert.match(source, /Copy hash/);
   assert.match(source, /status-spinner/);
+  assert.doesNotMatch(source, /ensureSpendableBalance|0\.01 GEN/);
+  assert.doesNotMatch(walletSource, /eth_getBalance|MIN_SPENDABLE_BALANCE/);
 });
 
 test("keeps form validation aligned with the contract and renders immutable assessment history", async () => {

@@ -154,12 +154,3 @@ export function bindProviderSession(provider: EthereumProvider, accountListener:
     provider.removeListener?.("chainChanged", chainListener);
   };
 }
-
-export const MIN_SPENDABLE_BALANCE_WEI = 10_000_000_000_000_000n;
-
-export async function ensureSpendableBalance(provider: EthereumProvider, account: `0x${string}`): Promise<void> {
-  const result = await provider.request({ method: "eth_getBalance", params: [account, "latest"] });
-  if (typeof result !== "string" || BigInt(result) < MIN_SPENDABLE_BALANCE_WEI) {
-    throw new Error("Wallet needs at least 0.01 GEN available for this action.");
-  }
-}

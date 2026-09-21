@@ -1,6 +1,6 @@
 import "./style.css";
 import { config, createWriteClient, getAssessment, getRecord, listRecordIds, submitWrite } from "./ledger.ts";
-import { accountFromChange, bindProviderSession, ensureSpendableBalance, ensureStudioDevnet, getAvailableWallets, isUserRejected, normalizeChainId, providerChainId, requestAccount, type DiscoveredWallet, type EthereumProvider } from "./wallet.ts";
+import { accountFromChange, bindProviderSession, ensureStudioDevnet, getAvailableWallets, isUserRejected, normalizeChainId, providerChainId, requestAccount, type DiscoveredWallet, type EthereumProvider } from "./wallet.ts";
 import { studioDevnet } from "genlayer-js/chains";
 import { mountE2ETrace } from "./e2eTrace.ts";
 
@@ -245,7 +245,7 @@ function errorMessage(error: unknown): string {
   if (error instanceof Error && error.message) {
     const message = error.message.toLowerCase();
     if (message.includes("no wallet account")) return "No wallet account was returned. Choose an account and try again.";
-    if (message.includes("insufficient") || message.includes("balance") || message.includes("needs at least") || message.includes("gen available")) return "This wallet needs at least 0.01 GEN available for the action.";
+    if (message.includes("insufficient") || message.includes("balance")) return "This wallet does not have enough GEN to pay for this transaction.";
     if (message.includes("usererror") || message.includes("record must") || message.includes("unknown record")) return "The record could not be updated. Check its current state and try again.";
     if (message.includes("chain") || message.includes("switch") || message.includes("network")) return "Switch to GenLayer Studio network before continuing.";
     if (message.includes("rpc") || message.includes("rate") || message.includes("fetch") || message.includes("timeout")) return "The network is temporarily unavailable. Please try again shortly.";
@@ -269,7 +269,6 @@ async function syncNetwork(): Promise<boolean> {
     setNetworkStatus("Switch to GenLayer Studio network");
     return false;
   }
-  await ensureSpendableBalance(session.provider, session.account);
   session.writeClient = createWriteClient(session.account, session.provider);
   setNetworkStatus("Connected to GenLayer Studio");
   return true;
@@ -303,7 +302,7 @@ function setConnectedSession(account: `0x${string}`, provider: EthereumProvider,
   session = { account, provider, walletLabel, writeClient: undefined, accountListener, chainListener, removeListeners };
   if (connectButton) connectButton.textContent = "Switch wallet";
   setNetworkStatus("Checking wallet connection…");
-  void syncNetwork().catch(() => setNetworkStatus("Wallet balance or network needs attention"));
+  void syncNetwork().catch(() => setNetworkStatus("Network connection needs attention"));
 }
 
 function closeModal(modal: HTMLDivElement): void {
@@ -361,7 +360,6 @@ function showWalletPicker(walletOptions: DiscoveredWallet[]): void {
         try {
           const account = await requestAccount(wallet.provider);
           await ensureStudioDevnet(wallet.provider, studioDevnet);
-          await ensureSpendableBalance(wallet.provider, account);
           setConnectedSession(account, wallet.provider, wallet.label);
           closeModal(modal);
           setScreenStatus(`${wallet.label} is connected. You can now create or update a record.`);
