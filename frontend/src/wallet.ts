@@ -109,6 +109,8 @@ export function isUserRejected(error: unknown): boolean {
 }
 
 export async function requestAccount(provider: EthereumProvider): Promise<`0x${string}`> {
+  const existing = accountFromChange(await provider.request({ method: "eth_accounts" }));
+  if (existing) return existing;
   const result = await provider.request({ method: "eth_requestAccounts" });
   const account = Array.isArray(result) ? result[0] : undefined;
   if (typeof account !== "string" || !/^0x[a-fA-F0-9]{40}$/.test(account)) {

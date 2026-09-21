@@ -18,6 +18,7 @@ function provider(flags = {}) {
     ...flags,
     request: async ({ method, params }) => {
       calls.push({ method, params });
+      if (method === "eth_accounts") return [];
       if (method === "eth_requestAccounts") return ["0x1111111111111111111111111111111111111111"];
       if (method === "eth_chainId") return "0xf1cf";
       return null;
@@ -44,7 +45,19 @@ test("requests an account only after explicit provider selection", async () => {
   const selected = provider();
   const account = await wallet.requestAccount(selected);
   assert.equal(account, "0x1111111111111111111111111111111111111111");
-  assert.deepEqual(selected.calls.map((call) => call.method), ["eth_requestAccounts"]);
+  assert.deepEqual(selected.calls.map((call) => call.method), ["eth_accounts", "eth_requestAccounts"]);
+});
+
+test("reuses an already-authorized account without opening another wallet request", async () => {
+  const selected = provider();
+  selected.request = async ({ method, params }) => {
+    selected.calls.push({ method, params });
+    if (method === "eth_accounts") return ["0x1111111111111111111111111111111111111111"];
+    throw new Error("eth_requestAccounts must not be called for an authorized session");
+  };
+  const account = await wallet.requestAccount(selected);
+  assert.equal(account, "0x1111111111111111111111111111111111111111");
+  assert.deepEqual(selected.calls.map((call) => call.method), ["eth_accounts"]);
 });
 
 test("rejects an empty account response", async () => {
@@ -88,7 +101,8 @@ test("does not add a chain after a non-unknown switch error", async () => {
 
 test("preserves rejected account requests as a wallet cancellation", async () => {
   const selected = {
-    request: async () => {
+    request: async ({ method }) => {
+      if (method === "eth_accounts") return [];
       const error = new Error("user rejected");
       error.code = 4001;
       throw error;
